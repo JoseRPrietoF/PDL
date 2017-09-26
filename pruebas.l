@@ -9,8 +9,12 @@ id [a-zA-Z]+[0-9]*
 cte [A-Z]+
 int [0-9]+
 
-leer read( *id *)
+leer read
+par_abierto (
+par_cerrado )
 %%
+"(" { visualizar("parentesis abierto	: "); }
+")" { visualizar("parentesis cerrado	: "); }
 read { visualizar("palabra reservada	: "); }
 print { visualizar("palabra reservada	: "); }
 {cte} { visualizar("Constante	: "); }
