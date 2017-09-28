@@ -5,23 +5,48 @@ void visualizar(char* texto);
 
 %option yylineno
 
-id [a-zA-Z]+[0-9]*
-cte [A-Z]+
-int [0-9]+
+delimitador [ \t\n]+
+letra [a-zA-Z]
+digito [0-9]
+id {letra}+({digito})*([_]({letra})*({digito})*)*
+cte {digito}+
+bool [True|False]
 
 leer read
 par_abierto (
 par_cerrado )
 %%
-"(" { visualizar("parentesis abierto	: "); }
-")" { visualizar("parentesis cerrado	: "); }
-read { visualizar("palabra reservada	: "); }
-print { visualizar("palabra reservada	: "); }
-{cte} { visualizar("Constante	: "); }
-True { visualizar("Palabra reservada	: "); }
-False { visualizar("Palabra reservada	: "); }
-{id} { visualizar("Id	: "); }
-{int} { visualizar("Integer	: "); }
+"(" 	{ visualizar("parentesis abierto	: "); }
+")" 	{ visualizar("parentesis cerrado	: "); }
+"{" 	{ visualizar("llave abierta	: "); }
+"}" 	{ visualizar("llave cerrada	: "); }
+
+read 	{ visualizar("palabra reservada	: "); }
+print 	{ visualizar("palabra reservada	: "); }
+true	{ visualizar("Palabra reservada	: "); }
+false	{ visualizar("Palabra reservada	: "); }
+for   	{ visualizar("Palabra reservada	: "); }
+while   { visualizar("Palabra reservada	: "); }
+if		{ visualizar("Palabra reservada	: "); }
+elseif  { visualizar("Palabra reservada	: "); }
+do		{ visualizar("Palabra reservada	: "); }
+{cte} 	{ visualizar("Constante	: "); }
+{id} 	{ visualizar("Id	: "); }
+"=" 	{ visualizar("operador :"); }
+"+" 	{ visualizar("operador :"); }
+"-"		{ visualizar("operador :"); }
+"*"		{ visualizar("operador :"); }
+"/"		{ visualizar("operador :"); }
+"%"		{ visualizar("operador :"); }
+"<"     { visualizar("operador :"); }
+">"     { visualizar("operador :"); }
+"<="    { visualizar("operador :"); }
+">="    { visualizar("operador :"); }
+";"		{ visualizar("delimitador :"); }
+
+    
+
+
 
 %%
 
