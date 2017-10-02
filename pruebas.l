@@ -13,34 +13,34 @@ cte {digito}+
 leer read
 
 %%
-"//".*    { visualizar("Comentario	: "); }
-"(" 	{ visualizar("parentesis abierto	: "); }
-")" 	{ visualizar("parentesis cerrado	: "); }
-"{" 	{ visualizar("llave abierta	: "); }
-"}" 	{ visualizar("llave cerrada	: "); }
+"//".*    { return comentario; }
+"(" 	{ return parentesisAbierto; }
+")" 	{ return parentesisCerrado; }
+"{" 	{ return llaveAbierta; }
+"}" 	{ return llaveCerrada; }
 
-read 	{ visualizar("palabra reservada	: "); }
-print 	{ visualizar("palabra reservada	: "); }
-true	{ visualizar("Palabra reservada	: "); }
-false	{ visualizar("Palabra reservada	: "); }
-for   	{ visualizar("Palabra reservada	: "); }
-while   { visualizar("Palabra reservada	: "); }
-if	{ visualizar("Palabra reservada	: "); }
-elseif  { visualizar("Palabra reservada	: "); }
-do	{ visualizar("Palabra reservada	: "); }
-{cte} 	{ visualizar("Constante	: "); }
-{id} 	{ visualizar("Id	: "); }
-"=" 	{ visualizar("operador :"); }
-"+" 	{ visualizar("operador+ :"); }
-"-"	{ visualizar("operador- :"); }
-"*"	{ visualizar("operador* :"); }
-"/"	{ visualizar("operador/ :"); }
-"%"	{ visualizar("operador% :"); }
-"<"     { visualizar("operador< :"); }
-">"     { visualizar("operador> :"); }
-"<="    { visualizar("operador<= :"); }
-">="    { visualizar("operador >=:"); }
-";"	{ visualizar("delimitador; :"); }
+read 	{ return leer; }
+print 	{ return imprimir; }
+true	{ return true; }
+false	{ return false; }
+for   	{ return for; }
+while   { return while; }
+if	{ return if; }
+elseif  { return elseif; }
+do	{ return do;}
+{cte} 	{ return constante; }
+{id} 	{ return identificador;}
+"=" 	{ return asignacion;}
+"+" 	{ return suma; }
+"-"	{ return resta; }
+"*"	{ return multiplicacion; }
+"/"	{ return division; }
+"%"	{ return modulo; }
+"<"     { return menorQue; }
+">"     { return mayorQue; }
+"<="    { return menorIgualQue; }
+">="    { return mayorIgualQue; }
+";"	{ return finLinea }
 
     
 
