@@ -6,16 +6,17 @@ void visualizar(char* texto);
 %option yylineno
 
 delimitador [ \t\n]+
-letra [a-zA-Z]
+letra [a-zA-Z_]
 digito [0-9]
-id {letra}+({digito})*([_]({letra})*({digito})*)*
+id {letra}+[a-zA-Z0-9_]*
 cte {digito}+
 bool [True|False]
-
 leer read
 par_abierto (
 par_cerrado )
+
 %%
+"//".*    { visualizar("Comentario	: "); }
 "(" 	{ visualizar("parentesis abierto	: "); }
 ")" 	{ visualizar("parentesis cerrado	: "); }
 "{" 	{ visualizar("llave abierta	: "); }
@@ -33,16 +34,16 @@ do		{ visualizar("Palabra reservada	: "); }
 {cte} 	{ visualizar("Constante	: "); }
 {id} 	{ visualizar("Id	: "); }
 "=" 	{ visualizar("operador :"); }
-"+" 	{ visualizar("operador :"); }
-"-"		{ visualizar("operador :"); }
-"*"		{ visualizar("operador :"); }
-"/"		{ visualizar("operador :"); }
-"%"		{ visualizar("operador :"); }
-"<"     { visualizar("operador :"); }
-">"     { visualizar("operador :"); }
-"<="    { visualizar("operador :"); }
-">="    { visualizar("operador :"); }
-";"		{ visualizar("delimitador :"); }
+"+" 	{ visualizar("operador+ :"); }
+"-"		{ visualizar("operador- :"); }
+"*"		{ visualizar("operador* :"); }
+"/"		{ visualizar("operador/ :"); }
+"%"		{ visualizar("operador% :"); }
+"<"     { visualizar("operador< :"); }
+">"     { visualizar("operador> :"); }
+"<="    { visualizar("operador<= :"); }
+">="    { visualizar("operador >=:"); }
+";"		{ visualizar("delimitador; :"); }
 
     
 
