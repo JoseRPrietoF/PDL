@@ -1,2 +1,2 @@
-flex -omianalizador.c pruebas.l
+flex -omianalizador.c flexete.l
 gcc -omianalizador mianalizador.c -lfl
