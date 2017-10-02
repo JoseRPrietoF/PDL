@@ -10,10 +10,7 @@ letra [a-zA-Z_]
 digito [0-9]
 id {letra}+[a-zA-Z0-9_]*
 cte {digito}+
-bool [True|False]
 leer read
-par_abierto (
-par_cerrado )
 
 %%
 "//".*    { visualizar("Comentario	: "); }
@@ -28,22 +25,22 @@ true	{ visualizar("Palabra reservada	: "); }
 false	{ visualizar("Palabra reservada	: "); }
 for   	{ visualizar("Palabra reservada	: "); }
 while   { visualizar("Palabra reservada	: "); }
-if		{ visualizar("Palabra reservada	: "); }
+if	{ visualizar("Palabra reservada	: "); }
 elseif  { visualizar("Palabra reservada	: "); }
-do		{ visualizar("Palabra reservada	: "); }
+do	{ visualizar("Palabra reservada	: "); }
 {cte} 	{ visualizar("Constante	: "); }
 {id} 	{ visualizar("Id	: "); }
 "=" 	{ visualizar("operador :"); }
 "+" 	{ visualizar("operador+ :"); }
-"-"		{ visualizar("operador- :"); }
-"*"		{ visualizar("operador* :"); }
-"/"		{ visualizar("operador/ :"); }
-"%"		{ visualizar("operador% :"); }
+"-"	{ visualizar("operador- :"); }
+"*"	{ visualizar("operador* :"); }
+"/"	{ visualizar("operador/ :"); }
+"%"	{ visualizar("operador% :"); }
 "<"     { visualizar("operador< :"); }
 ">"     { visualizar("operador> :"); }
 "<="    { visualizar("operador<= :"); }
 ">="    { visualizar("operador >=:"); }
-";"		{ visualizar("delimitador; :"); }
+";"	{ visualizar("delimitador; :"); }
 
     
 
