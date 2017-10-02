@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "pepeTheSyntacticAnalyzer.h"
 void visualizar(char* texto);
 %}
 
@@ -31,9 +32,9 @@ do	{ visualizar("Palabra reservada	: "); }
 {cte} 	{ visualizar("Constante	: "); }
 {id} 	{ visualizar("Id	: "); }
 "=" 	{ visualizar("operador :"); }
-"+" 	{ visualizar("operador+ :"); }
+"+" 	{return(OPMAS_);} 
 "-"	{ visualizar("operador- :"); }
-"*"	{ visualizar("operador* :"); }
+"*"	{ return(OPMULT_); }
 "/"	{ visualizar("operador/ :"); }
 "%"	{ visualizar("operador% :"); }
 "<"     { visualizar("operador< :"); }
@@ -41,7 +42,7 @@ do	{ visualizar("Palabra reservada	: "); }
 "<="    { visualizar("operador<= :"); }
 ">="    { visualizar("operador >=:"); }
 ";"	{ visualizar("delimitador; :"); }
-
+. {yyerror("Caracter no Valido:");}
     
 
 
@@ -50,7 +51,4 @@ do	{ visualizar("Palabra reservada	: "); }
 
 void visualizar(char* texto){
 printf("%3d-%s %s\n", yylineno, texto, yytext);}
-int main (){
-	printf("%2d.- ", yylineno);
-	yylex (); 
-} 
+
