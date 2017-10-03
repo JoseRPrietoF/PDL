@@ -14,7 +14,9 @@ expresion: expresion OPMAS_ termino
  | termino
  ;
 
-termino: termino OPMULT_ factor
+termino: termino OPMULT_ factor 
+ | termino OPREST_ factor
+ | termino OPDIV_ factor
  | factor
  ;
  
@@ -27,7 +29,7 @@ factor: CTE_
 /* Llamada a yyparse ante un error */
 void yyerror (char *msg) {
 	numErrores++;
-	fprintf(stdout, "\nError JODER at line %d: %s\n", yylineno, msg);
+	fprintf(stdout, "\n>Error at line %d: %s\n", yylineno, msg);
 }
 int main (int argc, char **argv){
 	 if ((yyin = fopen (argv[1], "r")) == NULL)

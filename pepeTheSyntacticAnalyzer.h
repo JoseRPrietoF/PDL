@@ -48,7 +48,30 @@ extern int yydebug;
     ID_ = 258,
     CTE_ = 259,
     OPMAS_ = 260,
-    OPMULT_ = 261
+    OPMULT_ = 261,
+    COMEN_ = 262,
+    PABIERTO_ = 263,
+    PCERRADO_ = 264,
+    LABIERTA_ = 265,
+    LCERRADA_ = 266,
+    LEER_ = 267,
+    IMPRIMIR_ = 268,
+    TRUE_ = 269,
+    FALSE_ = 270,
+    FOR_ = 271,
+    WHILE_ = 272,
+    IF_ = 273,
+    ELSEIF_ = 274,
+    DO_ = 275,
+    ASIG_ = 276,
+    OPREST_ = 277,
+    OPDIV_ = 278,
+    OPMOD_ = 279,
+    MAYQ_ = 280,
+    MENQ_ = 281,
+    MENIG_ = 282,
+    MAYIG_ = 283,
+    FINL_ = 284
   };
 #endif
 

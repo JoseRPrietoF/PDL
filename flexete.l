@@ -15,7 +15,7 @@ leer read
 
 %%
 "//".*    { return COMEN_; }
-"(" 	{ return PABERTO_; }
+"(" 	{ return PABIERTO_; }
 ")" 	{ return PCERRADO_; }
 "{" 	{ return LABIERTA_; }
 "}" 	{ return LCERRADA_; }
@@ -28,7 +28,7 @@ for   	{ return FOR_; }
 while   { return WHILE_; }
 if	{ return IF_; }
 elseif  { return ELSEIF_; }
-do	{ returnDO_;}
+do	{ return DO_;}
 {cte} 	{ return CTE_; }
 {id} 	{ return ID_;}
 "=" 	{ return ASIG_;}
@@ -41,7 +41,7 @@ do	{ returnDO_;}
 ">"     { return MAYQ_; }
 "<="    { return MENIG_; }
 ">="    { return MAYIG_; }
-";"	{ return FINL_ }
+";"	{ return FINL_; }
 
 
 %%
