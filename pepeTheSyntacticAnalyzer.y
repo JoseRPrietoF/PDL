@@ -4,8 +4,10 @@
  extern FILE *yyin ;
  int numErrores ;
 %}
-
-%token ID_ CTE_ OPMAS_ OPMULT_
+%error-verbose
+%token ID_ CTE_ OPMAS_ OPMULT_ COMEN_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
+LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
+OPMOD_ MAYQ_ MENQ_ MENIG_ MAYIG_ FINL_
 %%
 
 expresion: expresion OPMAS_ termino

@@ -14,37 +14,34 @@ cte {digito}+
 leer read
 
 %%
-"//".*    { visualizar("Comentario	: "); }
-"(" 	{ visualizar("parentesis abierto	: "); }
-")" 	{ visualizar("parentesis cerrado	: "); }
-"{" 	{ visualizar("llave abierta	: "); }
-"}" 	{ visualizar("llave cerrada	: "); }
+"//".*    { return COMEN_; }
+"(" 	{ return PABERTO_; }
+")" 	{ return PCERRADO_; }
+"{" 	{ return LABIERTA_; }
+"}" 	{ return LCERRADA_; }
 
-read 	{ visualizar("palabra reservada	: "); }
-print 	{ visualizar("palabra reservada	: "); }
-true	{ visualizar("Palabra reservada	: "); }
-false	{ visualizar("Palabra reservada	: "); }
-for   	{ visualizar("Palabra reservada	: "); }
-while   { visualizar("Palabra reservada	: "); }
-if	{ visualizar("Palabra reservada	: "); }
-elseif  { visualizar("Palabra reservada	: "); }
-do	{ visualizar("Palabra reservada	: "); }
-{cte} 	{ visualizar("Constante	: "); }
-{id} 	{ visualizar("Id	: "); }
-"=" 	{ visualizar("operador :"); }
-"+" 	{return(OPMAS_);} 
-"-"	{ visualizar("operador- :"); }
-"*"	{ return(OPMULT_); }
-"/"	{ visualizar("operador/ :"); }
-"%"	{ visualizar("operador% :"); }
-"<"     { visualizar("operador< :"); }
-">"     { visualizar("operador> :"); }
-"<="    { visualizar("operador<= :"); }
-">="    { visualizar("operador >=:"); }
-";"	{ visualizar("delimitador; :"); }
-. {yyerror("Caracter no Valido:");}
-    
-
+read 	{ return LEER_; }
+print 	{ return IMPRIMIR_; }
+true	{ return TRUE_; }
+false	{ return FALSE_; }
+for   	{ return FOR_; }
+while   { return WHILE_; }
+if	{ return IF_; }
+elseif  { return ELSEIF_; }
+do	{ returnDO_;}
+{cte} 	{ return CTE_; }
+{id} 	{ return ID_;}
+"=" 	{ return ASIG_;}
+"+" 	{ return OPMAS_; }
+"-"	{ return OPREST_; }
+"*"	{ return OPMULT_; }
+"/"	{ return OPDIV_; }
+"%"	{ return OPMOD_; }
+"<"     { return MENQ_; }
+">"     { return MAYQ_; }
+"<="    { return MENIG_; }
+">="    { return MAYIG_; }
+";"	{ return FINL_ }
 
 
 %%
