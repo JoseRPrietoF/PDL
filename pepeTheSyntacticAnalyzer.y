@@ -7,22 +7,40 @@
 %error-verbose
 %token ID_ CTE_ OPMAS_ OPMULT_ COMEN_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
 LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
-OPMOD_ MAYQ_ MENQ_ MENIG_ MAYIG_ FINL_
+OPMOD_ MAYQ_ MENQ_ FINL_ CORA_ CORC_ NEG_ AND_ OR_
 %%
 
-expresion: expresion OPMAS_ termino
- | termino
- ;
+sentencia: declaracion
+			| instruccion
+			;
 
-termino: termino OPMULT_ factor 
- | termino OPREST_ factor
- | termino OPDIV_ factor
- | factor
- ;
- 
-factor: CTE_
- | ID_
- ;
+instruccion: LABIERTA_ listaInstrucciones LCERRADA_ |
+			| instruccionEntradaSalida
+			| instruccionExpresion | instruccionSeleccion
+			| instruccionIteracion
+			;
+
+instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
+			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
+			;
+
+instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
+			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
+			;
+			
+expresionIgualdad: expresionRelacional
+			| expresionIgualdad operadorIgualdad expresionRelacional
+			;
+			
+expresionMultiplicativa: expresionUnaria
+			| expresionMultiplicativa operadorMultiplicatico expresionUnaria
+			;
+
+operadorAsignacion: ASIG_ | OPMAS_ ASIG_ | OPREST_ ASIG_ | OPMULT_ ASIG_ | OPDIV_ ASIG_ ;
+
+operadorRelacional: MAYQ_ | MENQ_ | MAYQ_ ASIG_ | MENQ_ ASIG_ ;
+
+operadorUnario: OPMAS_ | OPREST_ | NEG_ ;
 
 %%
 
