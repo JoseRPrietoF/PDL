@@ -15,7 +15,7 @@ cte {digito}+
 leer read
 
 %%
-"//".*    { if(verbosidad) ECHO; return COMEN_; }
+"//".*    { if(verbosidad) ECHO; }
 "(" 	  { if(verbosidad) ECHO; return PABIERTO_; }
 ")" 	  { if(verbosidad) ECHO; return PCERRADO_; }
 "{" 	  { if(verbosidad) ECHO; return LABIERTA_; }
