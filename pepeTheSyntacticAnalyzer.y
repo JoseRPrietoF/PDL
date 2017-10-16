@@ -42,6 +42,45 @@ operadorRelacional: MAYQ_ | MENQ_ | MAYQ_ ASIG_ | MENQ_ ASIG_ ;
 
 operadorUnario: OPMAS_ | OPREST_ | NEG_ ;
 
+secuenciaSentencias: sentencia
+	| secuenciaSentencias sentencia
+	;
+	
+tipoSimple: CTE_
+	| TRUE_
+	| FALSE_
+	;
+	
+instruccionExpresion: expresion FINL_
+	| FINL_
+	;
+	
+restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+	| ELSE_ instruccion
+	;
+
+expresionLogica: expresionIgualdad
+	|	expresionLogica operadorAsignacion expresionIgualdad
+	;
+	
+expresionAditiva: expresionMultiplicativa 
+	|	expresionAditiva operadorAditivo expresionMultiplicativa
+	;
+	
+expresionSufija: PABIERTO_ expresion PCERRADO_
+	| ID_ operadorIncremento
+	| ID_ CORA_ expresion CORC_
+	;
+
+operadorIgualdad: ASIG_ ASIG_
+	| NEG_ ASIG_
+	;
+	
+operadorMultiplicativo: OPMULT_
+	| OPDIV_
+	| OPMOD_
+	;
+
 %%
 
 /* Llamada a yyparse ante un error */

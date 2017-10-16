@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include "pepeTheSyntacticAnalyzer.h"
+#include "header.h"
 void visualizar(char* texto);
 %}
 
@@ -14,35 +15,37 @@ cte {digito}+
 leer read
 
 %%
-"//".*    { return COMEN_; }
-"(" 	{ return PABIERTO_; }
-")" 	{ return PCERRADO_; }
-"{" 	{ return LABIERTA_; }
-"}" 	{ return LCERRADA_; }
+"//".*    { if(verbosidad) ECHO; return COMEN_; }
+"(" 	  { if(verbosidad) ECHO; return PABIERTO_; }
+")" 	  { if(verbosidad) ECHO; return PCERRADO_; }
+"{" 	  { if(verbosidad) ECHO; return LABIERTA_; }
+"}" 	  { if(verbosidad) ECHO; return LCERRADA_; }
+"["		  { if(verbosidad) ECHO; return CORA_; }
+"]"		  { if(verbosidad) ECHO; return CORC_; }
 
-read 	{ return LEER_; }
-print 	{ return IMPRIMIR_; }
-true	{ return TRUE_; }
-false	{ return FALSE_; }
-for   	{ return FOR_; }
-while   { return WHILE_; }
-if	{ return IF_; }
-elseif  { return ELSEIF_; }
-do	{ return DO_;}
-{cte} 	{ return CTE_; }
-{id} 	{ return ID_;}
-"=" 	{ return ASIG_;}
-"+" 	{ return OPMAS_; }
-"-"	{ return OPREST_; }
-"*"	{ return OPMULT_; }
-"/"	{ return OPDIV_; }
-"%"	{ return OPMOD_; }
-"<"     { return MENQ_; }
-">"     { return MAYQ_; }
-"<="    { return MENIG_; }
-">="    { return MAYIG_; }
-";"	{ return FINL_; }
-
+read 	  { if(verbosidad) ECHO; return LEER_; }
+print 	  { if(verbosidad) ECHO; return IMPRIMIR_; }
+true	  { if(verbosidad) ECHO; return TRUE_; }
+false	  { if(verbosidad) ECHO; return FALSE_; }
+for   	  { if(verbosidad) ECHO; return FOR_; }
+while     { if(verbosidad) ECHO; return WHILE_; }
+if	      { if(verbosidad) ECHO; return IF_; }
+elseif    { if(verbosidad) ECHO; return ELSEIF_; }
+do	{ if(verbosidad) ECHO; return DO_;}
+{cte} 	{ if(verbosidad) ECHO; return CTE_; }
+{id} 	{ if(verbosidad) ECHO; return ID_;}
+"=" 	{ if(verbosidad) ECHO; return ASIG_;}
+"+" 	{ if(verbosidad) ECHO; return OPMAS_; }
+"-"	{ if(verbosidad) ECHO; return OPREST_; }
+"*"	{ if(verbosidad) ECHO; return OPMULT_; }
+"/"	{ if(verbosidad) ECHO; return OPDIV_; }
+"%"	{ if(verbosidad) ECHO; return OPMOD_; }
+"<"     { if(verbosidad) ECHO; return MENQ_; }
+">"     { if(verbosidad) ECHO; return MAYQ_; }
+";"	{ if(verbosidad) ECHO; return FINL_; }
+"!"		{ if(verbosidad) ECHO; return NEG_; }
+"&" { if(verbosidad) ECHO; return AND_; }
+"|" { if(verbosidad) ECHO; return OR_;}
 
 %%
 
