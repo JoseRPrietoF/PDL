@@ -22,6 +22,8 @@ leer read
 "}" 	  { if(verbosidad) ECHO; return LCERRADA_; }
 "["		  { if(verbosidad) ECHO; return CORA_; }
 "]"		  { if(verbosidad) ECHO; return CORC_; }
+"int"		  { if(verbosidad) ECHO; return INT_; }
+"bool"		  { if(verbosidad) ECHO; return BOOL_; }
 
 read 	  { if(verbosidad) ECHO; return LEER_; }
 print 	  { if(verbosidad) ECHO; return IMPRIMIR_; }

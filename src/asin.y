@@ -7,7 +7,7 @@
 %error-verbose
 %token ID_ CTE_ OPMAS_ OPMULT_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
 LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
-OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_
+OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_ INT_ BOOL_
 %%
 
 programa: LABIERTA_ secuenciaSentencias LCERRADA_
@@ -86,9 +86,8 @@ secuenciaSentencias: sentencia
 	| secuenciaSentencias sentencia
 	;
 	
-tipoSimple: CTE_
-	| TRUE_
-	| FALSE_
+tipoSimple: INT_
+	| BOOL_
 	;
 	
 instruccionExpresion: expresion FINL_
