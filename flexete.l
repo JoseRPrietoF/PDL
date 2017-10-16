@@ -30,6 +30,7 @@ false	  { if(verbosidad) ECHO; return FALSE_; }
 for   	  { if(verbosidad) ECHO; return FOR_; }
 while     { if(verbosidad) ECHO; return WHILE_; }
 if	      { if(verbosidad) ECHO; return IF_; }
+else      { if(verbosidad) ECHO; return ELSE_; }
 elseif    { if(verbosidad) ECHO; return ELSEIF_; }
 do	{ if(verbosidad) ECHO; return DO_;}
 {cte} 	{ if(verbosidad) ECHO; return CTE_; }

@@ -6,7 +6,7 @@
 %}
 %error-verbose
 %token ID_ CTE_ OPMAS_ OPMULT_ COMEN_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
-LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
+LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
 OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_
 %%
 
@@ -21,7 +21,7 @@ listaInstrucciones: listaInstrucciones instruccion
 |
 ;
 
-instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIF
+instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
 ;
 
 expresion: expresionLogica
@@ -33,20 +33,20 @@ expresionRelacional: expresionAditiva
 | expresionRelacional operadorRelacional expresionAditiva
 ;
 
-expresionUniaria: expresionSufija
+expresionUnaria: expresionSufija
 | operadorUnario expresionUnaria
 | operadorIncremento ID_
 ;
 
-operadorLogico: AND_
-| OR_
+operadorLogico: AND_ AND_
+| OR_ OR_
 ;
 
-operadorAditivo: OPSUM_
+operadorAditivo: OPMAS_
 | OPREST_
 ;
 
-operadorIncremento: OPSUM_ OPSUM_
+operadorIncremento: OPMAS_ OPMAS_
 | OPREST_ OPREST_
 ;
 
@@ -73,7 +73,7 @@ expresionIgualdad: expresionRelacional
 			;
 			
 expresionMultiplicativa: expresionUnaria
-			| expresionMultiplicativa operadorMultiplicatico expresionUnaria
+			| expresionMultiplicativa operadorMultiplicativo expresionUnaria
 			;
 
 operadorAsignacion: ASIG_ | OPMAS_ ASIG_ | OPREST_ ASIG_ | OPMULT_ ASIG_ | OPDIV_ ASIG_ ;
