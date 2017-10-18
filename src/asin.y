@@ -11,115 +11,139 @@ OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_ INT_ BOOL_
 %%
 
 programa: LABIERTA_ secuenciaSentencias LCERRADA_
-;
-
-declaracion: tipoSimple ID_ FINL_
-| tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
-;
-
-listaInstrucciones: listaInstrucciones instruccion
-|
-;
-
-instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
-;
-
-expresion: expresionLogica
-| ID_ operadorAsignacion expresion
-| ID_ CORA_ expresion CORC_ operadorAsignacion expresion
-;
-
-expresionRelacional: expresionAditiva
-| expresionRelacional operadorRelacional expresionAditiva
-;
-
-expresionUnaria: expresionSufija
-| operadorUnario expresionUnaria
-| operadorIncremento ID_
-;
-
-operadorLogico: AND_ AND_
-| OR_ OR_
-;
-
-operadorAditivo: OPMAS_
-| OPREST_
-;
-
-operadorIncremento: OPMAS_ OPMAS_
-| OPREST_ OPREST_
-;
-
+            ;
+            
+secuenciaSentencias: sentencia
+            | secuenciaSentencias sentencia
+            ;
+            
 sentencia: declaracion
 			| instruccion
-			;
+			;   
+            
+declaracion: tipoSimple ID_ FINL_
+            | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
+            ;
+            
+tipoSimple: INT_
+            | BOOL_
+            ;
 
-instruccion: LABIERTA_ listaInstrucciones LCERRADA_ |
+instruccion: LABIERTA_ listaInstrucciones LCERRADA_ 
 			| instruccionEntradaSalida
-			| instruccionExpresion | instruccionSeleccion
+			| instruccionExpresion 
+            | instruccionSeleccion
 			| instruccionIteracion
-			;
+			;            
 
+listaInstrucciones: listaInstrucciones instruccion
+            |
+            ;
+            
+instruccionExpresion: expresion FINL_
+            | FINL_
+            ;            
+            
 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
-			;
+			;           
+
+instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+            ;
+            
+restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+            | ELSE_ instruccion
+            ;    
 
 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
 			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
-			;
-			
+			;            
+        
+expresion: expresionLogica
+            | ID_ operadorAsignacion expresion
+            | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
+            ;
+            
+expresionLogica: expresionIgualdad
+            | expresionLogica operadorLogico expresionIgualdad
+            ;            
+            
 expresionIgualdad: expresionRelacional
 			| expresionIgualdad operadorIgualdad expresionRelacional
-			;
-			
+			;            
+                       
+expresionRelacional: expresionAditiva
+            | expresionRelacional operadorRelacional expresionAditiva
+            ;
+            
+expresionAditiva: expresionMultiplicativa 
+            | expresionAditiva operadorAditivo expresionMultiplicativa
+            ;            
+ 
 expresionMultiplicativa: expresionUnaria
 			| expresionMultiplicativa operadorMultiplicativo expresionUnaria
-			;
+			; 
+            
+expresionUnaria: expresionSufija
+            | operadorUnario expresionUnaria
+            | operadorIncremento ID_
+            ;
 
-operadorAsignacion: ASIG_ | OPMAS_ ASIG_ | OPREST_ ASIG_ | OPMULT_ ASIG_ | OPDIV_ ASIG_ ;
-
-operadorRelacional: MAYQ_ | MENQ_ | MAYQ_ ASIG_ | MENQ_ ASIG_ ;
-
-operadorUnario: OPMAS_ | OPREST_ | NEG_ ;
-
-secuenciaSentencias: sentencia
-	| secuenciaSentencias sentencia
-	;
-	
-tipoSimple: INT_
-	| BOOL_
-	;
-	
-instruccionExpresion: expresion FINL_
-	| FINL_
-	;
-	
-restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
-	| ELSE_ instruccion
-	;
-
-expresionLogica: expresionIgualdad
-	|	expresionLogica operadorAsignacion expresionIgualdad
-	;
-	
-expresionAditiva: expresionMultiplicativa 
-	|	expresionAditiva operadorAditivo expresionMultiplicativa
-	;
-	
 expresionSufija: PABIERTO_ expresion PCERRADO_
-	| ID_ operadorIncremento
-	| ID_ CORA_ expresion CORC_
-	| ID_ | CTE_ | TRUE_ | FALSE_
-	;
-
+            | ID_ operadorIncremento
+            | ID_ CORA_ expresion CORC_
+            | ID_ 
+            | CTE_ 
+            | TRUE_ 
+            | FALSE_
+            ;
+operadorAsignacion: ASIG_ 
+            | OPMAS_ ASIG_ 
+            | OPREST_ ASIG_ 
+            | OPMULT_ ASIG_ 
+            | OPDIV_ ASIG_ 
+            ;         
+                       
+operadorLogico: AND_ AND_
+            | OR_ OR_
+            ;
+   
 operadorIgualdad: ASIG_ ASIG_
-	| NEG_ ASIG_
-	;
-	
+            | NEG_ ASIG_
+            ;   
+            
+operadorRelacional: MAYQ_ 
+            | MENQ_ 
+            | MAYQ_ ASIG_ 
+            | MENQ_ ASIG_ 
+            ;
+            
+operadorAditivo: OPMAS_
+            | OPREST_
+            ;
+    
+
 operadorMultiplicativo: OPMULT_
-	| OPDIV_
-	| OPMOD_
-	;
+            | OPDIV_
+            | OPMOD_
+            ;
+            
+operadorUnario: OPMAS_ 
+            | OPREST_ 
+            | NEG_ 
+            ;
+operadorIncremento: OPMAS_ OPMAS_
+            | OPREST_ OPREST_
+            ;
+
+
+
+
+
+
+
+	
+
 
 %%
 
