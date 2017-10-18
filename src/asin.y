@@ -109,6 +109,7 @@ expresionAditiva: expresionMultiplicativa
 expresionSufija: PABIERTO_ expresion PCERRADO_
 	| ID_ operadorIncremento
 	| ID_ CORA_ expresion CORC_
+	| ID_ | CTE_ | TRUE_ | FALSE_
 	;
 
 operadorIgualdad: ASIG_ ASIG_
