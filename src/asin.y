@@ -12,7 +12,20 @@ OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_ INT_ BOOL_
 
 programa: LABIERTA_ secuenciaSentencias LCERRADA_
             ;
-            
+       
+operadorLogico: AND_ AND_
+            | OR_ OR_
+            ;
+   
+operadorIgualdad: ASIG_ ASIG_
+            | NEG_ ASIG_
+            ;   
+
+operadorIncremento: OPMAS_ OPMAS_
+            | OPREST_ OPREST_
+            ;
+
+
 secuenciaSentencias: sentencia
             | secuenciaSentencias sentencia
             ;
@@ -104,13 +117,7 @@ operadorAsignacion: ASIG_
             | OPDIV_ ASIG_ 
             ;         
                        
-operadorLogico: AND_ AND_
-            | OR_ OR_
-            ;
-   
-operadorIgualdad: ASIG_ ASIG_
-            | NEG_ ASIG_
-            ;   
+
             
 operadorRelacional: MAYQ_ 
             | MENQ_ 
@@ -132,12 +139,6 @@ operadorUnario: OPMAS_
             | OPREST_ 
             | NEG_ 
             ;
-operadorIncremento: OPMAS_ OPMAS_
-            | OPREST_ OPREST_
-            ;
-
-
-
 
 
 
