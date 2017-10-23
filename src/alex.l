@@ -38,17 +38,30 @@ do	{ if(verbosidad) ECHO; return DO_;}
 {cte} 	{ if(verbosidad) ECHO; return CTE_; }
 {id} 	{ if(verbosidad) ECHO; return ID_;}
 "=" 	{ if(verbosidad) ECHO; return ASIG_;}
+"=="	{ if(verbosidad) ECHO; return ASIG_ASIG_;}
 "+" 	{ if(verbosidad) ECHO; return OPMAS_; }
-"-"	{ if(verbosidad) ECHO; return OPREST_; }
-"*"	{ if(verbosidad) ECHO; return OPMULT_; }
-"/"	{ if(verbosidad) ECHO; return OPDIV_; }
-"%"	{ if(verbosidad) ECHO; return OPMOD_; }
+"++"	{ if(verbosidad) ECHO; return OPMAS_OPMAS_; }
+"+=" 	{ if(verbosidad) ECHO; return OPMAS_ASIG_; }
+"-"		{ if(verbosidad) ECHO; return OPREST_; }
+"--"		{ if(verbosidad) ECHO; return OPREST_OPREST_; }
+"-="	{ if(verbosidad) ECHO; return OPREST_ASIG_; }
+"*"		{ if(verbosidad) ECHO; return OPMULT_; }
+"*="	{ if(verbosidad) ECHO; return OPMULT_ASIG_; }
+"/"		{ if(verbosidad) ECHO; return OPDIV_; }
+"/="	{ if(verbosidad) ECHO; return OPDIV_ASIG_; }
+"%"		{ if(verbosidad) ECHO; return OPMOD_; }
+"%="		{ if(verbosidad) ECHO; return OPMOD_ASIG_; }
 "<"     { if(verbosidad) ECHO; return MENQ_; }
+"<="     { if(verbosidad) ECHO; return MENQ_ASIG_; }
 ">"     { if(verbosidad) ECHO; return MAYQ_; }
-";"	{ if(verbosidad) ECHO; return FINL_; }
+">="     { if(verbosidad) ECHO; return MAYQ_ASIG_; }
+";"		{ if(verbosidad) ECHO; return FINL_; }
 "!"		{ if(verbosidad) ECHO; return NEG_; }
-"&" { if(verbosidad) ECHO; return AND_; }
-"|" { if(verbosidad) ECHO; return OR_;}
+"!="		{ if(verbosidad) ECHO; return NEG_ASIG_; }
+"&" 	{ if(verbosidad) ECHO; return AND_; }
+"&&" 	{ if(verbosidad) ECHO; return AND_AND_; }
+"|" 	{ if(verbosidad) ECHO; return OR_;}
+"||" 	{ if(verbosidad) ECHO; return OR_OR_;}
 
 %%
 

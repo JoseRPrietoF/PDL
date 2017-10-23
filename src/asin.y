@@ -5,24 +5,26 @@
  int numErrores ;
 %}
 %error-verbose
-%token ID_ CTE_ OPMAS_ OPMULT_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
+%token ID_ CTE_ OPMAS_  OPMULT_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
 LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
 OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_ INT_ BOOL_
+AND_AND_ OR_OR_ ASIG_ASIG_ NEG_ASIG_ OPMAS_OPMAS_ OPREST_OPREST_ OPMAS_ASIG_ OPREST_ASIG_ OPMOD_ASIG_
+OPMULT_ASIG_ OPDIV_ASIG_ MAYQ_ASIG_ MENQ_ASIG_
 %%
 
 programa: LABIERTA_ secuenciaSentencias LCERRADA_
             ;
        
-operadorLogico: AND_ AND_
-            | OR_ OR_
+operadorLogico: AND_AND_
+            | OR_OR_
             ;
    
-operadorIgualdad: ASIG_ ASIG_
-            | NEG_ ASIG_
+operadorIgualdad: ASIG_ASIG_
+            | NEG_ASIG_
             ;   
 
-operadorIncremento: OPMAS_ OPMAS_
-            | OPREST_ OPREST_
+operadorIncremento: OPMAS_OPMAS_
+            | OPREST_OPREST_
             ;
 
 
@@ -111,18 +113,18 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             | FALSE_
             ;
 operadorAsignacion: ASIG_ 
-            | OPMAS_ ASIG_ 
-            | OPREST_ ASIG_ 
-            | OPMULT_ ASIG_ 
-            | OPDIV_ ASIG_ 
+            | OPMAS_ASIG_ 
+            | OPREST_ASIG_ 
+            | OPMULT_ASIG_ 
+            | OPDIV_ASIG_ 
             ;         
                        
 
             
 operadorRelacional: MAYQ_ 
             | MENQ_ 
-            | MAYQ_ ASIG_ 
-            | MENQ_ ASIG_ 
+            | MAYQ_ASIG_ 
+            | MENQ_ASIG_ 
             ;
             
 operadorAditivo: OPMAS_
