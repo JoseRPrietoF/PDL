@@ -1,15 +1,26 @@
 %{
  #include <stdio.h>
- extern int yylineno ;
- extern FILE *yyin ;
+ #include "header.h"
+ #include "libtds.h"
  int numErrores ;
 %}
 %error-verbose
-%token ID_ CTE_ OPMAS_  OPMULT_ PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ 
-LEER_ IMPRIMIR_ TRUE_ FALSE_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ DO_ ASIG_ OPREST_ OPDIV_ 
-OPMOD_ MAYQ_ MENQ_  FINL_ CORA_ CORC_ NEG_ AND_ OR_ INT_ BOOL_
-AND_AND_ OR_OR_ ASIG_ASIG_ NEG_ASIG_ OPMAS_OPMAS_ OPREST_OPREST_ OPMAS_ASIG_ OPREST_ASIG_ OPMOD_ASIG_
-OPMULT_ASIG_ OPDIV_ASIG_ MAYQ_ASIG_ MENQ_ASIG_
+
+%union {
+	char *ident ; /* Nombre del identificador */
+	int cent ; /* Valor de la cte numerica entera */
+	int tipo;
+	
+	
+}
+%type <tipo> tipoSimple
+
+%token <ident> ID_ 
+
+%token <cent>  CTE_ TRUE_ FALSE_ LEER_
+
+%token PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ IMPRIMIR_ DO_ FINL_ CORA_ CORC_ AND_AND_ OR_OR_ ASIG_ASIG_ NEG_ASIG_ OPMAS_OPMAS_ OPREST_OPREST_ OPMAS_ASIG_ OPREST_ASIG_ OPMOD_ASIG_ OPMULT_ASIG_ OPDIV_ASIG_ MAYQ_ASIG_ MENQ_ASIG_ OPMAS_ OPMULT_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ ASIG_ INT_ BOOL_ MENQ_
+NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
 programa: LABIERTA_ secuenciaSentencias LCERRADA_
@@ -37,11 +48,24 @@ sentencia: declaracion
 			;   
             
 declaracion: tipoSimple ID_ FINL_
+			{
+				int x = insertarTDS($2, $1, 0, -1) ;
+				mostrarTDS();
+				if (x == 0){
+					yyerror("Esta variable ya ha sido declarada en la TDS");
+				}
+			}
             | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
             ;
             
 tipoSimple: INT_
+			{
+				$$ = T_ENTERO;
+			}
             | BOOL_
+            {
+				$$ = T_LOGICO;
+			}
             ;
 
 instruccion: LABIERTA_ listaInstrucciones LCERRADA_ 
@@ -150,13 +174,3 @@ operadorUnario: OPMAS_
 
 %%
 
-/* Llamada a yyparse ante un error */
-/*void yyerror (char *msg) {
-	numErrores++;
-	fprintf(stdout, "\n>Error at line %d: %s\n", yylineno, msg);
-}
-int main (int argc, char **argv){
-	 if ((yyin = fopen (argv[1], "r")) == NULL)
-		fprintf (stderr, "Fichero no valido \%s", argv[1]);
-	 yyparse();
-} */

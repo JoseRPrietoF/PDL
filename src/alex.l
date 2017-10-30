@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
-#include "asin.h"
 #include "header.h"
+#include "asin.h"
 void visualizar(char* texto);
 %}
 
@@ -35,8 +35,10 @@ if	      { if(verbosidad) ECHO; return IF_; }
 else      { if(verbosidad) ECHO; return ELSE_; }
 elseif    { if(verbosidad) ECHO; return ELSEIF_; }
 do	{ if(verbosidad) ECHO; return DO_;}
-{cte} 	{ if(verbosidad) ECHO; return CTE_; }
-{id} 	{ if(verbosidad) ECHO; return ID_;}
+
+{cte} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
+{id} 	{ if(verbosidad) ECHO; yylval.ident = strcpi(yytext); return ID_;}
+
 "=" 	{ if(verbosidad) ECHO; return ASIG_;}
 "=="	{ if(verbosidad) ECHO; return ASIG_ASIG_;}
 "+" 	{ if(verbosidad) ECHO; return OPMAS_; }
@@ -66,5 +68,6 @@ do	{ if(verbosidad) ECHO; return DO_;}
 %%
 
 void visualizar(char* texto){
-printf("%3d-%s %s\n", yylineno, texto, yytext);}
+	printf("%3d-%s %s\n", yylineno, texto, yytext);
+}
 
