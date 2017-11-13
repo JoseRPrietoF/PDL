@@ -13,8 +13,8 @@ letra [a-zA-Z_]
 digito [0-9]
 id {letra}+[a-zA-Z0-9_]*
 cte {digito}+
-ctr [0-9]*'.'[0-9]
-ctr2 [0-9]'.'[0-9]*
+ctr [0-9]*'.'[0-9]+
+ctr2 [0-9]+'.'[0-9]*
 leer read
 
 %%
