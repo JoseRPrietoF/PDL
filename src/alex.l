@@ -37,7 +37,7 @@ elseif    { if(verbosidad) ECHO; return ELSEIF_; }
 do	{ if(verbosidad) ECHO; return DO_;}
 
 {cte} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
-{id} 	{ if(verbosidad) ECHO; yylval.ident = strcpi(yytext); return ID_;}
+{id} 	{ if(verbosidad) ECHO; yylval.ident = (char*)malloc( (yyleng+1)*sizeof(char) ); strcpy(yylval.ident, yytext); return ID_;}
 
 "=" 	{ if(verbosidad) ECHO; return ASIG_;}
 "=="	{ if(verbosidad) ECHO; return ASIG_ASIG_;}

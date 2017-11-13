@@ -946,7 +946,7 @@ YY_RULE_SETUP
 case 21:
 YY_RULE_SETUP
 #line 40 "./src/alex.l"
-{ if(verbosidad) ECHO; yylval.ident = yytext; return ID_;}
+{ if(verbosidad) ECHO; yylval.ident = (char*)malloc( (yyleng+1)*sizeof(char) ); strcpy(yylval.ident, yytext); return ID_;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP

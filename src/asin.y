@@ -50,7 +50,7 @@ sentencia: declaracion
 declaracion: tipoSimple ID_ FINL_
 			{
 				int x = insertarTDS($2, $1, 0, -1) ;
-				mostrarTDS();
+				
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
 				}
