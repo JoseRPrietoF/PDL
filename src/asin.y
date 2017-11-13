@@ -56,6 +56,18 @@ declaracion: tipoSimple ID_ FINL_
 				}
 			}
             | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
+            {
+				if ($4 <= 0) {
+					yyerror("Esto no va");
+				} else {
+					int refe = insertaTDArray($1, $4);
+					int x = insertarTDS($2, T_ARRAY, 0, refe) ;
+					
+					if (x == 0){
+						yyerror("Esta variable ya ha sido declarada en la TDS");
+					} 
+				}
+            }
             ;
             
 tipoSimple: INT_

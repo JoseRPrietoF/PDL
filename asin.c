@@ -485,13 +485,13 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    26,    26,    29,    30,    33,    34,    37,    38,    42,
-      43,    46,    47,    50,    58,    61,    65,    71,    72,    73,
-      74,    75,    78,    79,    82,    83,    86,    87,    90,    93,
-      94,    97,    98,   101,   102,   103,   106,   107,   110,   111,
-     114,   115,   118,   119,   122,   123,   126,   127,   128,   131,
-     132,   133,   134,   135,   136,   137,   139,   140,   141,   142,
-     143,   148,   149,   150,   151,   154,   155,   159,   160,   161,
-     164,   165,   166
+      43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
+      86,    87,    90,    91,    94,    95,    98,    99,   102,   105,
+     106,   109,   110,   113,   114,   115,   118,   119,   122,   123,
+     126,   127,   130,   131,   134,   135,   138,   139,   140,   143,
+     144,   145,   146,   147,   148,   149,   151,   152,   153,   154,
+     155,   160,   161,   162,   163,   166,   167,   171,   172,   173,
+     176,   177,   178
 };
 #endif
 
@@ -1381,7 +1381,7 @@ yyreduce:
 #line 51 "./src/asin.y" /* yacc.c:1646  */
     {
 				int x = insertarTDS((yyvsp[-1].ident), (yyvsp[-2].tipo), 0, -1) ;
-				mostrarTDS();
+				
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
 				}
@@ -1389,24 +1389,41 @@ yyreduce:
 #line 1390 "asin.c" /* yacc.c:1646  */
     break;
 
+  case 14:
+#line 59 "./src/asin.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[-2].cent) <= 0) {
+					yyerror("Esto no va");
+				} else {
+					int refe = insertaTDArray((yyvsp[-5].tipo), (yyvsp[-2].cent));
+					int x = insertarTDS((yyvsp[-4].ident), T_ARRAY, 0, refe) ;
+					
+					if (x == 0){
+						yyerror("Esta variable ya ha sido declarada en la TDS");
+					} 
+				}
+            }
+#line 1407 "asin.c" /* yacc.c:1646  */
+    break;
+
   case 15:
-#line 62 "./src/asin.y" /* yacc.c:1646  */
+#line 74 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.tipo) = T_ENTERO;
 			}
-#line 1398 "asin.c" /* yacc.c:1646  */
+#line 1415 "asin.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 66 "./src/asin.y" /* yacc.c:1646  */
+#line 78 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.tipo) = T_LOGICO;
 			}
-#line 1406 "asin.c" /* yacc.c:1646  */
+#line 1423 "asin.c" /* yacc.c:1646  */
     break;
 
 
-#line 1410 "asin.c" /* yacc.c:1646  */
+#line 1427 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1634,6 +1651,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 175 "./src/asin.y" /* yacc.c:1906  */
+#line 187 "./src/asin.y" /* yacc.c:1906  */
 
 

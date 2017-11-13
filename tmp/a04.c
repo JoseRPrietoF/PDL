@@ -1,5 +1,6 @@
 // Ejemplo del uso de operadores logicos
 { int x; int y; bool z; 
+  int asdf[55];
 
   z = true; 
   do {
