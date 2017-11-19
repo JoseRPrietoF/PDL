@@ -13,8 +13,8 @@ letra [a-zA-Z_]
 digito [0-9]
 id {letra}+[a-zA-Z0-9_]*
 cte {digito}+
-ctr [0-9]*'.'[0-9]+
-ctr2 [0-9]+'.'[0-9]*
+ctr (([0-9]+\.?)(\.[0-9]+)?)|(\.?[0-9]+)
+
 leer read
 
 %%
@@ -40,10 +40,8 @@ elseif    { if(verbosidad) ECHO; return ELSEIF_; }
 do	{ if(verbosidad) ECHO; return DO_;}
 
 {cte} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
-{ctr} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
-{ctr2} 	{ if(verbosidad) ECHO; yylval.cent = atoi('0'); return CTE_; }
 
-TODO: da error a encontrarse con el numero 3.56, coge el 3. solo
+{ctr} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
 
 {id} 	{ if(verbosidad) ECHO; yylval.ident = (char*)malloc( (yyleng+1)*sizeof(char) ); strcpy(yylval.ident, yytext); return ID_;}
 
