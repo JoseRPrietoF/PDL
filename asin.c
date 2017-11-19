@@ -487,11 +487,11 @@ static const yytype_uint8 yyrline[] =
        0,    26,    26,    29,    30,    33,    34,    37,    38,    42,
       43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
       86,    87,    90,    91,    94,    95,    98,    99,   102,   105,
-     106,   109,   110,   113,   114,   115,   118,   119,   122,   123,
-     126,   127,   130,   131,   134,   135,   138,   139,   140,   143,
-     144,   145,   146,   147,   148,   149,   151,   152,   153,   154,
-     155,   160,   161,   162,   163,   166,   167,   171,   172,   173,
-     176,   177,   178
+     106,   109,   110,   113,   114,   127,   147,   148,   151,   152,
+     155,   156,   159,   160,   163,   164,   167,   168,   169,   172,
+     173,   174,   175,   176,   177,   178,   180,   181,   182,   183,
+     184,   189,   190,   191,   192,   195,   196,   200,   201,   202,
+     205,   206,   207
 };
 #endif
 
@@ -1393,7 +1393,7 @@ yyreduce:
 #line 59 "./src/asin.y" /* yacc.c:1646  */
     {
 				if ((yyvsp[-2].cent) <= 0) {
-					yyerror("Esto no va");
+					yyerror("Talla inapropiada");
 				} else {
 					int refe = insertaTDArray((yyvsp[-5].tipo), (yyvsp[-2].cent));
 					int x = insertarTDS((yyvsp[-4].ident), T_ARRAY, 0, refe) ;
@@ -1422,8 +1422,47 @@ yyreduce:
 #line 1423 "asin.c" /* yacc.c:1646  */
     break;
 
+  case 34:
+#line 115 "./src/asin.y" /* yacc.c:1646  */
+    {
+				SIMB sim = obtenerTDS((yyvsp[-2].ident)); (yyval.tipo) = T_ERROR;
+				
+				if (sim.tipo == T_ERROR) 
+					yyerror("Objeto no declarado");
+				else if (! ( (sim.tipo == (yyvsp[0].tipo) == T_ENTERO) || 
+							 (sim.tipo == (yyvsp[0].tipo) == T_LOGICO) ) 
+						)
+					yyerror("Error de tipos en la 'instrucción de asignación'");
+				else 
+					(yyval.tipo) = sim.tipo;
+            }
+#line 1440 "asin.c" /* yacc.c:1646  */
+    break;
 
-#line 1427 "asin.c" /* yacc.c:1646  */
+  case 35:
+#line 128 "./src/asin.y" /* yacc.c:1646  */
+    {
+            // Cuidado con el tipo de array
+				SIMB sim = obtenerTDS((yyvsp[-5].ident)); 
+				// FALLA AQUI
+				// parece no poder buscar en la tabla de simbolos, habra que declarar arriba 
+				// expresion como algun tipo especial o algo
+				//SIMB simIndice = obtenerTDS($3); 
+				(yyval.tipo) = T_ERROR;
+				
+				if (sim.tipo == T_ERROR) 
+					yyerror("Objeto del indice del array no declarado");
+				if (sim.tipo == T_ARRAY)
+					yyerror("El identificador debe ser de tipo array");
+				//if (simIndice.tipo != T_ENTERO)
+				//	yyerror("El indice del array debe ser entero");
+				
+            }
+#line 1462 "asin.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1466 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1651,6 +1690,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 187 "./src/asin.y" /* yacc.c:1906  */
+#line 216 "./src/asin.y" /* yacc.c:1906  */
 
 

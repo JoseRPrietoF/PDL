@@ -13,11 +13,11 @@
 	
 	
 }
-%type <tipo> tipoSimple
+%type <tipo> tipoSimple expresion
 
 %token <ident> ID_ 
 
-%token <cent>  CTE_ TRUE_ FALSE_ LEER_
+%token <cent>  CTE_ TRUE_ FALSE_ LEER_ 
 
 %token PABIERTO_ PCERRADO_ LABIERTA_ LCERRADA_ IMPRIMIR_ DO_ FINL_ CORA_ CORC_ AND_AND_ OR_OR_ ASIG_ASIG_ NEG_ASIG_ OPMAS_OPMAS_ OPREST_OPREST_ OPMAS_ASIG_ OPREST_ASIG_ OPMOD_ASIG_ OPMULT_ASIG_ OPDIV_ASIG_ MAYQ_ASIG_ MENQ_ASIG_ OPMAS_ OPMULT_ FOR_ WHILE_ IF_ ELSE_ ELSEIF_ ASIG_ INT_ BOOL_ MENQ_
 NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
@@ -58,7 +58,7 @@ declaracion: tipoSimple ID_ FINL_
             | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
             {
 				if ($4 <= 0) {
-					yyerror("Esto no va");
+					yyerror("Talla inapropiada");
 				} else {
 					int refe = insertaTDArray($1, $4);
 					int x = insertarTDS($2, T_ARRAY, 0, refe) ;
@@ -112,7 +112,36 @@ instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
         
 expresion: expresionLogica
             | ID_ operadorAsignacion expresion
+            {
+				SIMB sim = obtenerTDS($1); $<tipo>$ = T_ERROR;
+				
+				if (sim.tipo == T_ERROR) 
+					yyerror("Objeto no declarado");
+				else if (! ( (sim.tipo == $<tipo>3 == T_ENTERO) || 
+							 (sim.tipo == $<tipo>3 == T_LOGICO) ) 
+						)
+					yyerror("Error de tipos en la 'instrucción de asignación'");
+				else 
+					$<tipo>$ = sim.tipo;
+            }
             | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
+            {
+            // Cuidado con el tipo de array
+				SIMB sim = obtenerTDS($1); 
+				// FALLA AQUI
+				// parece no poder buscar en la tabla de simbolos, habra que declarar arriba 
+				// expresion como algun tipo especial o algo
+				//SIMB simIndice = obtenerTDS($3); 
+				$<tipo>$ = T_ERROR;
+				
+				if (sim.tipo == T_ERROR) 
+					yyerror("Objeto del indice del array no declarado");
+				if (sim.tipo == T_ARRAY)
+					yyerror("El identificador debe ser de tipo array");
+				//if (simIndice.tipo != T_ENTERO)
+				//	yyerror("El indice del array debe ser entero");
+				
+            }
             ;
             
 expresionLogica: expresionIgualdad
