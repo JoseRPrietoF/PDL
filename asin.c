@@ -482,16 +482,16 @@ static const yytype_uint8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
        0,    26,    26,    29,    30,    33,    34,    37,    38,    42,
       43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
       86,    87,    90,    91,    94,    95,    98,    99,   102,   105,
-     106,   109,   110,   113,   114,   127,   147,   148,   154,   155,
-     158,   159,   162,   163,   166,   167,   170,   171,   187,   190,
-     191,   192,   193,   194,   195,   196,   198,   199,   200,   201,
-     202,   207,   208,   209,   210,   213,   214,   218,   219,   220,
-     223,   224,   225
+     106,   109,   110,   113,   117,   133,   160,   161,   168,   169,
+     172,   173,   176,   177,   180,   184,   195,   199,   213,   223,
+     227,   233,   247,   253,   257,   261,   266,   267,   268,   269,
+     270,   275,   276,   277,   278,   281,   282,   286,   287,   288,
+     291,   292,   293
 };
 #endif
 
@@ -1422,93 +1422,221 @@ yyreduce:
 #line 1423 "asin.c" /* yacc.c:1646  */
     break;
 
+  case 33:
+#line 114 "./src/asin.y" /* yacc.c:1646  */
+    { 
+				(yyval.tipo) = (yyvsp[0].tipo);
+			}
+#line 1431 "asin.c" /* yacc.c:1646  */
+    break;
+
   case 34:
-#line 115 "./src/asin.y" /* yacc.c:1646  */
+#line 118 "./src/asin.y" /* yacc.c:1646  */
     {
-				SIMB sim = obtenerTDS((yyvsp[-2].ident)); (yyval.tipo) = T_ERROR;
-				
-				if (sim.tipo == T_ERROR) 
-					yyerror("Objeto no declarado");
-				else if (! ( (sim.tipo == (yyvsp[0].tipo) == T_ENTERO) || 
-							 (sim.tipo == (yyvsp[0].tipo) == T_LOGICO) ) 
-						)
-					yyerror("Error de tipos en la 'instrucción de asignación'");
-				else 
-					(yyval.tipo) = sim.tipo;
+				(yyval.tipo) = T_ERROR;
+				if((yyvsp[0].tipo) != T_ERROR){
+					SIMB sim = obtenerTDS((yyvsp[-2].ident)); 
+					//mostrarTDS();
+					if (sim.tipo == T_ERROR) 
+						yyerror("Objeto no declarado");
+					else if (! ( (sim.tipo == (yyvsp[0].tipo) == T_ENTERO) || 
+								 (sim.tipo == (yyvsp[0].tipo) == T_LOGICO) ) 
+							)
+						yyerror("Error de tipos en la 'instrucción de asignación'");
+					else 
+						(yyval.tipo) = sim.tipo;
+				}
             }
-#line 1440 "asin.c" /* yacc.c:1646  */
+#line 1451 "asin.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 128 "./src/asin.y" /* yacc.c:1646  */
+#line 134 "./src/asin.y" /* yacc.c:1646  */
     {
             // Cuidado con el tipo de array
 				SIMB sim = obtenerTDS((yyvsp[-5].ident)); 
-				// FALLA AQUI
-				// parece no poder buscar en la tabla de simbolos, habra que declarar arriba 
-				// expresion como algun tipo especial o algo
-				//SIMB simIndice = obtenerTDS($3); 
 				(yyval.tipo) = T_ERROR;
 				
-				if (sim.tipo == T_ERROR) 
-					yyerror("Objeto del indice del array no declarado");
-				if (sim.tipo == T_ARRAY)
-					yyerror("El identificador debe ser de tipo array");
-				//if (simIndice.tipo != T_ENTERO)
-				//	yyerror("El indice del array debe ser entero");
+				if(sim.tipo != T_ARRAY){
+					yyerror("Fallo en expresionSufija, ID_ no es un array");
+				}else
+					if ((yyvsp[-3].tipo) == T_ENTERO) {
+						DIM dim = obtenerInfoArray(sim.ref);
+						
+						
+						if((yyvsp[0].tipo) == dim.telem){
+							(yyval.tipo) = dim.telem;
+						}else{
+							yyerror("La expresion debe ser del mismo tipo que el array");
+						}
+						
+					}else{
+						yyerror("El indice del array debe ser entero");
+					}
+				
 				
             }
-#line 1462 "asin.c" /* yacc.c:1646  */
+#line 1480 "asin.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 149 "./src/asin.y" /* yacc.c:1646  */
+#line 162 "./src/asin.y" /* yacc.c:1646  */
     {
+				//TODO
 				
             }
-#line 1470 "asin.c" /* yacc.c:1646  */
+#line 1489 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 44:
+#line 181 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = (yyvsp[0].tipo);
+			}
+#line 1497 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 185 "./src/asin.y" /* yacc.c:1646  */
+    {
+				if((yyvsp[-2].tipo) != T_ENTERO || (yyvsp[0].tipo) != T_ENTERO){
+					(yyval.tipo) = T_ERROR;
+					yyerror("Error de tipos en expresion multiplicativa");
+				}else{
+					(yyval.tipo) = T_ENTERO;
+				}
+			}
+#line 1510 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 46:
+#line 196 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = (yyvsp[0].tipo);
+			}
+#line 1518 "asin.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 172 "./src/asin.y" /* yacc.c:1646  */
+#line 200 "./src/asin.y" /* yacc.c:1646  */
     {
-            
-            printf("LLego aqui2312423 %d ", (yyvsp[0].tipo));
-				if((yyvsp[0].tipo) == T_ENTERO){
-				printf("LLego aqui");
-					if((yyvsp[-1].tipo) != OPMAS_ && (yyvsp[-1].tipo) != OPREST_){
-						yyerror("Error en operadorUnario posittivo/negativo");
-					}
+				(yyval.tipo) = T_ERROR;
+				if((yyvsp[0].tipo) == T_ENTERO && (yyvsp[-1].tipo) != OPMAS_ && (yyvsp[-1].tipo) != OPREST_){
+					yyerror("Error en operadorUnario posittivo/negativo");
 				}
-				else if((yyvsp[0].tipo) == T_LOGICO){
-					/*if($1 != NEG_){
-						yyerror("Error en operadorUnario negacion");
-					}*/
+				else if((yyvsp[0].tipo) == T_LOGICO && (yyvsp[-1].tipo) != NEG_){
+					yyerror("Error en operadorUnario negacion");
+				} else{
+					if((yyvsp[0].tipo) == T_ENTERO) (yyval.tipo) = T_ENTERO;
+					else (yyval.tipo) = T_LOGICO;
+				}
+			
+            }
+#line 1536 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 48:
+#line 214 "./src/asin.y" /* yacc.c:1646  */
+    {
+				SIMB sim = obtenerTDS((yyvsp[0].ident));
+				(yyval.tipo) = T_ERROR;
+				if (sim.tipo == T_ENTERO)
+					(yyval.tipo) = sim.tipo;
+				
+            }
+#line 1548 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 49:
+#line 224 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = (yyvsp[-1].tipo);
+			}
+#line 1556 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 50:
+#line 228 "./src/asin.y" /* yacc.c:1646  */
+    {
+				SIMB sim = obtenerTDS((yyvsp[-1].ident)); (yyval.tipo) = T_ERROR;
+				if (sim.tipo == T_ENTERO) 
+					(yyval.tipo) = sim.tipo;
+            }
+#line 1566 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 51:
+#line 234 "./src/asin.y" /* yacc.c:1646  */
+    {
+				SIMB sim = obtenerTDS((yyvsp[-3].ident));
+				(yyval.tipo) = T_ERROR;
+				if(sim.tipo != T_ARRAY){
+					
+					yyerror("Fallo en expresionSufija, ID_ no es un array");
+				}
+				(yyval.tipo) = T_ERROR;
+				if ((yyvsp[-1].tipo) == T_ENTERO) {
+					DIM dim = obtenerInfoArray(sim.ref);
+					(yyval.tipo) = dim.telem;
 				}
             }
-#line 1490 "asin.c" /* yacc.c:1646  */
+#line 1584 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 248 "./src/asin.y" /* yacc.c:1646  */
+    {
+				SIMB sim = obtenerTDS((yyvsp[0].ident)); (yyval.tipo) = T_ERROR;
+				if (sim.tipo != T_ERROR) 
+					(yyval.tipo) = sim.tipo;
+            }
+#line 1594 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 254 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = T_ENTERO;
+			}
+#line 1602 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 258 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = T_LOGICO;
+            }
+#line 1610 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 262 "./src/asin.y" /* yacc.c:1646  */
+    {
+				(yyval.tipo) = T_LOGICO;
+            }
+#line 1618 "asin.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 223 "./src/asin.y" /* yacc.c:1646  */
-    {(yyval.tipo) = OPMAS_;}
-#line 1496 "asin.c" /* yacc.c:1646  */
+#line 291 "./src/asin.y" /* yacc.c:1646  */
+    { (yyval.tipo) = OPMAS_; }
+#line 1624 "asin.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 224 "./src/asin.y" /* yacc.c:1646  */
-    {(yyval.tipo) = OPREST_;}
-#line 1502 "asin.c" /* yacc.c:1646  */
+#line 292 "./src/asin.y" /* yacc.c:1646  */
+    { (yyval.tipo) = OPREST_; }
+#line 1630 "asin.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 225 "./src/asin.y" /* yacc.c:1646  */
-    {(yyval.tipo) = NEG_;}
-#line 1508 "asin.c" /* yacc.c:1646  */
+#line 293 "./src/asin.y" /* yacc.c:1646  */
+    { (yyval.tipo) = NEG_; }
+#line 1636 "asin.c" /* yacc.c:1646  */
     break;
 
 
-#line 1512 "asin.c" /* yacc.c:1646  */
+#line 1640 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1736,6 +1864,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 234 "./src/asin.y" /* yacc.c:1906  */
+#line 302 "./src/asin.y" /* yacc.c:1906  */
 
 
