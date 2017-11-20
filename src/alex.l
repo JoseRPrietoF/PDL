@@ -41,7 +41,7 @@ do	{ if(verbosidad) ECHO; return DO_;}
 
 {cte} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
 
-{ctr} 	{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
+{ctr} 	{ if(verbosidad){ ECHO;}yylval.cent = atoi(yytext); return CTE_; }
 
 {id} 	{ if(verbosidad) ECHO; yylval.ident = (char*)malloc( (yyleng+1)*sizeof(char) ); strcpy(yylval.ident, yytext); return ID_;}
 

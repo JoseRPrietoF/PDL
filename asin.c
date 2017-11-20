@@ -487,11 +487,11 @@ static const yytype_uint8 yyrline[] =
        0,    26,    26,    29,    30,    33,    34,    37,    38,    42,
       43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
       86,    87,    90,    91,    94,    95,    98,    99,   102,   105,
-     106,   109,   110,   113,   114,   127,   147,   148,   151,   152,
-     155,   156,   159,   160,   163,   164,   167,   168,   169,   172,
-     173,   174,   175,   176,   177,   178,   180,   181,   182,   183,
-     184,   189,   190,   191,   192,   195,   196,   200,   201,   202,
-     205,   206,   207
+     106,   109,   110,   113,   114,   127,   147,   148,   154,   155,
+     158,   159,   162,   163,   166,   167,   170,   171,   184,   187,
+     188,   189,   190,   191,   192,   193,   195,   196,   197,   198,
+     199,   204,   205,   206,   207,   210,   211,   215,   216,   217,
+     220,   221,   222
 };
 #endif
 
@@ -1461,8 +1461,33 @@ yyreduce:
 #line 1462 "asin.c" /* yacc.c:1646  */
     break;
 
+  case 37:
+#line 149 "./src/asin.y" /* yacc.c:1646  */
+    {
+				
+            }
+#line 1470 "asin.c" /* yacc.c:1646  */
+    break;
 
-#line 1466 "asin.c" /* yacc.c:1646  */
+  case 47:
+#line 172 "./src/asin.y" /* yacc.c:1646  */
+    {
+				if((yyvsp[0].tipo) == T_ENTERO){
+					/*if($1 != OPMAS_ && $1 != OPREST_){
+						yyerror("Error en operadorUnario posittivo/negativo");
+					}*/
+				}
+				else if((yyvsp[0].tipo) == T_LOGICO){
+					/*if($1 != NEG_){
+						yyerror("Error en operadorUnario negacion");
+					}*/
+				}
+            }
+#line 1487 "asin.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1491 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1690,6 +1715,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 216 "./src/asin.y" /* yacc.c:1906  */
+#line 231 "./src/asin.y" /* yacc.c:1906  */
 
 

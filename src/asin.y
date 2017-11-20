@@ -146,6 +146,9 @@ expresion: expresionLogica
             
 expresionLogica: expresionIgualdad
             | expresionLogica operadorLogico expresionIgualdad
+            {
+				
+            }
             ;            
             
 expresionIgualdad: expresionRelacional
@@ -166,6 +169,19 @@ expresionMultiplicativa: expresionUnaria
             
 expresionUnaria: expresionSufija
             | operadorUnario expresionUnaria
+            {
+				SIMB sim = obtenerTDS($1);
+				if($<tipo>2 == T_ENTERO){
+					if(sim != OPMAS_ && sim != OPREST_){
+						yyerror("Error en operadorUnario posittivo/negativo");
+					}
+				}
+				else if($<tipo>2 == T_LOGICO){
+					/*if($1 != NEG_){
+						yyerror("Error en operadorUnario negacion");
+					}*/
+				}
+            }
             | operadorIncremento ID_
             ;
 

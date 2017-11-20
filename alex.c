@@ -959,7 +959,7 @@ YY_RULE_SETUP
 case 21:
 YY_RULE_SETUP
 #line 44 "./src/alex.l"
-{ if(verbosidad) ECHO; yylval.cent = atoi(yytext); return CTE_; }
+{ if(verbosidad){ ECHO;}yylval.cent = atoi(yytext); return CTE_; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
