@@ -488,10 +488,10 @@ static const yytype_uint8 yyrline[] =
       43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
       86,    87,    90,    91,    94,    95,    98,    99,   102,   105,
      106,   109,   110,   113,   114,   127,   147,   148,   154,   155,
-     158,   159,   162,   163,   166,   167,   170,   171,   184,   187,
-     188,   189,   190,   191,   192,   193,   195,   196,   197,   198,
-     199,   204,   205,   206,   207,   210,   211,   215,   216,   217,
-     220,   221,   222
+     158,   159,   162,   163,   166,   167,   170,   171,   187,   190,
+     191,   192,   193,   194,   195,   196,   198,   199,   200,   201,
+     202,   207,   208,   209,   210,   213,   214,   218,   219,   220,
+     223,   224,   225
 };
 #endif
 
@@ -1472,10 +1472,13 @@ yyreduce:
   case 47:
 #line 172 "./src/asin.y" /* yacc.c:1646  */
     {
+            
+            printf("LLego aqui2312423 %d ", (yyvsp[0].tipo));
 				if((yyvsp[0].tipo) == T_ENTERO){
-					/*if($1 != OPMAS_ && $1 != OPREST_){
+				printf("LLego aqui");
+					if((yyvsp[-1].tipo) != OPMAS_ && (yyvsp[-1].tipo) != OPREST_){
 						yyerror("Error en operadorUnario posittivo/negativo");
-					}*/
+					}
 				}
 				else if((yyvsp[0].tipo) == T_LOGICO){
 					/*if($1 != NEG_){
@@ -1483,11 +1486,29 @@ yyreduce:
 					}*/
 				}
             }
-#line 1487 "asin.c" /* yacc.c:1646  */
+#line 1490 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 70:
+#line 223 "./src/asin.y" /* yacc.c:1646  */
+    {(yyval.tipo) = OPMAS_;}
+#line 1496 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 71:
+#line 224 "./src/asin.y" /* yacc.c:1646  */
+    {(yyval.tipo) = OPREST_;}
+#line 1502 "asin.c" /* yacc.c:1646  */
+    break;
+
+  case 72:
+#line 225 "./src/asin.y" /* yacc.c:1646  */
+    {(yyval.tipo) = NEG_;}
+#line 1508 "asin.c" /* yacc.c:1646  */
     break;
 
 
-#line 1491 "asin.c" /* yacc.c:1646  */
+#line 1512 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1715,6 +1736,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 231 "./src/asin.y" /* yacc.c:1906  */
+#line 234 "./src/asin.y" /* yacc.c:1906  */
 
 

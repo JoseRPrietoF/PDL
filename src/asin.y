@@ -13,7 +13,7 @@
 	
 	
 }
-%type <tipo> tipoSimple expresion
+%type <tipo> tipoSimple expresion expresionLogica operadorUnario expresionIgualdad expresionRelacional expresionMultiplicativa expresionAditiva expresionUnaria expresionSufija
 
 %token <ident> ID_ 
 
@@ -170,9 +170,11 @@ expresionMultiplicativa: expresionUnaria
 expresionUnaria: expresionSufija
             | operadorUnario expresionUnaria
             {
-				SIMB sim = obtenerTDS($1);
+            
+            printf("LLego aqui2312423 %d ", $<tipo>2);
 				if($<tipo>2 == T_ENTERO){
-					if(sim != OPMAS_ && sim != OPREST_){
+				printf("LLego aqui");
+					if($1 != OPMAS_ && $1 != OPREST_){
 						yyerror("Error en operadorUnario posittivo/negativo");
 					}
 				}
@@ -218,9 +220,9 @@ operadorMultiplicativo: OPMULT_
             | OPMOD_
             ;
             
-operadorUnario: OPMAS_ 
-            | OPREST_ 
-            | NEG_ 
+operadorUnario: OPMAS_ {$$ = OPMAS_;}
+            | OPREST_ {$$ = OPREST_;}
+            | NEG_ {$$ = NEG_;}
             ;
 
 
