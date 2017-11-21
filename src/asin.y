@@ -211,7 +211,7 @@ expresionAditiva: expresionMultiplicativa
             | expresionAditiva operadorAditivo expresionMultiplicativa
             {
 				if($<tipo>1 == $<tipo>3 == T_ENTERO){
-					$$ = T_LOGICO;
+					$$ = T_ENTERO;
 				}else{
 					$$ = T_ERROR;
 					yyerror("Error en expresion aditiva. Solo se pueden usar numeros");

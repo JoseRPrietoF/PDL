@@ -1,0 +1,1845 @@
+Terminals unused in grammar
+
+   FOR_
+
+
+Estado 3 conflictos: 5 desplazamiento(s)/reducción(ones)
+Estado 5 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 15 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 78 conflictos: 2 desplazamiento(s)/reducción(ones)
+Estado 110 conflictos: 5 desplazamiento(s)/reducción(ones)
+
+
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: LABIERTA_ secuenciaSentencias LCERRADA_
+
+    2 operadorLogico: AND_ AND_
+    3               | OR_ OR_
+
+    4 operadorIgualdad: ASIG_ ASIG_
+    5                 | NEG_ ASIG_
+
+    6 operadorIncremento: OPMAS_ OPMAS_
+    7                   | OPREST_ OPREST_
+
+    8 secuenciaSentencias: sentencia
+    9                    | secuenciaSentencias sentencia
+
+   10 sentencia: declaracion
+   11          | instruccion
+
+   12 declaracion: tipoSimple ID_ FINL_
+   13            | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
+
+   14 tipoSimple: INT_
+   15           | BOOL_
+
+   16 instruccion: LABIERTA_ listaInstrucciones LCERRADA_
+   17            | instruccionEntradaSalida
+   18            | instruccionExpresion
+   19            | instruccionSeleccion
+   20            | instruccionIteracion
+
+   21 listaInstrucciones: listaInstrucciones instruccion
+   22                   | /* vacío */
+
+   23 instruccionExpresion: expresion FINL_
+   24                     | FINL_
+
+   25 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
+   26                         | IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
+
+   27 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+
+   28 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+   29        | ELSE_ instruccion
+
+   30 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
+   31                     | DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
+
+   32 expresion: expresionLogica
+   33          | ID_ operadorAsignacion expresion
+   34          | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
+
+   35 expresionLogica: expresionIgualdad
+   36                | expresionLogica operadorLogico expresionIgualdad
+
+   37 expresionIgualdad: expresionRelacional
+   38                  | expresionIgualdad operadorIgualdad expresionRelacional
+
+   39 expresionRelacional: expresionAditiva
+   40                    | expresionRelacional operadorRelacional expresionAditiva
+
+   41 expresionAditiva: expresionMultiplicativa
+   42                 | expresionAditiva operadorAditivo expresionMultiplicativa
+
+   43 expresionMultiplicativa: expresionUnaria
+   44                        | expresionMultiplicativa operadorMultiplicativo expresionUnaria
+
+   45 expresionUnaria: expresionSufija
+   46                | operadorUnario expresionUnaria
+   47                | operadorIncremento ID_
+
+   48 expresionSufija: PABIERTO_ expresion PCERRADO_
+   49                | ID_ operadorIncremento
+   50                | ID_ CORA_ expresion CORC_
+   51                | ID_
+   52                | CTE_
+   53                | TRUE_
+   54                | FALSE_
+
+   55 operadorAsignacion: ASIG_
+   56                   | OPMAS_ ASIG_
+   57                   | OPREST_ ASIG_
+   58                   | OPMULT_ ASIG_
+   59                   | OPDIV_ ASIG_
+
+   60 operadorRelacional: MAYQ_
+   61                   | MENQ_
+   62                   | MAYQ_ ASIG_
+   63                   | MENQ_ ASIG_
+
+   64 operadorAditivo: OPMAS_
+   65                | OPREST_
+
+   66 operadorMultiplicativo: OPMULT_
+   67                       | OPDIV_
+   68                       | OPMOD_
+
+   69 operadorUnario: OPMAS_
+   70               | OPREST_
+   71               | NEG_
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+ID_ (258) 12 13 25 33 34 47 49 50 51
+CTE_ (259) 13 52
+OPMAS_ (260) 6 56 64 69
+OPMULT_ (261) 58 66
+PABIERTO_ (262) 25 26 27 28 30 31 48
+PCERRADO_ (263) 25 26 27 28 30 31 48
+LABIERTA_ (264) 1 16
+LCERRADA_ (265) 1 16
+LEER_ (266) 25
+IMPRIMIR_ (267) 26
+TRUE_ (268) 53
+FALSE_ (269) 54
+FOR_ (270)
+WHILE_ (271) 30 31
+IF_ (272) 27
+ELSE_ (273) 29
+ELSEIF_ (274) 28
+DO_ (275) 31
+ASIG_ (276) 4 5 55 56 57 58 59 62 63
+OPREST_ (277) 7 57 65 70
+OPDIV_ (278) 59 67
+OPMOD_ (279) 68
+MAYQ_ (280) 60 62
+MENQ_ (281) 61 63
+FINL_ (282) 12 13 23 24 25 26
+CORA_ (283) 13 34 50
+CORC_ (284) 13 34 50
+NEG_ (285) 5 71
+AND_ (286) 2
+OR_ (287) 3
+INT_ (288) 14
+BOOL_ (289) 15
+
+
+No terminales con las reglas donde aparecen
+
+$accept (35)
+    en la izquierda: 0
+programa (36)
+    en la izquierda: 1, en la derecha: 0
+operadorLogico (37)
+    en la izquierda: 2 3, en la derecha: 36
+operadorIgualdad (38)
+    en la izquierda: 4 5, en la derecha: 38
+operadorIncremento (39)
+    en la izquierda: 6 7, en la derecha: 47 49
+secuenciaSentencias (40)
+    en la izquierda: 8 9, en la derecha: 1 9
+sentencia (41)
+    en la izquierda: 10 11, en la derecha: 8 9
+declaracion (42)
+    en la izquierda: 12 13, en la derecha: 10
+tipoSimple (43)
+    en la izquierda: 14 15, en la derecha: 12 13
+instruccion (44)
+    en la izquierda: 16 17 18 19 20, en la derecha: 11 21 27 28 29
+    30 31
+listaInstrucciones (45)
+    en la izquierda: 21 22, en la derecha: 16 21
+instruccionExpresion (46)
+    en la izquierda: 23 24, en la derecha: 18
+instruccionEntradaSalida (47)
+    en la izquierda: 25 26, en la derecha: 17
+instruccionSeleccion (48)
+    en la izquierda: 27, en la derecha: 19
+restoIf (49)
+    en la izquierda: 28 29, en la derecha: 27 28
+instruccionIteracion (50)
+    en la izquierda: 30 31, en la derecha: 20
+expresion (51)
+    en la izquierda: 32 33 34, en la derecha: 23 26 27 28 30 31 33
+    34 48 50
+expresionLogica (52)
+    en la izquierda: 35 36, en la derecha: 32 36
+expresionIgualdad (53)
+    en la izquierda: 37 38, en la derecha: 35 36 38
+expresionRelacional (54)
+    en la izquierda: 39 40, en la derecha: 37 38 40
+expresionAditiva (55)
+    en la izquierda: 41 42, en la derecha: 39 40 42
+expresionMultiplicativa (56)
+    en la izquierda: 43 44, en la derecha: 41 42 44
+expresionUnaria (57)
+    en la izquierda: 45 46 47, en la derecha: 43 44 46
+expresionSufija (58)
+    en la izquierda: 48 49 50 51 52 53 54, en la derecha: 45
+operadorAsignacion (59)
+    en la izquierda: 55 56 57 58 59, en la derecha: 33 34
+operadorRelacional (60)
+    en la izquierda: 60 61 62 63, en la derecha: 40
+operadorAditivo (61)
+    en la izquierda: 64 65, en la derecha: 42
+operadorMultiplicativo (62)
+    en la izquierda: 66 67 68, en la derecha: 44
+operadorUnario (63)
+    en la izquierda: 69 70 71, en la derecha: 46
+
+
+State 0
+
+    0 $accept: . programa $end
+
+    LABIERTA_  desplazar e ir al estado 1
+
+    programa  ir al estado 2
+
+
+State 1
+
+    1 programa: LABIERTA_ . secuenciaSentencias LCERRADA_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+    INT_       desplazar e ir al estado 18
+    BOOL_      desplazar e ir al estado 19
+
+    operadorIncremento        ir al estado 20
+    secuenciaSentencias       ir al estado 21
+    sentencia                 ir al estado 22
+    declaracion               ir al estado 23
+    tipoSimple                ir al estado 24
+    instruccion               ir al estado 25
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 2
+
+    0 $accept: programa . $end
+
+    $end  desplazar e ir al estado 39
+
+
+State 3
+
+   33 expresion: ID_ . operadorAsignacion expresion
+   34          | ID_ . CORA_ expresion CORC_ operadorAsignacion expresion
+   49 expresionSufija: ID_ . operadorIncremento
+   50                | ID_ . CORA_ expresion CORC_
+   51                | ID_ .
+
+    OPMAS_   desplazar e ir al estado 40
+    OPMULT_  desplazar e ir al estado 41
+    ASIG_    desplazar e ir al estado 42
+    OPREST_  desplazar e ir al estado 43
+    OPDIV_   desplazar e ir al estado 44
+    CORA_    desplazar e ir al estado 45
+
+    OPMAS_    [reduce usando la regla 51 (expresionSufija)]
+    OPMULT_   [reduce usando la regla 51 (expresionSufija)]
+    ASIG_     [reduce usando la regla 51 (expresionSufija)]
+    OPREST_   [reduce usando la regla 51 (expresionSufija)]
+    OPDIV_    [reduce usando la regla 51 (expresionSufija)]
+    $default  reduce usando la regla 51 (expresionSufija)
+
+    operadorIncremento  ir al estado 46
+    operadorAsignacion  ir al estado 47
+
+
+State 4
+
+   52 expresionSufija: CTE_ .
+
+    $default  reduce usando la regla 52 (expresionSufija)
+
+
+State 5
+
+    6 operadorIncremento: OPMAS_ . OPMAS_
+   69 operadorUnario: OPMAS_ .
+
+    OPMAS_  desplazar e ir al estado 48
+
+    OPMAS_    [reduce usando la regla 69 (operadorUnario)]
+    $default  reduce usando la regla 69 (operadorUnario)
+
+
+State 6
+
+   48 expresionSufija: PABIERTO_ . expresion PCERRADO_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 49
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 7
+
+   16 instruccion: LABIERTA_ . listaInstrucciones LCERRADA_
+
+    $default  reduce usando la regla 22 (listaInstrucciones)
+
+    listaInstrucciones  ir al estado 50
+
+
+State 8
+
+   25 instruccionEntradaSalida: LEER_ . PABIERTO_ ID_ PCERRADO_ FINL_
+
+    PABIERTO_  desplazar e ir al estado 51
+
+
+State 9
+
+   26 instruccionEntradaSalida: IMPRIMIR_ . PABIERTO_ expresion PCERRADO_ FINL_
+
+    PABIERTO_  desplazar e ir al estado 52
+
+
+State 10
+
+   53 expresionSufija: TRUE_ .
+
+    $default  reduce usando la regla 53 (expresionSufija)
+
+
+State 11
+
+   54 expresionSufija: FALSE_ .
+
+    $default  reduce usando la regla 54 (expresionSufija)
+
+
+State 12
+
+   30 instruccionIteracion: WHILE_ . PABIERTO_ expresion PCERRADO_ instruccion
+
+    PABIERTO_  desplazar e ir al estado 53
+
+
+State 13
+
+   27 instruccionSeleccion: IF_ . PABIERTO_ expresion PCERRADO_ instruccion restoIf
+
+    PABIERTO_  desplazar e ir al estado 54
+
+
+State 14
+
+   31 instruccionIteracion: DO_ . instruccion WHILE_ PABIERTO_ expresion PCERRADO_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 55
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 15
+
+    7 operadorIncremento: OPREST_ . OPREST_
+   70 operadorUnario: OPREST_ .
+
+    OPREST_  desplazar e ir al estado 56
+
+    OPREST_   [reduce usando la regla 70 (operadorUnario)]
+    $default  reduce usando la regla 70 (operadorUnario)
+
+
+State 16
+
+   24 instruccionExpresion: FINL_ .
+
+    $default  reduce usando la regla 24 (instruccionExpresion)
+
+
+State 17
+
+   71 operadorUnario: NEG_ .
+
+    $default  reduce usando la regla 71 (operadorUnario)
+
+
+State 18
+
+   14 tipoSimple: INT_ .
+
+    $default  reduce usando la regla 14 (tipoSimple)
+
+
+State 19
+
+   15 tipoSimple: BOOL_ .
+
+    $default  reduce usando la regla 15 (tipoSimple)
+
+
+State 20
+
+   47 expresionUnaria: operadorIncremento . ID_
+
+    ID_  desplazar e ir al estado 57
+
+
+State 21
+
+    1 programa: LABIERTA_ secuenciaSentencias . LCERRADA_
+    9 secuenciaSentencias: secuenciaSentencias . sentencia
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LCERRADA_  desplazar e ir al estado 58
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+    INT_       desplazar e ir al estado 18
+    BOOL_      desplazar e ir al estado 19
+
+    operadorIncremento        ir al estado 20
+    sentencia                 ir al estado 59
+    declaracion               ir al estado 23
+    tipoSimple                ir al estado 24
+    instruccion               ir al estado 25
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 22
+
+    8 secuenciaSentencias: sentencia .
+
+    $default  reduce usando la regla 8 (secuenciaSentencias)
+
+
+State 23
+
+   10 sentencia: declaracion .
+
+    $default  reduce usando la regla 10 (sentencia)
+
+
+State 24
+
+   12 declaracion: tipoSimple . ID_ FINL_
+   13            | tipoSimple . ID_ CORA_ CTE_ CORC_ FINL_
+
+    ID_  desplazar e ir al estado 60
+
+
+State 25
+
+   11 sentencia: instruccion .
+
+    $default  reduce usando la regla 11 (sentencia)
+
+
+State 26
+
+   18 instruccion: instruccionExpresion .
+
+    $default  reduce usando la regla 18 (instruccion)
+
+
+State 27
+
+   17 instruccion: instruccionEntradaSalida .
+
+    $default  reduce usando la regla 17 (instruccion)
+
+
+State 28
+
+   19 instruccion: instruccionSeleccion .
+
+    $default  reduce usando la regla 19 (instruccion)
+
+
+State 29
+
+   20 instruccion: instruccionIteracion .
+
+    $default  reduce usando la regla 20 (instruccion)
+
+
+State 30
+
+   23 instruccionExpresion: expresion . FINL_
+
+    FINL_  desplazar e ir al estado 61
+
+
+State 31
+
+   32 expresion: expresionLogica .
+   36 expresionLogica: expresionLogica . operadorLogico expresionIgualdad
+
+    AND_  desplazar e ir al estado 62
+    OR_   desplazar e ir al estado 63
+
+    $default  reduce usando la regla 32 (expresion)
+
+    operadorLogico  ir al estado 64
+
+
+State 32
+
+   35 expresionLogica: expresionIgualdad .
+   38 expresionIgualdad: expresionIgualdad . operadorIgualdad expresionRelacional
+
+    ASIG_  desplazar e ir al estado 65
+    NEG_   desplazar e ir al estado 66
+
+    $default  reduce usando la regla 35 (expresionLogica)
+
+    operadorIgualdad  ir al estado 67
+
+
+State 33
+
+   37 expresionIgualdad: expresionRelacional .
+   40 expresionRelacional: expresionRelacional . operadorRelacional expresionAditiva
+
+    MAYQ_  desplazar e ir al estado 68
+    MENQ_  desplazar e ir al estado 69
+
+    $default  reduce usando la regla 37 (expresionIgualdad)
+
+    operadorRelacional  ir al estado 70
+
+
+State 34
+
+   39 expresionRelacional: expresionAditiva .
+   42 expresionAditiva: expresionAditiva . operadorAditivo expresionMultiplicativa
+
+    OPMAS_   desplazar e ir al estado 71
+    OPREST_  desplazar e ir al estado 72
+
+    $default  reduce usando la regla 39 (expresionRelacional)
+
+    operadorAditivo  ir al estado 73
+
+
+State 35
+
+   41 expresionAditiva: expresionMultiplicativa .
+   44 expresionMultiplicativa: expresionMultiplicativa . operadorMultiplicativo expresionUnaria
+
+    OPMULT_  desplazar e ir al estado 74
+    OPDIV_   desplazar e ir al estado 75
+    OPMOD_   desplazar e ir al estado 76
+
+    $default  reduce usando la regla 41 (expresionAditiva)
+
+    operadorMultiplicativo  ir al estado 77
+
+
+State 36
+
+   43 expresionMultiplicativa: expresionUnaria .
+
+    $default  reduce usando la regla 43 (expresionMultiplicativa)
+
+
+State 37
+
+   45 expresionUnaria: expresionSufija .
+
+    $default  reduce usando la regla 45 (expresionUnaria)
+
+
+State 38
+
+   46 expresionUnaria: operadorUnario . expresionUnaria
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento  ir al estado 20
+    expresionUnaria     ir al estado 79
+    expresionSufija     ir al estado 37
+    operadorUnario      ir al estado 38
+
+
+State 39
+
+    0 $accept: programa $end .
+
+    $default  aceptar
+
+
+State 40
+
+    6 operadorIncremento: OPMAS_ . OPMAS_
+   56 operadorAsignacion: OPMAS_ . ASIG_
+
+    OPMAS_  desplazar e ir al estado 48
+    ASIG_   desplazar e ir al estado 80
+
+
+State 41
+
+   58 operadorAsignacion: OPMULT_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 81
+
+
+State 42
+
+   55 operadorAsignacion: ASIG_ .
+
+    $default  reduce usando la regla 55 (operadorAsignacion)
+
+
+State 43
+
+    7 operadorIncremento: OPREST_ . OPREST_
+   57 operadorAsignacion: OPREST_ . ASIG_
+
+    ASIG_    desplazar e ir al estado 82
+    OPREST_  desplazar e ir al estado 56
+
+
+State 44
+
+   59 operadorAsignacion: OPDIV_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 83
+
+
+State 45
+
+   34 expresion: ID_ CORA_ . expresion CORC_ operadorAsignacion expresion
+   50 expresionSufija: ID_ CORA_ . expresion CORC_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 84
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 46
+
+   49 expresionSufija: ID_ operadorIncremento .
+
+    $default  reduce usando la regla 49 (expresionSufija)
+
+
+State 47
+
+   33 expresion: ID_ operadorAsignacion . expresion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 85
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 48
+
+    6 operadorIncremento: OPMAS_ OPMAS_ .
+
+    $default  reduce usando la regla 6 (operadorIncremento)
+
+
+State 49
+
+   48 expresionSufija: PABIERTO_ expresion . PCERRADO_
+
+    PCERRADO_  desplazar e ir al estado 86
+
+
+State 50
+
+   16 instruccion: LABIERTA_ listaInstrucciones . LCERRADA_
+   21 listaInstrucciones: listaInstrucciones . instruccion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LCERRADA_  desplazar e ir al estado 87
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 88
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 51
+
+   25 instruccionEntradaSalida: LEER_ PABIERTO_ . ID_ PCERRADO_ FINL_
+
+    ID_  desplazar e ir al estado 89
+
+
+State 52
+
+   26 instruccionEntradaSalida: IMPRIMIR_ PABIERTO_ . expresion PCERRADO_ FINL_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 90
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 53
+
+   30 instruccionIteracion: WHILE_ PABIERTO_ . expresion PCERRADO_ instruccion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 91
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 54
+
+   27 instruccionSeleccion: IF_ PABIERTO_ . expresion PCERRADO_ instruccion restoIf
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 92
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 55
+
+   31 instruccionIteracion: DO_ instruccion . WHILE_ PABIERTO_ expresion PCERRADO_
+
+    WHILE_  desplazar e ir al estado 93
+
+
+State 56
+
+    7 operadorIncremento: OPREST_ OPREST_ .
+
+    $default  reduce usando la regla 7 (operadorIncremento)
+
+
+State 57
+
+   47 expresionUnaria: operadorIncremento ID_ .
+
+    $default  reduce usando la regla 47 (expresionUnaria)
+
+
+State 58
+
+    1 programa: LABIERTA_ secuenciaSentencias LCERRADA_ .
+
+    $default  reduce usando la regla 1 (programa)
+
+
+State 59
+
+    9 secuenciaSentencias: secuenciaSentencias sentencia .
+
+    $default  reduce usando la regla 9 (secuenciaSentencias)
+
+
+State 60
+
+   12 declaracion: tipoSimple ID_ . FINL_
+   13            | tipoSimple ID_ . CORA_ CTE_ CORC_ FINL_
+
+    FINL_  desplazar e ir al estado 94
+    CORA_  desplazar e ir al estado 95
+
+
+State 61
+
+   23 instruccionExpresion: expresion FINL_ .
+
+    $default  reduce usando la regla 23 (instruccionExpresion)
+
+
+State 62
+
+    2 operadorLogico: AND_ . AND_
+
+    AND_  desplazar e ir al estado 96
+
+
+State 63
+
+    3 operadorLogico: OR_ . OR_
+
+    OR_  desplazar e ir al estado 97
+
+
+State 64
+
+   36 expresionLogica: expresionLogica operadorLogico . expresionIgualdad
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresionIgualdad        ir al estado 98
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 65
+
+    4 operadorIgualdad: ASIG_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 99
+
+
+State 66
+
+    5 operadorIgualdad: NEG_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 100
+
+
+State 67
+
+   38 expresionIgualdad: expresionIgualdad operadorIgualdad . expresionRelacional
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresionRelacional      ir al estado 101
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 68
+
+   60 operadorRelacional: MAYQ_ .
+   62                   | MAYQ_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 102
+
+    $default  reduce usando la regla 60 (operadorRelacional)
+
+
+State 69
+
+   61 operadorRelacional: MENQ_ .
+   63                   | MENQ_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 103
+
+    $default  reduce usando la regla 61 (operadorRelacional)
+
+
+State 70
+
+   40 expresionRelacional: expresionRelacional operadorRelacional . expresionAditiva
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresionAditiva         ir al estado 104
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 71
+
+   64 operadorAditivo: OPMAS_ .
+
+    $default  reduce usando la regla 64 (operadorAditivo)
+
+
+State 72
+
+   65 operadorAditivo: OPREST_ .
+
+    $default  reduce usando la regla 65 (operadorAditivo)
+
+
+State 73
+
+   42 expresionAditiva: expresionAditiva operadorAditivo . expresionMultiplicativa
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresionMultiplicativa  ir al estado 105
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 74
+
+   66 operadorMultiplicativo: OPMULT_ .
+
+    $default  reduce usando la regla 66 (operadorMultiplicativo)
+
+
+State 75
+
+   67 operadorMultiplicativo: OPDIV_ .
+
+    $default  reduce usando la regla 67 (operadorMultiplicativo)
+
+
+State 76
+
+   68 operadorMultiplicativo: OPMOD_ .
+
+    $default  reduce usando la regla 68 (operadorMultiplicativo)
+
+
+State 77
+
+   44 expresionMultiplicativa: expresionMultiplicativa operadorMultiplicativo . expresionUnaria
+
+    ID_        desplazar e ir al estado 78
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento  ir al estado 20
+    expresionUnaria     ir al estado 106
+    expresionSufija     ir al estado 37
+    operadorUnario      ir al estado 38
+
+
+State 78
+
+   49 expresionSufija: ID_ . operadorIncremento
+   50                | ID_ . CORA_ expresion CORC_
+   51                | ID_ .
+
+    OPMAS_   desplazar e ir al estado 107
+    OPREST_  desplazar e ir al estado 108
+    CORA_    desplazar e ir al estado 109
+
+    OPMAS_    [reduce usando la regla 51 (expresionSufija)]
+    OPREST_   [reduce usando la regla 51 (expresionSufija)]
+    $default  reduce usando la regla 51 (expresionSufija)
+
+    operadorIncremento  ir al estado 46
+
+
+State 79
+
+   46 expresionUnaria: operadorUnario expresionUnaria .
+
+    $default  reduce usando la regla 46 (expresionUnaria)
+
+
+State 80
+
+   56 operadorAsignacion: OPMAS_ ASIG_ .
+
+    $default  reduce usando la regla 56 (operadorAsignacion)
+
+
+State 81
+
+   58 operadorAsignacion: OPMULT_ ASIG_ .
+
+    $default  reduce usando la regla 58 (operadorAsignacion)
+
+
+State 82
+
+   57 operadorAsignacion: OPREST_ ASIG_ .
+
+    $default  reduce usando la regla 57 (operadorAsignacion)
+
+
+State 83
+
+   59 operadorAsignacion: OPDIV_ ASIG_ .
+
+    $default  reduce usando la regla 59 (operadorAsignacion)
+
+
+State 84
+
+   34 expresion: ID_ CORA_ expresion . CORC_ operadorAsignacion expresion
+   50 expresionSufija: ID_ CORA_ expresion . CORC_
+
+    CORC_  desplazar e ir al estado 110
+
+
+State 85
+
+   33 expresion: ID_ operadorAsignacion expresion .
+
+    $default  reduce usando la regla 33 (expresion)
+
+
+State 86
+
+   48 expresionSufija: PABIERTO_ expresion PCERRADO_ .
+
+    $default  reduce usando la regla 48 (expresionSufija)
+
+
+State 87
+
+   16 instruccion: LABIERTA_ listaInstrucciones LCERRADA_ .
+
+    $default  reduce usando la regla 16 (instruccion)
+
+
+State 88
+
+   21 listaInstrucciones: listaInstrucciones instruccion .
+
+    $default  reduce usando la regla 21 (listaInstrucciones)
+
+
+State 89
+
+   25 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ . PCERRADO_ FINL_
+
+    PCERRADO_  desplazar e ir al estado 111
+
+
+State 90
+
+   26 instruccionEntradaSalida: IMPRIMIR_ PABIERTO_ expresion . PCERRADO_ FINL_
+
+    PCERRADO_  desplazar e ir al estado 112
+
+
+State 91
+
+   30 instruccionIteracion: WHILE_ PABIERTO_ expresion . PCERRADO_ instruccion
+
+    PCERRADO_  desplazar e ir al estado 113
+
+
+State 92
+
+   27 instruccionSeleccion: IF_ PABIERTO_ expresion . PCERRADO_ instruccion restoIf
+
+    PCERRADO_  desplazar e ir al estado 114
+
+
+State 93
+
+   31 instruccionIteracion: DO_ instruccion WHILE_ . PABIERTO_ expresion PCERRADO_
+
+    PABIERTO_  desplazar e ir al estado 115
+
+
+State 94
+
+   12 declaracion: tipoSimple ID_ FINL_ .
+
+    $default  reduce usando la regla 12 (declaracion)
+
+
+State 95
+
+   13 declaracion: tipoSimple ID_ CORA_ . CTE_ CORC_ FINL_
+
+    CTE_  desplazar e ir al estado 116
+
+
+State 96
+
+    2 operadorLogico: AND_ AND_ .
+
+    $default  reduce usando la regla 2 (operadorLogico)
+
+
+State 97
+
+    3 operadorLogico: OR_ OR_ .
+
+    $default  reduce usando la regla 3 (operadorLogico)
+
+
+State 98
+
+   36 expresionLogica: expresionLogica operadorLogico expresionIgualdad .
+   38 expresionIgualdad: expresionIgualdad . operadorIgualdad expresionRelacional
+
+    ASIG_  desplazar e ir al estado 65
+    NEG_   desplazar e ir al estado 66
+
+    $default  reduce usando la regla 36 (expresionLogica)
+
+    operadorIgualdad  ir al estado 67
+
+
+State 99
+
+    4 operadorIgualdad: ASIG_ ASIG_ .
+
+    $default  reduce usando la regla 4 (operadorIgualdad)
+
+
+State 100
+
+    5 operadorIgualdad: NEG_ ASIG_ .
+
+    $default  reduce usando la regla 5 (operadorIgualdad)
+
+
+State 101
+
+   38 expresionIgualdad: expresionIgualdad operadorIgualdad expresionRelacional .
+   40 expresionRelacional: expresionRelacional . operadorRelacional expresionAditiva
+
+    MAYQ_  desplazar e ir al estado 68
+    MENQ_  desplazar e ir al estado 69
+
+    $default  reduce usando la regla 38 (expresionIgualdad)
+
+    operadorRelacional  ir al estado 70
+
+
+State 102
+
+   62 operadorRelacional: MAYQ_ ASIG_ .
+
+    $default  reduce usando la regla 62 (operadorRelacional)
+
+
+State 103
+
+   63 operadorRelacional: MENQ_ ASIG_ .
+
+    $default  reduce usando la regla 63 (operadorRelacional)
+
+
+State 104
+
+   40 expresionRelacional: expresionRelacional operadorRelacional expresionAditiva .
+   42 expresionAditiva: expresionAditiva . operadorAditivo expresionMultiplicativa
+
+    OPMAS_   desplazar e ir al estado 71
+    OPREST_  desplazar e ir al estado 72
+
+    $default  reduce usando la regla 40 (expresionRelacional)
+
+    operadorAditivo  ir al estado 73
+
+
+State 105
+
+   42 expresionAditiva: expresionAditiva operadorAditivo expresionMultiplicativa .
+   44 expresionMultiplicativa: expresionMultiplicativa . operadorMultiplicativo expresionUnaria
+
+    OPMULT_  desplazar e ir al estado 74
+    OPDIV_   desplazar e ir al estado 75
+    OPMOD_   desplazar e ir al estado 76
+
+    $default  reduce usando la regla 42 (expresionAditiva)
+
+    operadorMultiplicativo  ir al estado 77
+
+
+State 106
+
+   44 expresionMultiplicativa: expresionMultiplicativa operadorMultiplicativo expresionUnaria .
+
+    $default  reduce usando la regla 44 (expresionMultiplicativa)
+
+
+State 107
+
+    6 operadorIncremento: OPMAS_ . OPMAS_
+
+    OPMAS_  desplazar e ir al estado 48
+
+
+State 108
+
+    7 operadorIncremento: OPREST_ . OPREST_
+
+    OPREST_  desplazar e ir al estado 56
+
+
+State 109
+
+   50 expresionSufija: ID_ CORA_ . expresion CORC_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 117
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 110
+
+   34 expresion: ID_ CORA_ expresion CORC_ . operadorAsignacion expresion
+   50 expresionSufija: ID_ CORA_ expresion CORC_ .
+
+    OPMAS_   desplazar e ir al estado 118
+    OPMULT_  desplazar e ir al estado 41
+    ASIG_    desplazar e ir al estado 42
+    OPREST_  desplazar e ir al estado 119
+    OPDIV_   desplazar e ir al estado 44
+
+    OPMAS_    [reduce usando la regla 50 (expresionSufija)]
+    OPMULT_   [reduce usando la regla 50 (expresionSufija)]
+    ASIG_     [reduce usando la regla 50 (expresionSufija)]
+    OPREST_   [reduce usando la regla 50 (expresionSufija)]
+    OPDIV_    [reduce usando la regla 50 (expresionSufija)]
+    $default  reduce usando la regla 50 (expresionSufija)
+
+    operadorAsignacion  ir al estado 120
+
+
+State 111
+
+   25 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ . FINL_
+
+    FINL_  desplazar e ir al estado 121
+
+
+State 112
+
+   26 instruccionEntradaSalida: IMPRIMIR_ PABIERTO_ expresion PCERRADO_ . FINL_
+
+    FINL_  desplazar e ir al estado 122
+
+
+State 113
+
+   30 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ . instruccion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 123
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 114
+
+   27 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ . instruccion restoIf
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 124
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 115
+
+   31 instruccionIteracion: DO_ instruccion WHILE_ PABIERTO_ . expresion PCERRADO_
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 125
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 116
+
+   13 declaracion: tipoSimple ID_ CORA_ CTE_ . CORC_ FINL_
+
+    CORC_  desplazar e ir al estado 126
+
+
+State 117
+
+   50 expresionSufija: ID_ CORA_ expresion . CORC_
+
+    CORC_  desplazar e ir al estado 127
+
+
+State 118
+
+   56 operadorAsignacion: OPMAS_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 80
+
+
+State 119
+
+   57 operadorAsignacion: OPREST_ . ASIG_
+
+    ASIG_  desplazar e ir al estado 82
+
+
+State 120
+
+   34 expresion: ID_ CORA_ expresion CORC_ operadorAsignacion . expresion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 128
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 121
+
+   25 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_ .
+
+    $default  reduce usando la regla 25 (instruccionEntradaSalida)
+
+
+State 122
+
+   26 instruccionEntradaSalida: IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_ .
+
+    $default  reduce usando la regla 26 (instruccionEntradaSalida)
+
+
+State 123
+
+   30 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion .
+
+    $default  reduce usando la regla 30 (instruccionIteracion)
+
+
+State 124
+
+   27 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion . restoIf
+
+    ELSE_    desplazar e ir al estado 129
+    ELSEIF_  desplazar e ir al estado 130
+
+    restoIf  ir al estado 131
+
+
+State 125
+
+   31 instruccionIteracion: DO_ instruccion WHILE_ PABIERTO_ expresion . PCERRADO_
+
+    PCERRADO_  desplazar e ir al estado 132
+
+
+State 126
+
+   13 declaracion: tipoSimple ID_ CORA_ CTE_ CORC_ . FINL_
+
+    FINL_  desplazar e ir al estado 133
+
+
+State 127
+
+   50 expresionSufija: ID_ CORA_ expresion CORC_ .
+
+    $default  reduce usando la regla 50 (expresionSufija)
+
+
+State 128
+
+   34 expresion: ID_ CORA_ expresion CORC_ operadorAsignacion expresion .
+
+    $default  reduce usando la regla 34 (expresion)
+
+
+State 129
+
+   29 restoIf: ELSE_ . instruccion
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 134
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 130
+
+   28 restoIf: ELSEIF_ . PABIERTO_ expresion PCERRADO_ instruccion restoIf
+
+    PABIERTO_  desplazar e ir al estado 135
+
+
+State 131
+
+   27 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf .
+
+    $default  reduce usando la regla 27 (instruccionSeleccion)
+
+
+State 132
+
+   31 instruccionIteracion: DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_ .
+
+    $default  reduce usando la regla 31 (instruccionIteracion)
+
+
+State 133
+
+   13 declaracion: tipoSimple ID_ CORA_ CTE_ CORC_ FINL_ .
+
+    $default  reduce usando la regla 13 (declaracion)
+
+
+State 134
+
+   29 restoIf: ELSE_ instruccion .
+
+    $default  reduce usando la regla 29 (restoIf)
+
+
+State 135
+
+   28 restoIf: ELSEIF_ PABIERTO_ . expresion PCERRADO_ instruccion restoIf
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    OPREST_    desplazar e ir al estado 15
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento       ir al estado 20
+    expresion                ir al estado 136
+    expresionLogica          ir al estado 31
+    expresionIgualdad        ir al estado 32
+    expresionRelacional      ir al estado 33
+    expresionAditiva         ir al estado 34
+    expresionMultiplicativa  ir al estado 35
+    expresionUnaria          ir al estado 36
+    expresionSufija          ir al estado 37
+    operadorUnario           ir al estado 38
+
+
+State 136
+
+   28 restoIf: ELSEIF_ PABIERTO_ expresion . PCERRADO_ instruccion restoIf
+
+    PCERRADO_  desplazar e ir al estado 137
+
+
+State 137
+
+   28 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ . instruccion restoIf
+
+    ID_        desplazar e ir al estado 3
+    CTE_       desplazar e ir al estado 4
+    OPMAS_     desplazar e ir al estado 5
+    PABIERTO_  desplazar e ir al estado 6
+    LABIERTA_  desplazar e ir al estado 7
+    LEER_      desplazar e ir al estado 8
+    IMPRIMIR_  desplazar e ir al estado 9
+    TRUE_      desplazar e ir al estado 10
+    FALSE_     desplazar e ir al estado 11
+    WHILE_     desplazar e ir al estado 12
+    IF_        desplazar e ir al estado 13
+    DO_        desplazar e ir al estado 14
+    OPREST_    desplazar e ir al estado 15
+    FINL_      desplazar e ir al estado 16
+    NEG_       desplazar e ir al estado 17
+
+    operadorIncremento        ir al estado 20
+    instruccion               ir al estado 138
+    instruccionExpresion      ir al estado 26
+    instruccionEntradaSalida  ir al estado 27
+    instruccionSeleccion      ir al estado 28
+    instruccionIteracion      ir al estado 29
+    expresion                 ir al estado 30
+    expresionLogica           ir al estado 31
+    expresionIgualdad         ir al estado 32
+    expresionRelacional       ir al estado 33
+    expresionAditiva          ir al estado 34
+    expresionMultiplicativa   ir al estado 35
+    expresionUnaria           ir al estado 36
+    expresionSufija           ir al estado 37
+    operadorUnario            ir al estado 38
+
+
+State 138
+
+   28 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion . restoIf
+
+    ELSE_    desplazar e ir al estado 129
+    ELSEIF_  desplazar e ir al estado 130
+
+    restoIf  ir al estado 139
+
+
+State 139
+
+   28 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf .
+
+    $default  reduce usando la regla 28 (restoIf)
