@@ -13,7 +13,7 @@
 	
 	
 }
-%type <tipo> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva
+%type <tipo> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
 
 %token <ident> ID_ 
 
@@ -96,8 +96,21 @@ instruccionExpresion: expresion FINL_
             ;            
             
 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
+			{
+				SIMB sim = obtenerTDS($3); 
+					//mostrarTDS();
+					if (sim.tipo == T_ERROR) 
+						yyerror("Objeto no declarado");
+					else if(sim.tipo != T_ENTERO)
+						yyerror("El argumento del read debe ser entero");
+					
+			}
 			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
-			;           
+			{
+				if($<tipo>3 != T_ENTERO)
+					yyerror("La expresion del print debe ser entera");
+			}
+			         
 
 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
             ;
@@ -107,7 +120,15 @@ restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
             ;    
 
 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
+			{
+				if($<tipo>3 != T_LOGICO)
+					yyerror("La expresion del while debe ser logica");
+			}
 			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
+			{
+				if($<tipo>5 != T_LOGICO)
+					yyerror("La expresion del print debe ser logica");
+			}
 			;            
         
 expresion: expresionLogica
@@ -116,12 +137,15 @@ expresion: expresionLogica
 			}
             | ID_ operadorAsignacion expresion
             {
+				mostrarTDS();
 				$<tipo>$ = T_ERROR;
 				if($3 != T_ERROR){
 					SIMB sim = obtenerTDS($1); 
 					//mostrarTDS();
 					if (sim.tipo == T_ERROR) 
 						yyerror("Objeto no declarado");
+					else if($<tipo>3 == T_ARRAY)
+						yyerror("El identificador debe ser de tipo simple");
 					else if (! ( (sim.tipo == $<tipo>3 == T_ENTERO) || 
 								 (sim.tipo == $<tipo>3 == T_LOGICO) ) 
 							)
@@ -142,13 +166,13 @@ expresion: expresionLogica
 					if ($3 == T_ENTERO) {
 						DIM dim = obtenerInfoArray(sim.ref);
 						
-						
-						if($<tipo>6 == dim.telem){
-							$$ = dim.telem;
-						}else{
-							yyerror("La expresion debe ser del mismo tipo que el array");
+						if($<tipo>6 != T_ERROR){
+							if($<tipo>6 == dim.telem){
+								$$ = dim.telem;
+							}else{
+								yyerror("La expresion debe ser del mismo tipo que el array");
+							}
 						}
-						
 					}else{
 						yyerror("El indice del array debe ser entero");
 					}
