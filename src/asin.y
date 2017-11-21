@@ -137,7 +137,6 @@ expresion: expresionLogica
 			}
             | ID_ operadorAsignacion expresion
             {
-				mostrarTDS();
 				$<tipo>$ = T_ERROR;
 				if($3 != T_ERROR){
 					SIMB sim = obtenerTDS($1); 

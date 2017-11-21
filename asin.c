@@ -520,11 +520,11 @@ static const yytype_uint16 yyrline[] =
        0,    26,    26,    29,    30,    33,    34,    37,    38,    42,
       43,    46,    47,    50,    58,    73,    77,    83,    84,    85,
       86,    87,    90,    91,    94,    95,    98,   108,   115,   118,
-     119,   122,   127,   134,   138,   157,   184,   188,   200,   204,
-     216,   220,   231,   235,   246,   250,   261,   265,   279,   289,
-     293,   299,   313,   319,   323,   327,   332,   333,   334,   335,
-     336,   341,   342,   343,   344,   347,   348,   352,   353,   354,
-     357,   358,   359
+     119,   122,   127,   134,   138,   156,   183,   187,   199,   203,
+     215,   219,   230,   234,   245,   249,   260,   264,   278,   288,
+     292,   298,   312,   318,   322,   326,   331,   332,   333,   334,
+     335,   340,   341,   342,   343,   346,   347,   351,   352,   353,
+     356,   357,   358
 };
 #endif
 
@@ -1630,7 +1630,6 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 139 "./src/asin.y"
     {
-				mostrarTDS();
 				(yyval.tipo) = T_ERROR;
 				if((yyvsp[(3) - (3)].tipo) != T_ERROR){
 					SIMB sim = obtenerTDS((yyvsp[(1) - (3)].ident)); 
@@ -1651,7 +1650,7 @@ yyreduce:
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 158 "./src/asin.y"
+#line 157 "./src/asin.y"
     {
             // Cuidado con el tipo de array
 				SIMB sim = obtenerTDS((yyvsp[(1) - (6)].ident)); 
@@ -1680,7 +1679,7 @@ yyreduce:
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 185 "./src/asin.y"
+#line 184 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1688,7 +1687,7 @@ yyreduce:
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 189 "./src/asin.y"
+#line 188 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == T_LOGICO && (yyvsp[(3) - (3)].tipo) == T_LOGICO){
 					(yyval.tipo) = T_LOGICO;
@@ -1702,7 +1701,7 @@ yyreduce:
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 201 "./src/asin.y"
+#line 200 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1710,7 +1709,7 @@ yyreduce:
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 205 "./src/asin.y"
+#line 204 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo)){
 					(yyval.tipo) = T_LOGICO;
@@ -1724,7 +1723,7 @@ yyreduce:
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 217 "./src/asin.y"
+#line 216 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1732,7 +1731,7 @@ yyreduce:
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 221 "./src/asin.y"
+#line 220 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo) == T_ENTERO){
 					(yyval.tipo) = T_LOGICO;
@@ -1745,7 +1744,7 @@ yyreduce:
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 232 "./src/asin.y"
+#line 231 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1753,7 +1752,7 @@ yyreduce:
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 236 "./src/asin.y"
+#line 235 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo) == T_ENTERO){
 					(yyval.tipo) = T_ENTERO;
@@ -1766,7 +1765,7 @@ yyreduce:
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 247 "./src/asin.y"
+#line 246 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1774,7 +1773,7 @@ yyreduce:
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 251 "./src/asin.y"
+#line 250 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) != T_ENTERO || (yyvsp[(3) - (3)].tipo) != T_ENTERO){
 					(yyval.tipo) = T_ERROR;
@@ -1787,7 +1786,7 @@ yyreduce:
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 262 "./src/asin.y"
+#line 261 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
 			}
@@ -1795,7 +1794,7 @@ yyreduce:
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 266 "./src/asin.y"
+#line 265 "./src/asin.y"
     {
 				(yyval.tipo) = T_ERROR;
 				if((yyvsp[(2) - (2)].tipo) == T_ENTERO && (yyvsp[(1) - (2)].tipo) != OPMAS_ && (yyvsp[(1) - (2)].tipo) != OPREST_){
@@ -1813,7 +1812,7 @@ yyreduce:
 
   case 48:
 /* Line 1792 of yacc.c  */
-#line 280 "./src/asin.y"
+#line 279 "./src/asin.y"
     {
 				SIMB sim = obtenerTDS((yyvsp[(2) - (2)].ident));
 				(yyval.tipo) = T_ERROR;
@@ -1825,7 +1824,7 @@ yyreduce:
 
   case 49:
 /* Line 1792 of yacc.c  */
-#line 290 "./src/asin.y"
+#line 289 "./src/asin.y"
     {
 				(yyval.tipo) = (yyvsp[(2) - (3)].tipo);
 			}
@@ -1833,7 +1832,7 @@ yyreduce:
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 294 "./src/asin.y"
+#line 293 "./src/asin.y"
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (2)].ident)); (yyval.tipo) = T_ERROR;
 				if (sim.tipo == T_ENTERO) 
@@ -1843,7 +1842,7 @@ yyreduce:
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 300 "./src/asin.y"
+#line 299 "./src/asin.y"
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (4)].ident));
 				(yyval.tipo) = T_ERROR;
@@ -1861,7 +1860,7 @@ yyreduce:
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 314 "./src/asin.y"
+#line 313 "./src/asin.y"
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (1)].ident)); (yyval.tipo) = T_ERROR;
 				if (sim.tipo != T_ERROR) 
@@ -1871,7 +1870,7 @@ yyreduce:
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 320 "./src/asin.y"
+#line 319 "./src/asin.y"
     {
 				(yyval.tipo) = T_ENTERO;
 			}
@@ -1879,7 +1878,7 @@ yyreduce:
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 324 "./src/asin.y"
+#line 323 "./src/asin.y"
     {
 				(yyval.tipo) = T_LOGICO;
             }
@@ -1887,7 +1886,7 @@ yyreduce:
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 328 "./src/asin.y"
+#line 327 "./src/asin.y"
     {
 				(yyval.tipo) = T_LOGICO;
             }
@@ -1895,25 +1894,25 @@ yyreduce:
 
   case 70:
 /* Line 1792 of yacc.c  */
-#line 357 "./src/asin.y"
+#line 356 "./src/asin.y"
     { (yyval.tipo) = OPMAS_; }
     break;
 
   case 71:
 /* Line 1792 of yacc.c  */
-#line 358 "./src/asin.y"
+#line 357 "./src/asin.y"
     { (yyval.tipo) = OPREST_; }
     break;
 
   case 72:
 /* Line 1792 of yacc.c  */
-#line 359 "./src/asin.y"
+#line 358 "./src/asin.y"
     { (yyval.tipo) = NEG_; }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1917 "asin.c"
+#line 1916 "asin.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2145,6 +2144,6 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 368 "./src/asin.y"
+#line 367 "./src/asin.y"
 
 
