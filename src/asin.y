@@ -13,7 +13,7 @@
 	
 	
 }
-%type <tipo> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica
+%type <tipo> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva
 
 %token <ident> ID_ 
 
@@ -158,23 +158,65 @@ expresion: expresionLogica
             ;
             
 expresionLogica: expresionIgualdad
+			{
+				$$ = $1;
+			}
             | expresionLogica operadorLogico expresionIgualdad
             {
-				//TODO
+				if($<tipo>1 == T_LOGICO && $<tipo>3 == T_LOGICO){
+					$$ = T_LOGICO;
+				}else{
+					$$ = T_ERROR;
+					yyerror("Error en expresion logica");
+				}
 				
             }
             ;            
             
 expresionIgualdad: expresionRelacional
+			{
+				$$ = $1;
+			}
 			| expresionIgualdad operadorIgualdad expresionRelacional
+			{
+				if($<tipo>1 == $<tipo>3){
+					$$ = T_LOGICO;
+				}else{
+					$$ = T_ERROR;
+					yyerror("Error en expresion igualdad. Han de ser del mismo tipo");
+				}
+				
+			}
 			;            
                        
 expresionRelacional: expresionAditiva
+			{
+				$$ = $1;
+			}
             | expresionRelacional operadorRelacional expresionAditiva
+			{
+				if($<tipo>1 == $<tipo>3 == T_ENTERO){
+					$$ = T_LOGICO;
+				}else{
+					$$ = T_ERROR;
+					yyerror("Error en expresion relacional. Solo e pueden comparar dos numeros");
+				}
+			}
             ;
             
 expresionAditiva: expresionMultiplicativa 
+			{
+				$$ = $1;
+			}
             | expresionAditiva operadorAditivo expresionMultiplicativa
+            {
+				if($<tipo>1 == $<tipo>3 == T_ENTERO){
+					$$ = T_LOGICO;
+				}else{
+					$$ = T_ERROR;
+					yyerror("Error en expresion aditiva. Solo se pueden usar numeros");
+				}
+            }
             ;            
  
 expresionMultiplicativa: expresionUnaria
