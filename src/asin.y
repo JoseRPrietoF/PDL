@@ -92,6 +92,7 @@ listaInstrucciones: listaInstrucciones instruccion
             ;
             
 instruccionExpresion: expresion FINL_
+				
             | FINL_
             ;            
             
@@ -113,9 +114,17 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			         
 
 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+            {
+				if($<tipo>3 != T_LOGICO)
+					yyerror("La expresion del if debe ser logica");
+			}
             ;
             
 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+			{
+				if($<tipo>3 != T_LOGICO)
+					yyerror("La expresion del elseIf debe ser logica");
+			}
             | ELSE_ instruccion
             ;    
 
