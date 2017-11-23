@@ -9,7 +9,7 @@
   b = a[7] == b;                 // Error en "expresion de igualdad"
   if (a[7] < b )                 // Error en "expresion de relacional"
     a[7] = c;
-  elseif (a[7] >= c)
+  else if (a[7] >= c)
     a[7] *= c;
-  else {};
+  else {}
 }

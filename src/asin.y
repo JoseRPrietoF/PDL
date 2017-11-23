@@ -111,19 +111,16 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 				if($<tipo>3 != T_ENTERO)
 					yyerror("La expresion del print debe ser entera");
 			}
-			         
+			;         
 
 instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
             {
-				if($<tipo>3 != T_LOGICO)
-					yyerror("La expresion del if debe ser logica");
+				
 			}
             ;
             
 restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
 			{
-				if($<tipo>3 != T_LOGICO)
-					yyerror("La expresion del elseIf debe ser logica");
 			}
             | ELSE_ instruccion
             ;    
@@ -136,7 +133,7 @@ instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
 			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
 			{
 				if($<tipo>5 != T_LOGICO)
-					yyerror("La expresion del print debe ser logica");
+					yyerror("La expresion del while debe ser logica");
 			}
 			;            
         
@@ -153,7 +150,7 @@ expresion: expresionLogica
 					if (sim.tipo == T_ERROR) 
 						yyerror("Objeto no declarado");
 					else if($<tipo>3 == T_ARRAY)
-						yyerror("El identificador debe ser de tipo simple");
+						yyerror("La expresion debe ser de tipo simple");
 					else if (! ( (sim.tipo == $<tipo>3 == T_ENTERO) || 
 								 (sim.tipo == $<tipo>3 == T_LOGICO) ) 
 							)
@@ -166,17 +163,17 @@ expresion: expresionLogica
             {
             // Cuidado con el tipo de array
 				SIMB sim = obtenerTDS($1); 
-				$$ = T_ERROR;
+				$<tipo>$ = T_ERROR;
 				
 				if(sim.tipo != T_ARRAY){
 					yyerror("Fallo en expresionSufija, ID_ no es un array");
 				}else
-					if ($3 == T_ENTERO) {
+					if ($<tipo>3 == T_ENTERO) {
 						DIM dim = obtenerInfoArray(sim.ref);
 						
 						if($<tipo>6 != T_ERROR){
 							if($<tipo>6 == dim.telem){
-								$$ = dim.telem;
+								$<tipo>$ = dim.telem;
 							}else{
 								yyerror("La expresion debe ser del mismo tipo que el array");
 							}
