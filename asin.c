@@ -164,7 +164,7 @@ typedef union YYSTYPE
 
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
-	int tipo;
+	Atributos atributos;
 	
 	
 
@@ -1536,7 +1536,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 51 "./src/asin.y"
     {
-				int x = insertarTDS((yyvsp[(2) - (3)].ident), (yyvsp[(1) - (3)].tipo), 0, -1) ;
+				int x = insertarTDS((yyvsp[(2) - (3)].ident), (yyvsp[(1) - (3)].atributos), 0, -1) ;
 				
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
@@ -1551,7 +1551,7 @@ yyreduce:
 				if ((yyvsp[(4) - (6)].cent) <= 0) {
 					yyerror("Talla inapropiada");
 				} else {
-					int refe = insertaTDArray((yyvsp[(1) - (6)].tipo), (yyvsp[(4) - (6)].cent));
+					int refe = insertaTDArray((yyvsp[(1) - (6)].atributos), (yyvsp[(4) - (6)].cent));
 					int x = insertarTDS((yyvsp[(2) - (6)].ident), T_ARRAY, 0, refe) ;
 					
 					if (x == 0){
@@ -1565,7 +1565,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 74 "./src/asin.y"
     {
-				(yyval.tipo) = T_ENTERO;
+				(yyval.atributos) = T_ENTERO;
 			}
     break;
 
@@ -1573,7 +1573,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 78 "./src/asin.y"
     {
-				(yyval.tipo) = T_LOGICO;
+				(yyval.atributos) = T_LOGICO;
 			}
     break;
 
@@ -1637,7 +1637,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 141 "./src/asin.y"
     { 
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1646,7 +1646,7 @@ yyreduce:
 #line 145 "./src/asin.y"
     {
 				(yyval.tipo) = T_ERROR;
-				if((yyvsp[(3) - (3)].tipo) != T_ERROR){
+				if((yyvsp[(3) - (3)].atributos) != T_ERROR){
 					SIMB sim = obtenerTDS((yyvsp[(1) - (3)].ident)); 
 					//mostrarTDS();
 					if (sim.tipo == T_ERROR) 
@@ -1696,7 +1696,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 190 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1705,9 +1705,9 @@ yyreduce:
 #line 194 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == T_LOGICO && (yyvsp[(3) - (3)].tipo) == T_LOGICO){
-					(yyval.tipo) = T_LOGICO;
+					(yyval.atributos) = T_LOGICO;
 				}else{
-					(yyval.tipo) = T_ERROR;
+					(yyval.atributos) = T_ERROR;
 					yyerror("Error en expresion logica");
 				}
 				
@@ -1718,7 +1718,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 206 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1727,9 +1727,9 @@ yyreduce:
 #line 210 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo)){
-					(yyval.tipo) = T_LOGICO;
+					(yyval.atributos) = T_LOGICO;
 				}else{
-					(yyval.tipo) = T_ERROR;
+					(yyval.atributos) = T_ERROR;
 					yyerror("Error en expresion igualdad. Han de ser del mismo tipo");
 				}
 				
@@ -1740,7 +1740,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 222 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1749,9 +1749,9 @@ yyreduce:
 #line 226 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo) == T_ENTERO){
-					(yyval.tipo) = T_LOGICO;
+					(yyval.atributos) = T_LOGICO;
 				}else{
-					(yyval.tipo) = T_ERROR;
+					(yyval.atributos) = T_ERROR;
 					yyerror("Error en expresion relacional. Solo e pueden comparar dos numeros");
 				}
 			}
@@ -1761,7 +1761,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 237 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1770,9 +1770,9 @@ yyreduce:
 #line 241 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) == (yyvsp[(3) - (3)].tipo) == T_ENTERO){
-					(yyval.tipo) = T_ENTERO;
+					(yyval.atributos) = T_ENTERO;
 				}else{
-					(yyval.tipo) = T_ERROR;
+					(yyval.atributos) = T_ERROR;
 					yyerror("Error en expresion aditiva. Solo se pueden usar numeros");
 				}
             }
@@ -1782,7 +1782,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 252 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1791,10 +1791,10 @@ yyreduce:
 #line 256 "./src/asin.y"
     {
 				if((yyvsp[(1) - (3)].tipo) != T_ENTERO || (yyvsp[(3) - (3)].tipo) != T_ENTERO){
-					(yyval.tipo) = T_ERROR;
+					(yyval.atributos) = T_ERROR;
 					yyerror("Error de tipos en expresion multiplicativa");
 				}else{
-					(yyval.tipo) = T_ENTERO;
+					(yyval.atributos) = T_ENTERO;
 				}
 			}
     break;
@@ -1803,7 +1803,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 267 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(1) - (1)].tipo);
+				(yyval.atributos) = (yyvsp[(1) - (1)].atributos);
 			}
     break;
 
@@ -1811,15 +1811,15 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 271 "./src/asin.y"
     {
-				(yyval.tipo) = T_ERROR;
-				if((yyvsp[(2) - (2)].tipo) == T_ENTERO && (yyvsp[(1) - (2)].tipo) != OPMAS_ && (yyvsp[(1) - (2)].tipo) != OPREST_){
+				(yyval.atributos) = T_ERROR;
+				if((yyvsp[(2) - (2)].tipo) == T_ENTERO && (yyvsp[(1) - (2)].atributos) != OPMAS_ && (yyvsp[(1) - (2)].atributos) != OPREST_){
 					yyerror("Error en operadorUnario posittivo/negativo");
 				}
-				else if((yyvsp[(2) - (2)].tipo) == T_LOGICO && (yyvsp[(1) - (2)].tipo) != NEG_){
+				else if((yyvsp[(2) - (2)].tipo) == T_LOGICO && (yyvsp[(1) - (2)].atributos) != NEG_){
 					yyerror("Error en operadorUnario negacion");
 				} else{
-					if((yyvsp[(2) - (2)].tipo) == T_ENTERO) (yyval.tipo) = T_ENTERO;
-					else (yyval.tipo) = T_LOGICO;
+					if((yyvsp[(2) - (2)].tipo) == T_ENTERO) (yyval.atributos) = T_ENTERO;
+					else (yyval.atributos) = T_LOGICO;
 				}
 			
             }
@@ -1832,7 +1832,7 @@ yyreduce:
 				SIMB sim = obtenerTDS((yyvsp[(2) - (2)].ident));
 				(yyval.tipo) = T_ERROR;
 				if (sim.tipo == T_ENTERO)
-					(yyval.tipo) = sim.tipo;
+					(yyval.atributos) = sim.tipo;
 				
             }
     break;
@@ -1841,7 +1841,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 295 "./src/asin.y"
     {
-				(yyval.tipo) = (yyvsp[(2) - (3)].tipo);
+				(yyval.atributos) = (yyvsp[(2) - (3)].atributos);
 			}
     break;
 
@@ -1851,7 +1851,7 @@ yyreduce:
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (2)].ident)); (yyval.tipo) = T_ERROR;
 				if (sim.tipo == T_ENTERO) 
-					(yyval.tipo) = sim.tipo;
+					(yyval.atributos) = sim.tipo;
             }
     break;
 
@@ -1860,15 +1860,15 @@ yyreduce:
 #line 305 "./src/asin.y"
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (4)].ident));
-				(yyval.tipo) = T_ERROR;
+				(yyval.atributos) = T_ERROR;
 				if(sim.tipo != T_ARRAY){
 					
 					yyerror("Fallo en expresionSufija, ID_ no es un array");
 				}
 				(yyval.tipo) = T_ERROR;
-				if ((yyvsp[(3) - (4)].tipo) == T_ENTERO) {
+				if ((yyvsp[(3) - (4)].atributos) == T_ENTERO) {
 					DIM dim = obtenerInfoArray(sim.ref);
-					(yyval.tipo) = dim.telem;
+					(yyval.atributos) = dim.telem;
 				}
             }
     break;
@@ -1879,7 +1879,7 @@ yyreduce:
     {
 				SIMB sim = obtenerTDS((yyvsp[(1) - (1)].ident)); (yyval.tipo) = T_ERROR;
 				if (sim.tipo != T_ERROR) 
-					(yyval.tipo) = sim.tipo;
+					(yyval.atributos) = sim.tipo;
             }
     break;
 
@@ -1887,7 +1887,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 325 "./src/asin.y"
     {
-				(yyval.tipo) = T_ENTERO;
+				(yyval.atributos) = T_ENTERO;
 			}
     break;
 
@@ -1895,7 +1895,7 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 329 "./src/asin.y"
     {
-				(yyval.tipo) = T_LOGICO;
+				(yyval.atributos) = T_LOGICO;
             }
     break;
 
@@ -1903,26 +1903,26 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 333 "./src/asin.y"
     {
-				(yyval.tipo) = T_LOGICO;
+				(yyval.atributos) = T_LOGICO;
             }
     break;
 
   case 70:
 /* Line 1792 of yacc.c  */
 #line 362 "./src/asin.y"
-    { (yyval.tipo) = OPMAS_; }
+    { (yyval.atributos) = OPMAS_; }
     break;
 
   case 71:
 /* Line 1792 of yacc.c  */
 #line 363 "./src/asin.y"
-    { (yyval.tipo) = OPREST_; }
+    { (yyval.atributos) = OPREST_; }
     break;
 
   case 72:
 /* Line 1792 of yacc.c  */
 #line 364 "./src/asin.y"
-    { (yyval.tipo) = NEG_; }
+    { (yyval.atributos) = NEG_; }
     break;
 
 

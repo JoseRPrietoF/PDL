@@ -103,7 +103,7 @@ typedef union YYSTYPE
 
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
-	int tipo;
+	Atributos atributos;
 	
 	
 

@@ -9,11 +9,11 @@
 %union {
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
-	int tipo;
+	Atributos atributos;
 	
 	
 }
-%type <tipo> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
+%type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
 
 %token <ident> ID_ 
 
