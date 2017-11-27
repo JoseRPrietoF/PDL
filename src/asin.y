@@ -4,6 +4,7 @@
  #include "libtds.h"
  #include "libgci.h"
  int numErrores ;
+ 
 %}
 %error-verbose
 
@@ -11,12 +12,12 @@
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
 	Atributos atributos;
-	
+	int op;
 	
 }
 %type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
 
-operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo
+%type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo
 
 %token <ident> ID_ 
 
@@ -26,7 +27,7 @@ operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMul
 NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
-programa: LABIERTA_ secuenciaSentencias LCERRADA_
+programa: LABIERTA_{ dvar = 0;} secuenciaSentencias LCERRADA_
             ;
        
 operadorLogico: AND_AND_
@@ -52,7 +53,7 @@ sentencia: declaracion
             
 declaracion: tipoSimple ID_ FINL_
 			{
-				int x = insertarTDS($2, $1, 0, -1) ;
+				int x = insertarTDS($2, $1.tipo, 0, -1) ;
 				
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
@@ -63,7 +64,7 @@ declaracion: tipoSimple ID_ FINL_
 				if ($4 <= 0) {
 					yyerror("Talla inapropiada");
 				} else {
-					int refe = insertaTDArray($1, $4);
+					int refe = insertaTDArray($1.tipo, $4);
 					int x = insertarTDS($2, T_ARRAY, 0, refe) ;
 					
 					if (x == 0){
@@ -75,11 +76,11 @@ declaracion: tipoSimple ID_ FINL_
             
 tipoSimple: INT_
 			{
-				$$ = T_ENTERO;
+				$$.tipo = T_ENTERO;
 			}
             | BOOL_
             {
-				$$ = T_LOGICO;
+				$$.tipo = T_LOGICO;
 			}
             ;
 
@@ -111,7 +112,7 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			}
 			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
 			{
-				if($<tipo>3 != T_ENTERO)
+				if($3.tipo != T_ENTERO)
 					yyerror("La expresion del print debe ser entera");
 			}
 			;         
@@ -130,12 +131,12 @@ restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
 
 instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
 			{
-				if($<tipo>3 != T_LOGICO)
+				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del while debe ser logica");
 			}
 			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
 			{
-				if($<tipo>5 != T_LOGICO)
+				if($5.tipo != T_LOGICO)
 					yyerror("La expresion del while debe ser logica");
 			}
 			;            
@@ -146,37 +147,37 @@ expresion: expresionLogica
 			}
             | ID_ operadorAsignacion expresion
             {
-				$<tipo>$ = T_ERROR;
-				if($3 != T_ERROR){
+				$$.tipo = T_ERROR;
+				if($3.tipo != T_ERROR){
 					SIMB sim = obtenerTDS($1); 
 					//mostrarTDS();
 					if (sim.tipo == T_ERROR) 
 						yyerror("Objeto no declarado");
-					else if($<tipo>3 == T_ARRAY)
+					else if($3.tipo == T_ARRAY)
 						yyerror("La expresion debe ser de tipo simple");
-					else if (! ( (sim.tipo == $<tipo>3 == T_ENTERO) || 
-								 (sim.tipo == $<tipo>3 == T_LOGICO) ) 
+					else if (! ( (sim.tipo == $3.tipo == T_ENTERO) || 
+								 (sim.tipo == $3.tipo == T_LOGICO) ) 
 							)
 						yyerror("Error de tipos en la 'instrucción de asignación'");
 					else 
-						$<tipo>$ = sim.tipo;
+						$$.tipo = sim.tipo;
 				}
             }
             | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
             {
             // Cuidado con el tipo de array
 				SIMB sim = obtenerTDS($1); 
-				$<tipo>$ = T_ERROR;
+				$$.tipo = T_ERROR;
 				
 				if(sim.tipo != T_ARRAY){
 					yyerror("Fallo en expresionSufija, ID_ no es un array");
 				}else
-					if ($<tipo>3 == T_ENTERO) {
+					if ($3.tipo == T_ENTERO) {
 						DIM dim = obtenerInfoArray(sim.ref);
 						
-						if($<tipo>6 != T_ERROR){
-							if($<tipo>6 == dim.telem){
-								$<tipo>$ = dim.telem;
+						if($6.tipo != T_ERROR){
+							if($6.tipo == dim.telem){
+								$$.tipo = dim.telem;
 							}else{
 								yyerror("La expresion debe ser del mismo tipo que el array");
 							}
@@ -195,10 +196,10 @@ expresionLogica: expresionIgualdad
 			}
             | expresionLogica operadorLogico expresionIgualdad
             {
-				if($<tipo>1 == T_LOGICO && $<tipo>3 == T_LOGICO){
-					$$ = T_LOGICO;
+				if($1.tipo == T_LOGICO && $3.tipo == T_LOGICO){
+					$$.tipo = T_LOGICO;
 				}else{
-					$$ = T_ERROR;
+					$$.tipo = T_ERROR;
 					yyerror("Error en expresion logica");
 				}
 				
@@ -211,10 +212,10 @@ expresionIgualdad: expresionRelacional
 			}
 			| expresionIgualdad operadorIgualdad expresionRelacional
 			{
-				if($<tipo>1 == $<tipo>3){
-					$$ = T_LOGICO;
+				if($1.tipo == $3.tipo){
+					$$.tipo = T_LOGICO;
 				}else{
-					$$ = T_ERROR;
+					$$.tipo = T_ERROR;
 					yyerror("Error en expresion igualdad. Han de ser del mismo tipo");
 				}
 				
@@ -227,10 +228,10 @@ expresionRelacional: expresionAditiva
 			}
             | expresionRelacional operadorRelacional expresionAditiva
 			{
-				if($<tipo>1 == $<tipo>3 == T_ENTERO){
-					$$ = T_LOGICO;
+				if($1.tipo == $3.tipo == T_ENTERO){
+					$$.tipo = T_LOGICO;
 				}else{
-					$$ = T_ERROR;
+					$$.tipo = T_ERROR;
 					yyerror("Error en expresion relacional. Solo e pueden comparar dos numeros");
 				}
 			}
@@ -239,15 +240,23 @@ expresionRelacional: expresionAditiva
 expresionAditiva: expresionMultiplicativa 
 			{
 				$$ = $1;
+				
 			}
             | expresionAditiva operadorAditivo expresionMultiplicativa
             {
-				if($<tipo>1 == $<tipo>3 == T_ENTERO){
-					$$ = T_ENTERO;
+				if($1.tipo == $3.tipo == T_ENTERO){
+					$$.tipo = T_ENTERO;
 				}else{
-					$$ = T_ERROR;
+					$$.tipo = T_ERROR;
 					yyerror("Error en expresion aditiva. Solo se pueden usar numeros");
 				}
+				
+				/** Generacion de codigo intermedio*/
+				
+				$$.pos = creaVarTemp();
+				/*************** Expresion a partir de un operador aritmetico */
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+				
             }
             ;            
  
@@ -257,11 +266,11 @@ expresionMultiplicativa: expresionUnaria
 			}
 			| expresionMultiplicativa operadorMultiplicativo expresionUnaria
 			{
-				if($<tipo>1 != T_ENTERO || $<tipo>3 != T_ENTERO){
-					$$ = T_ERROR;
+				if($1.tipo != T_ENTERO || $3.tipo != T_ENTERO){
+					$$.tipo = T_ERROR;
 					yyerror("Error de tipos en expresion multiplicativa");
 				}else{
-					$$ = T_ENTERO;
+					$$.tipo = T_ENTERO;
 				}
 			}
 			; 
@@ -272,24 +281,24 @@ expresionUnaria: expresionSufija
 			}
             | operadorUnario expresionUnaria
             {
-				$$ = T_ERROR;
-				if($<tipo>2 == T_ENTERO && $1 != OPMAS_ && $1 != OPREST_){
+				$$.tipo = T_ERROR;
+				if($2.tipo == T_ENTERO && $1 != OPMAS_ && $1 != OPREST_){
 					yyerror("Error en operadorUnario posittivo/negativo");
 				}
-				else if($<tipo>2 == T_LOGICO && $1 != NEG_){
+				else if($2.tipo == T_LOGICO && $1 != NEG_){
 					yyerror("Error en operadorUnario negacion");
 				} else{
-					if($<tipo>2 == T_ENTERO) $$ = T_ENTERO;
-					else $$ = T_LOGICO;
+					if($2.tipo == T_ENTERO) $$.tipo = T_ENTERO;
+					else $$.tipo = T_LOGICO;
 				}
 			
             }
             | operadorIncremento ID_
             {
 				SIMB sim = obtenerTDS($2);
-				$<tipo>$ = T_ERROR;
+				$$.tipo = T_ERROR;
 				if (sim.tipo == T_ENTERO)
-					$$ = sim.tipo;
+					$$.tipo = sim.tipo;
 				
             }
             ;
@@ -300,41 +309,41 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
 			}
             | ID_ operadorIncremento
             {
-				SIMB sim = obtenerTDS($1); $<tipo>$ = T_ERROR;
+				SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
 				if (sim.tipo == T_ENTERO) 
-					$$ = sim.tipo;
+					$$.tipo = sim.tipo;
             }
             | ID_ CORA_ expresion CORC_
             {
 				SIMB sim = obtenerTDS($1);
-				$$ = T_ERROR;
+				$$.tipo = T_ERROR;
 				if(sim.tipo != T_ARRAY){
 					
 					yyerror("Fallo en expresionSufija, ID_ no es un array");
 				}
-				$<tipo>$ = T_ERROR;
-				if ($3 == T_ENTERO) {
+				$$.tipo = T_ERROR;
+				if ($3.tipo == T_ENTERO) {
 					DIM dim = obtenerInfoArray(sim.ref);
-					$$ = dim.telem;
+					$$.tipo = dim.telem;
 				}
             }
             | ID_ 
             {
-				SIMB sim = obtenerTDS($1); $<tipo>$ = T_ERROR;
+				SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
 				if (sim.tipo != T_ERROR) 
-					$$ = sim.tipo;
+					$$.tipo = sim.tipo;
             }
             | CTE_ 
             {
-				$$ = T_ENTERO;
+				$$.tipo = T_ENTERO;
 			}
             | TRUE_ 
             {
-				$$ = T_LOGICO;
+				$$.tipo = T_LOGICO;
             }
             | FALSE_
             {
-				$$ = T_LOGICO;
+				$$.tipo = T_LOGICO;
             }
             ;
 operadorAsignacion: ASIG_ {$$ = EIGUAL; }

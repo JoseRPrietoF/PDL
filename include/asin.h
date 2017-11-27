@@ -98,12 +98,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 10 "./src/asin.y" /* yacc.c:1909  */
+#line 11 "./src/asin.y" /* yacc.c:1909  */
 
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
 	Atributos atributos;
-	
+	int op;
 	
 
 #line 110 "asin.h" /* yacc.c:1909  */
