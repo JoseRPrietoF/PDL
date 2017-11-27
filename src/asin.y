@@ -2,6 +2,7 @@
  #include <stdio.h>
  #include "header.h"
  #include "libtds.h"
+ #include "libgci.h"
  int numErrores ;
 %}
 %error-verbose
@@ -13,7 +14,9 @@
 	
 	
 }
-%type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria operadorUnario expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
+%type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
+
+operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo
 
 %token <ident> ID_ 
 
@@ -334,40 +337,35 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
 				$$ = T_LOGICO;
             }
             ;
-operadorAsignacion: ASIG_ 
-            | OPMAS_ASIG_ 
-            | OPREST_ASIG_ 
-            | OPMULT_ASIG_ 
-            | OPDIV_ASIG_ 
+operadorAsignacion: ASIG_ {$$ = EIGUAL; }
+            | OPMAS_ASIG_ {$$ = ESUM; }
+            | OPREST_ASIG_ {$$ = EDIF; }
+            | OPMULT_ASIG_ {$$ = EMULT; }
+            | OPDIV_ASIG_ {$$ = EDIVI; }
             ;         
                        
 
             
-operadorRelacional: MAYQ_ 
-            | MENQ_ 
-            | MAYQ_ASIG_ 
-            | MENQ_ASIG_ 
+operadorRelacional: MAYQ_ {$$ = EMAY; }
+            | MENQ_  {$$ = EMAY; }
+            | MAYQ_ASIG_  {$$ = EMAYEQ; }
+            | MENQ_ASIG_  {$$ = EMENEQ; }
             ;
             
-operadorAditivo: OPMAS_
-            | OPREST_
+operadorAditivo: OPMAS_ {$$ = ESUM; }
+            | OPREST_ {$$ = EDIF; }
             ;
     
 
-operadorMultiplicativo: OPMULT_
-            | OPDIV_
-            | OPMOD_
+operadorMultiplicativo: OPMULT_ {$$ = EMULT; }
+            | OPDIV_ {$$ = EDIVI; }
+            | OPMOD_ {$$ =  RESTO; }
             ;
             
-operadorUnario: OPMAS_ { $$ = OPMAS_; }
-            | OPREST_ { $$ = OPREST_; }
-            | NEG_ { $$ = NEG_; }
+operadorUnario: OPMAS_ { $$ = ESUM; }
+            | OPREST_ { $$ = EDIF; }
+            | NEG_ { $$ = EDIST; }
             ;
-
-
-
-
-	
 
 
 %%
