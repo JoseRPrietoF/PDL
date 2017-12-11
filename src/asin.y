@@ -54,7 +54,7 @@ sentencia: declaracion
 declaracion: tipoSimple ID_ FINL_
 			{
 				int x = insertarTDS($2, $1.tipo, 0, -1) ;
-				
+				dvar++;
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
 				}
@@ -66,7 +66,7 @@ declaracion: tipoSimple ID_ FINL_
 				} else {
 					int refe = insertaTDArray($1.tipo, $4);
 					int x = insertarTDS($2, T_ARRAY, 0, refe) ;
-					
+					dvar++;					
 					if (x == 0){
 						yyerror("Esta variable ya ha sido declarada en la TDS");
 					} 
@@ -202,7 +202,9 @@ expresionLogica: expresionIgualdad
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion logica");
 				}
-				
+				$$.pos = creaVarTemp();
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+	
             }
             ;            
             
@@ -218,7 +220,9 @@ expresionIgualdad: expresionRelacional
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion igualdad. Han de ser del mismo tipo");
 				}
-				
+				$$.pos = creaVarTemp();
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+	
 			}
 			;            
                        
@@ -234,6 +238,10 @@ expresionRelacional: expresionAditiva
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion relacional. Solo e pueden comparar dos numeros");
 				}
+
+				$$.pos = creaVarTemp();
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+	
 			}
             ;
             
@@ -272,6 +280,10 @@ expresionMultiplicativa: expresionUnaria
 				}else{
 					$$.tipo = T_ENTERO;
 				}
+				$$.pos = creaVarTemp();
+				/*************** Expresion a partir de un operador aritmetico */
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+	
 			}
 			; 
             
