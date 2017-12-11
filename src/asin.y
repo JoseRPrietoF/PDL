@@ -27,7 +27,11 @@
 NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
-programa: LABIERTA_{ dvar = 0;} secuenciaSentencias LCERRADA_
+programa: LABIERTA_{ dvar = 0;} secuenciaSentencias
+{ 
+//vuelcaCodigo() hay que ver el parametro
+} 
+LCERRADA_
             ;
        
 operadorLogico: AND_AND_
@@ -38,8 +42,8 @@ operadorIgualdad: ASIG_ASIG_
             | NEG_ASIG_
             ;   
 
-operadorIncremento: OPMAS_OPMAS_
-            | OPREST_OPREST_
+operadorIncremento: OPMAS_OPMAS_ { $$ = ESUM;}
+            | OPREST_OPREST_ {$$ = EDIF;}
             ;
 
 
@@ -288,62 +292,76 @@ expresionMultiplicativa: expresionUnaria
 			; 
             
 expresionUnaria: expresionSufija
-			{
-				$$ = $1;
-			}
+            {
+              $$ = $1;
+            }
             | operadorUnario expresionUnaria
             {
-				$$.tipo = T_ERROR;
-				if($2.tipo == T_ENTERO && $1 != OPMAS_ && $1 != OPREST_){
-					yyerror("Error en operadorUnario posittivo/negativo");
-				}
-				else if($2.tipo == T_LOGICO && $1 != NEG_){
-					yyerror("Error en operadorUnario negacion");
-				} else{
-					if($2.tipo == T_ENTERO) $$.tipo = T_ENTERO;
-					else $$.tipo = T_LOGICO;
-				}
+              $$.tipo = T_ERROR;
+              if($2.tipo == T_ENTERO && $1 != OPMAS_ && $1 != OPREST_){
+                yyerror("Error en operadorUnario posittivo/negativo");
+              }
+              else if($2.tipo == T_LOGICO && $1 != NEG_){
+                yyerror("Error en operadorUnario negacion");
+              } else{
+                if($2.tipo == T_ENTERO) $$.tipo = T_ENTERO;
+                else $$.tipo = T_LOGICO;
+              }
 			
             }
             | operadorIncremento ID_
+            
             {
-				SIMB sim = obtenerTDS($2);
-				$$.tipo = T_ERROR;
-				if (sim.tipo == T_ENTERO)
-					$$.tipo = sim.tipo;
-				
+              SIMB sim = obtenerTDS($2);
+              $$.tipo = T_ERROR;
+              if (sim.tipo == T_ENTERO)
+                $$.tipo = sim.tipo;
+                
+              emite($2, crArgPos(sim.pos), crArgEnt(1), crArgPos(sim.pos));
+              
+              emite(EASIG, crArgPos(sim.pos), crArgNul(), crArgPos($$.pos));
             }
             ;
 
 expresionSufija: PABIERTO_ expresion PCERRADO_
-			{
-				$$ = $2;
-			}
+            {
+              $$ = $2;
+            }
             | ID_ operadorIncremento
             {
-				SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
-				if (sim.tipo == T_ENTERO) 
-					$$.tipo = sim.tipo;
+              SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
+              if (sim.tipo == T_ENTERO) 
+                $$.tipo = sim.tipo;
+              
+              $$.pos = creaVarTemp();
+              
+              emite(EASIG, crArgPos(sim.pos), crArgNul(), crArgPos($$.pos));
+              
+              emite($2, crArgPos(sim.pos), crArgEnt(1), crArgPos(sim.pos));
+              
             }
-            | ID_ CORA_ expresion CORC_
-            {
-				SIMB sim = obtenerTDS($1);
-				$$.tipo = T_ERROR;
-				if(sim.tipo != T_ARRAY){
-					
-					yyerror("Fallo en expresionSufija, ID_ no es un array");
-				}
-				$$.tipo = T_ERROR;
-				if ($3.tipo == T_ENTERO) {
-					DIM dim = obtenerInfoArray(sim.ref);
-					$$.tipo = dim.telem;
-				}
-            }
+            
+                
+                
+                | ID_ CORA_ expresion CORC_ // TODO nos hemos quedado buscando en posiciones de array
+                {
+                  SIMB sim = obtenerTDS($1);
+                  $$.tipo = T_ERROR;
+                  if(sim.tipo != T_ARRAY){
+                    
+                    yyerror("Fallo en expresionSufija, ID_ no es un array");
+                  }
+                  $$.tipo = T_ERROR;
+                  if ($3.tipo == T_ENTERO) {
+                    DIM dim = obtenerInfoArray(sim.ref);
+                    $$.tipo = dim.telem;
+                  }
+                }
             | ID_ 
             {
-				SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
-				if (sim.tipo != T_ERROR) 
-					$$.tipo = sim.tipo;
+            SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
+            if (sim.tipo != T_ERROR) 
+              $$.tipo = sim.tipo;
             }
             | CTE_ 
             {
