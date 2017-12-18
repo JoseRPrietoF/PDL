@@ -19,6 +19,7 @@ extern char *yytext;
 typedef struct{
 	int tipo;
 	int pos;
+	int fin;
 } Atributos;
 
 /********************* Variables externas definidas en el Programa Principal */

@@ -133,16 +133,34 @@ restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
             | ELSE_ instruccion
             ;    
 
-instruccionIteracion: WHILE_ PABIERTO_ expresion PCERRADO_ instruccion
-			{
-				if($3.tipo != T_LOGICO)
-					yyerror("La expresion del while debe ser logica");
-			}
-			| DO_ instruccion WHILE_ PABIERTO_ expresion PCERRADO_
-			{
-				if($5.tipo != T_LOGICO)
-					yyerror("La expresion del while debe ser logica");
-			}
+instruccionIteracion: WHILE_ PABIERTO_
+					expresion {
+							if($3.tipo != T_LOGICO)
+								yyerror("La expresion del while debe ser logica");
+							else{
+								$$.fin = CreaLans(SIGINST);
+								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
+							}
+						}
+					 PCERRADO_ {
+						 completaLans($$.fin, SIGINST);
+					 }
+					 
+					 instruccion {
+						 emite(GOTOS, crArgNul(), crArgNul(), $$.fin);
+						 completaLans($$.fin, SIGINST);
+					 }
+					 
+			| DO_ {$$.fin = SIGINST;}
+					instruccion 
+					WHILE_ PABIERTO_ expresion PCERRADO_{
+							if($5.tipo != T_LOGICO)
+								yyerror("La expresion del while debe ser logica");
+							else{
+								
+								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),$$.fin);
+							}
+					}
 			;            
         
 expresion: expresionLogica
@@ -182,6 +200,12 @@ expresion: expresionLogica
 						if($6.tipo != T_ERROR){
 							if($6.tipo == dim.telem){
 								$$.tipo = dim.telem;
+								
+								// Generacion de codigo intermedio
+								
+								
+								emite(EVA, crArgPos(sim.pos), crArgPos($3.pos), crArgPos($6.pos));
+								
 							}else{
 								yyerror("La expresion debe ser del mismo tipo que el array");
 							}
@@ -304,8 +328,17 @@ expresionUnaria: expresionSufija
               else if($2.tipo == T_LOGICO && $1 != NEG_){
                 yyerror("Error en operadorUnario negacion");
               } else{
-                if($2.tipo == T_ENTERO) $$.tipo = T_ENTERO;
+                if($2.tipo == T_ENTERO){ 
+					$$.tipo = T_ENTERO;
+					
+					if($1 == OPREST_){
+						$$.pos = creaVarTemp();
+						emite(ESIG, crArgPos($1.pos), crArgNul(), crArgPos($$.pos));
+					}
+				}
                 else $$.tipo = T_LOGICO;
+                
+                
               }
 			
             }
@@ -343,7 +376,7 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             
                 
                 
-                | ID_ CORA_ expresion CORC_ // TODO nos hemos quedado buscando en posiciones de array
+                | ID_ CORA_ expresion CORC_ 
                 {
                   SIMB sim = obtenerTDS($1);
                   $$.tipo = T_ERROR;
@@ -355,6 +388,10 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
                   if ($3.tipo == T_ENTERO) {
                     DIM dim = obtenerInfoArray(sim.ref);
                     $$.tipo = dim.telem;
+                    
+                    // Generacion de codigo intermedio
+                    emite(EAV, crArgPos(sim.pos), crArgPos($3.pos), crArgPos($$.pos));
+                    
                   }
                 }
             | ID_ 
@@ -370,10 +407,12 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             | TRUE_ 
             {
 				$$.tipo = T_LOGICO;
+				$$ = 1;
             }
             | FALSE_
             {
 				$$.tipo = T_LOGICO;
+				$$ = 0;
             }
             ;
 operadorAsignacion: ASIG_ {$$ = EIGUAL; }
