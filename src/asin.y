@@ -119,6 +119,7 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			{
 				if($3.tipo != T_ENTERO)
 					yyerror("La expresion del print debe ser entera");
+				emite(EWRITE, crArgNul(), crArgNul(), crArgPos($3.pos));
 			}
 			;         
 
