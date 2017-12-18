@@ -28,10 +28,14 @@ NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
 programa: LABIERTA_{ dvar = 0;} secuenciaSentencias
-{ 
-//vuelcaCodigo() hay que ver el parametro
-} 
-LCERRADA_
+			{ 
+			//vuelcaCodigo() hay que ver el parametro
+			} 
+			LCERRADA_
+			{
+				emite(FIN, crArgNul(), crArgNul(), crArgNul());
+
+			}
             ;
        
 operadorLogico: AND_AND_
