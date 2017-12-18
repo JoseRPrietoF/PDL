@@ -107,12 +107,13 @@ instruccionExpresion: expresion FINL_
 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			{
 				SIMB sim = obtenerTDS($3); 
-					//mostrarTDS();
-					if (sim.tipo == T_ERROR) 
-						yyerror("Objeto no declarado");
-					else if(sim.tipo != T_ENTERO)
-						yyerror("El argumento del read debe ser entero");
+				//mostrarTDS();
+				if (sim.tipo == T_ERROR) 
+					yyerror("Objeto no declarado");
+				else if(sim.tipo != T_ENTERO)
+					yyerror("El argumento del read debe ser entero");
 					
+				emite(EREAD, crArgNul(), crArgNul(), crArgPos(sim.desp));
 			}
 			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
 			{
@@ -121,17 +122,45 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			}
 			;         
 
-instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
+instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
+			{
+				if($3.tipo != T_LOGICO)
+					yyerror("La expresion del IF debe ser logica");
+				else{
+					$$.fin = CreaLans(SIGINST); 
+					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
+				}
+				
+			}
+				instruccion 
+			{
+				$$.fin = CreaLans(SIGINST);
+				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
+				completaLans($$.fin, SIGINST);
+			}
+				restoIf
             {
 				
 			}
             ;
             
-restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_ instruccion restoIf
-			{
-			}
-            | ELSE_ instruccion
-            ;    
+restoIf: ELSEIF_ PABIERTO_ expresion 
+		 {
+				if($3.tipo != T_LOGICO)
+					yyerror("La expresion del ELSEIF debe ser logica");
+				else{
+					$$.fin = CreaLans(SIGINST);
+					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
+				}
+		 }
+		 PCERRADO_ instruccion restoIf
+		 {
+		 }
+         | ELSE_ instruccion
+         {
+			    completaLans($$.fin, SIGINST); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
+	     }
+         ;    
 
 instruccionIteracion: WHILE_ PABIERTO_
 					expresion {
