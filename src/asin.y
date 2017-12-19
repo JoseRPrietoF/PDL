@@ -15,9 +15,9 @@
 	int op;
 	
 }
-%type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva 
-
-%type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo
+%type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva
+%type <atributos> instruccionSeleccion restoIf instruccionIteracion
+%type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento
 
 %token <ident> ID_ 
 
@@ -27,14 +27,10 @@
 NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
-programa: LABIERTA_{ dvar = 0;} secuenciaSentencias
-			{ 
-			//vuelcaCodigo() hay que ver el parametro
-			} 
-			LCERRADA_
+programa: LABIERTA_{ dvar = 0;} secuenciaSentencias LCERRADA_
 			{
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
-
+				vuelcaCodigo("fichero"); //hay que ver el parametro
 			}
             ;
        
@@ -145,7 +141,7 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 			}
 				restoIf
             {
-				
+				completaLans($$.fin, SIGINST);
 			}
             ;
             
@@ -158,12 +154,19 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
 				}
 		 }
-		 PCERRADO_ instruccion restoIf
+		 PCERRADO_ instruccion
 		 {
+				$$.fin = CreaLans(SIGINST);
+				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
+				completaLans($$.fin, SIGINST);
+		 }
+		 restoIf
+		 {
+				completaLans($$.fin, SIGINST);
 		 }
          | ELSE_ instruccion
          {
-			    completaLans($$.fin, SIGINST); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
+			    //completaLans($$.fin, SIGINST); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
 	     }
          ;    
 
