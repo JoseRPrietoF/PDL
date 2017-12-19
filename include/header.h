@@ -20,6 +20,7 @@ typedef struct{
 	int tipo;
 	int pos;
 	int fin;
+	int valor;
 } Atributos;
 
 /********************* Variables externas definidas en el Programa Principal */

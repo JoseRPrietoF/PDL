@@ -1,16 +1,8 @@
-// Ejemplo del uso de operadores logicos
-{ 
-	int a;
-	int b;
-	bool c;
-	
-		if(c){
-			a = c;
-		}
-		elseif(a + b){
-			b = a++;
-		}
-		else{
-			a = a + c;
-		}
+// Ejemplo sencillo del uso de operadores aritmeticos.
+// Debe devolver el mismo numero elevado al cuadrado
+{ int a;
+
+  read(a); 
+  a = a + 4;
+  print(a);
 }

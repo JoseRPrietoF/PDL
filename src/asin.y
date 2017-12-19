@@ -18,8 +18,8 @@
 %type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva
 %type <atributos> instruccionSeleccion restoIf instruccionIteracion
 %type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento operadorLogico operadorIgualdad
-
-%token <ident> ID_ 
+%type <ident> programa
+%token <ident> ID_
 
 %token <cent>  CTE_ TRUE_ FALSE_ LEER_ 
 
@@ -29,8 +29,9 @@ NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 
 programa: LABIERTA_{ dvar = 0; si = 0 ;} secuenciaSentencias LCERRADA_
 			{
+				$$ = "nombre_del_fichero";
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
-				vuelcaCodigo("fichero"); //hay que ver el parametro
+				volcarCodigo($$); //hay que ver el parametro
 			}
             ;
        
@@ -128,20 +129,20 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del IF debe ser logica");
 				else{
-					$$.fin = creaLans(si); 
+					$<atributos>$.fin = creaLans(si); 
 					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
 				}
 				
 			}
 				instruccion 
 			{
-				$$.fin = creaLans(si);
+				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($$.fin, si);
+				completaLans($<atributos>$.fin, crArgEnt(si));
 			}
 				restoIf
             {
-				completaLans($$.fin, si);
+				completaLans($$.fin, crArgEnt(si));
 			}
             ;
             
@@ -150,19 +151,19 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del ELSEIF debe ser logica");
 				else{
-					$$.fin = creaLans(si);
+					$<atributos>$.fin = creaLans(si);
 					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
 				}
 		 }
 		 PCERRADO_ instruccion
 		 {
-				$$.fin = creaLans(si);
+				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($$.fin, si);
+				completaLans($<atributos>$.fin, crArgEnt(si));
 		 }
 		 restoIf
 		 {
-				completaLans($$.fin, si);
+				completaLans($$.fin, crArgEnt(si));
 		 }
          | ELSE_ instruccion
          {
@@ -175,27 +176,27 @@ instruccionIteracion: WHILE_ PABIERTO_
 							if($3.tipo != T_LOGICO)
 								yyerror("La expresion del while debe ser logica");
 							else{
-								$$.fin = creaLans(si);
+								$<atributos>$.fin = creaLans(si);
 								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
 							}
 						}
 					 PCERRADO_ {
-						 completaLans($$.fin, si);
+						 completaLans($<atributos>$.fin, crArgEnt(si));
 					 }
 					 
 					 instruccion {
-						 emite(GOTOS, crArgNul(), crArgNul(), $$.fin);
-						 completaLans($$.fin, si);
+						 emite(GOTOS, crArgNul(), crArgNul(),crArgPos($$.fin));
+						 completaLans($$.fin, crArgEnt(si));
 					 }
 					 
-			| DO_ {$$.fin = si;}
+			| DO_ {$<atributos>$.fin = si;}
 					instruccion 
 					WHILE_ PABIERTO_ expresion PCERRADO_{
-							if($5.tipo != T_LOGICO)
+							if($<atributos>5.tipo != T_LOGICO)
 								yyerror("La expresion del while debe ser logica");
 							else{
 								
-								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),$$.fin);
+								emite(EIGUAL,crArgEnt($<atributos>3.pos),crArgEnt(0),crArgPos($$.fin));
 							}
 					}
 			;            
@@ -241,7 +242,7 @@ expresion: expresionLogica
 								// Generacion de codigo intermedio
 								
 								
-								emite(EVA, crArgPos(sim.pos), crArgPos($3.pos), crArgPos($6.pos));
+								emite(EVA, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($6.pos));
 								
 							}else{
 								yyerror("La expresion debe ser del mismo tipo que el array");
@@ -370,7 +371,7 @@ expresionUnaria: expresionSufija
 					
 					if($1 == OPREST_){
 						$$.pos = creaVarTemp();
-						emite(ESIG, crArgPos($1.pos), crArgNul(), crArgPos($$.pos));
+						emite(ESIG, crArgPos($2.pos), crArgNul(), crArgPos($$.pos));
 					}
 				}
                 else $$.tipo = T_LOGICO;
@@ -387,9 +388,9 @@ expresionUnaria: expresionSufija
               if (sim.tipo == T_ENTERO)
                 $$.tipo = sim.tipo;
                 
-              emite($2, crArgPos(sim.pos), crArgEnt(1), crArgPos(sim.pos));
+              emite($2, crArgPos(sim.desp), crArgEnt(1), crArgPos(sim.desp));
               
-              emite(EASIG, crArgPos(sim.pos), crArgNul(), crArgPos($$.pos));
+              emite(EASIG, crArgPos(sim.desp), crArgNul(), crArgPos($$.pos));
             }
             ;
 
@@ -405,9 +406,9 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
               
               $$.pos = creaVarTemp();
               
-              emite(EASIG, crArgPos(sim.pos), crArgNul(), crArgPos($$.pos));
+              emite(EASIG, crArgPos(sim.desp), crArgNul(), crArgPos($$.pos));
               
-              emite($2, crArgPos(sim.pos), crArgEnt(1), crArgPos(sim.pos));
+              emite($2, crArgPos(sim.desp), crArgEnt(1), crArgPos(sim.desp));
               
             }
             
@@ -427,7 +428,7 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
                     $$.tipo = dim.telem;
                     
                     // Generacion de codigo intermedio
-                    emite(EAV, crArgPos(sim.pos), crArgPos($3.pos), crArgPos($$.pos));
+                    emite(EAV, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($$.pos));
                     
                   }
                 }
@@ -444,12 +445,14 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             | TRUE_ 
             {
 				$$.tipo = T_LOGICO;
-				$$ = 1;
+				$$.pos = creaVarTemp();
+				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
             }
             | FALSE_
             {
 				$$.tipo = T_LOGICO;
-				$$ = 0;
+				$$.pos = creaVarTemp();
+				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
             }
             ;
 operadorAsignacion: ASIG_ {$$ = EIGUAL; }
