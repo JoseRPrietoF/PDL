@@ -25,6 +25,7 @@ typedef struct{
 /********************* Variables externas definidas en el Programa Principal */
 extern int verbosidad;              /* Flag para saber si se desea una traza */
 extern int numErrores;              /* Contador del numero de errores        */
-
+/*************************** Variables externas definidas en las librer´ıas ***/
+extern int si; /* Desplazamiento relativo en el Segmento de C´odigo */
 #endif  /* _HEADER_H */
 /*****************************************************************************/

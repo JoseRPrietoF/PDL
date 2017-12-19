@@ -17,7 +17,7 @@
 }
 %type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva
 %type <atributos> instruccionSeleccion restoIf instruccionIteracion
-%type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento
+%type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento operadorLogico operadorIgualdad
 
 %token <ident> ID_ 
 
@@ -27,19 +27,19 @@
 NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 %%
 
-programa: LABIERTA_{ dvar = 0;} secuenciaSentencias LCERRADA_
+programa: LABIERTA_{ dvar = 0; si = 0 ;} secuenciaSentencias LCERRADA_
 			{
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
 				vuelcaCodigo("fichero"); //hay que ver el parametro
 			}
             ;
        
-operadorLogico: AND_AND_
-            | OR_OR_
+operadorLogico: AND_AND_ {$$ = EMULT;}
+            | OR_OR_ {$$ = ESUM;}
             ;
    
-operadorIgualdad: ASIG_ASIG_
-            | NEG_ASIG_
+operadorIgualdad: ASIG_ASIG_ {$$ = EIGUAL;}
+            | NEG_ASIG_ {$$ = EDIST;}
             ;   
 
 operadorIncremento: OPMAS_OPMAS_ { $$ = ESUM;}
@@ -128,20 +128,20 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del IF debe ser logica");
 				else{
-					$$.fin = CreaLans(SIGINST); 
+					$$.fin = creaLans(si); 
 					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
 				}
 				
 			}
 				instruccion 
 			{
-				$$.fin = CreaLans(SIGINST);
+				$$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($$.fin, SIGINST);
+				completaLans($$.fin, si);
 			}
 				restoIf
             {
-				completaLans($$.fin, SIGINST);
+				completaLans($$.fin, si);
 			}
             ;
             
@@ -150,23 +150,23 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del ELSEIF debe ser logica");
 				else{
-					$$.fin = CreaLans(SIGINST);
+					$$.fin = creaLans(si);
 					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
 				}
 		 }
 		 PCERRADO_ instruccion
 		 {
-				$$.fin = CreaLans(SIGINST);
+				$$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($$.fin, SIGINST);
+				completaLans($$.fin, si);
 		 }
 		 restoIf
 		 {
-				completaLans($$.fin, SIGINST);
+				completaLans($$.fin, si);
 		 }
          | ELSE_ instruccion
          {
-			    //completaLans($$.fin, SIGINST); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
+			    //completaLans($$.fin, si); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
 	     }
          ;    
 
@@ -175,20 +175,20 @@ instruccionIteracion: WHILE_ PABIERTO_
 							if($3.tipo != T_LOGICO)
 								yyerror("La expresion del while debe ser logica");
 							else{
-								$$.fin = CreaLans(SIGINST);
+								$$.fin = creaLans(si);
 								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
 							}
 						}
 					 PCERRADO_ {
-						 completaLans($$.fin, SIGINST);
+						 completaLans($$.fin, si);
 					 }
 					 
 					 instruccion {
 						 emite(GOTOS, crArgNul(), crArgNul(), $$.fin);
-						 completaLans($$.fin, SIGINST);
+						 completaLans($$.fin, si);
 					 }
 					 
-			| DO_ {$$.fin = SIGINST;}
+			| DO_ {$$.fin = si;}
 					instruccion 
 					WHILE_ PABIERTO_ expresion PCERRADO_{
 							if($5.tipo != T_LOGICO)
