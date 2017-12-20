@@ -441,6 +441,8 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             | CTE_ 
             {
 				$$.tipo = T_ENTERO;
+				$$.pos = creaVarTemp();
+				emite(EASIG, crArgEnt($1), crArgNul(), crArgPos($$.pos));
 			}
             | TRUE_ 
             {

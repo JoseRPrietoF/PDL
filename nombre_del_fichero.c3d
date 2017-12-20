@@ -1,4 +1,5 @@
   0 EREAD             ,          ,  p:   0  
-  1 ESUM      p:   0  ,  p:   0  ,  p:   1  
-  2 EWRITE            ,          ,  p:   0  
-  3 FIN               ,          ,          
+  1 EASIG     i:   4  ,          ,  p:   1  
+  2 ESUM      p:   0  ,  p:   1  ,  p:   2  
+  3 EWRITE            ,          ,  p:   0  
+  4 FIN               ,          ,          

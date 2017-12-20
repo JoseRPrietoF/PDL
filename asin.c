@@ -492,9 +492,9 @@ static const yytype_uint16 yyrline[] =
      138,   127,   150,   159,   149,   168,   175,   183,   174,   192,
      192,   204,   208,   226,   259,   263,   277,   281,   295,   299,
      314,   319,   337,   341,   356,   360,   383,   397,   401,   417,
-     435,   441,   445,   451,   458,   459,   460,   461,   462,   467,
-     468,   469,   470,   473,   474,   478,   479,   480,   483,   484,
-     485
+     435,   441,   447,   453,   460,   461,   462,   463,   464,   469,
+     470,   471,   472,   475,   476,   480,   481,   482,   485,   486,
+     487
 };
 #endif
 
@@ -1783,7 +1783,7 @@ yyreduce:
 				
 				(yyval.atributos).pos = creaVarTemp();
 				/*************** Expresion a partir de un operador aritmetico */
-				emite(ESUM, crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
+				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
 				
             }
 #line 1790 "asin.c" /* yacc.c:1646  */
@@ -1925,134 +1925,136 @@ yyreduce:
 #line 442 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_ENTERO;
+				(yyval.atributos).pos = creaVarTemp();
+				emite(EASIG, crArgEnt((yyvsp[0].cent)), crArgNul(), crArgPos((yyval.atributos).pos));
 			}
-#line 1930 "asin.c" /* yacc.c:1646  */
+#line 1932 "asin.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 446 "./src/asin.y" /* yacc.c:1646  */
+#line 448 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_LOGICO;
 				(yyval.atributos).pos = creaVarTemp();
 				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos((yyval.atributos).pos));
             }
-#line 1940 "asin.c" /* yacc.c:1646  */
+#line 1942 "asin.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 452 "./src/asin.y" /* yacc.c:1646  */
+#line 454 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_LOGICO;
 				(yyval.atributos).pos = creaVarTemp();
 				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos((yyval.atributos).pos));
             }
-#line 1950 "asin.c" /* yacc.c:1646  */
+#line 1952 "asin.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 458 "./src/asin.y" /* yacc.c:1646  */
+#line 460 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EIGUAL; }
-#line 1956 "asin.c" /* yacc.c:1646  */
+#line 1958 "asin.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 459 "./src/asin.y" /* yacc.c:1646  */
+#line 461 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = ESUM; }
-#line 1962 "asin.c" /* yacc.c:1646  */
+#line 1964 "asin.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 460 "./src/asin.y" /* yacc.c:1646  */
+#line 462 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIF; }
-#line 1968 "asin.c" /* yacc.c:1646  */
+#line 1970 "asin.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 461 "./src/asin.y" /* yacc.c:1646  */
+#line 463 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMULT; }
-#line 1974 "asin.c" /* yacc.c:1646  */
+#line 1976 "asin.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 462 "./src/asin.y" /* yacc.c:1646  */
+#line 464 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIVI; }
-#line 1980 "asin.c" /* yacc.c:1646  */
+#line 1982 "asin.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 467 "./src/asin.y" /* yacc.c:1646  */
+#line 469 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAY; }
-#line 1986 "asin.c" /* yacc.c:1646  */
+#line 1988 "asin.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 468 "./src/asin.y" /* yacc.c:1646  */
+#line 470 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAY; }
-#line 1992 "asin.c" /* yacc.c:1646  */
+#line 1994 "asin.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 469 "./src/asin.y" /* yacc.c:1646  */
+#line 471 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAYEQ; }
-#line 1998 "asin.c" /* yacc.c:1646  */
+#line 2000 "asin.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 470 "./src/asin.y" /* yacc.c:1646  */
+#line 472 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMENEQ; }
-#line 2004 "asin.c" /* yacc.c:1646  */
+#line 2006 "asin.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 473 "./src/asin.y" /* yacc.c:1646  */
+#line 475 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = ESUM; }
-#line 2010 "asin.c" /* yacc.c:1646  */
+#line 2012 "asin.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 474 "./src/asin.y" /* yacc.c:1646  */
+#line 476 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIF; }
-#line 2016 "asin.c" /* yacc.c:1646  */
+#line 2018 "asin.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 478 "./src/asin.y" /* yacc.c:1646  */
+#line 480 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMULT; }
-#line 2022 "asin.c" /* yacc.c:1646  */
+#line 2024 "asin.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 479 "./src/asin.y" /* yacc.c:1646  */
+#line 481 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIVI; }
-#line 2028 "asin.c" /* yacc.c:1646  */
+#line 2030 "asin.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 480 "./src/asin.y" /* yacc.c:1646  */
+#line 482 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) =  RESTO; }
-#line 2034 "asin.c" /* yacc.c:1646  */
+#line 2036 "asin.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 483 "./src/asin.y" /* yacc.c:1646  */
+#line 485 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = ESUM; }
-#line 2040 "asin.c" /* yacc.c:1646  */
+#line 2042 "asin.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 484 "./src/asin.y" /* yacc.c:1646  */
+#line 486 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = EDIF; }
-#line 2046 "asin.c" /* yacc.c:1646  */
+#line 2048 "asin.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 485 "./src/asin.y" /* yacc.c:1646  */
+#line 487 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = EDIST; }
-#line 2052 "asin.c" /* yacc.c:1646  */
+#line 2054 "asin.c" /* yacc.c:1646  */
     break;
 
 
-#line 2056 "asin.c" /* yacc.c:1646  */
+#line 2058 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2280,6 +2282,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 489 "./src/asin.y" /* yacc.c:1906  */
+#line 491 "./src/asin.y" /* yacc.c:1906  */
 
 
