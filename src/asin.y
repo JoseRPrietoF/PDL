@@ -29,9 +29,9 @@ NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 
 programa: LABIERTA_{ dvar = 0; si = 0 ;} secuenciaSentencias LCERRADA_
 			{
-				$$ = "nombre_del_fichero";
+				//$$ = "nombre_del_fichero";
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
-				volcarCodigo($$); //hay que ver el parametro
+				//volcarCodigo($$); //hay que ver el parametro
 			}
             ;
        
@@ -221,6 +221,12 @@ expresion: expresionLogica
 						yyerror("Error de tipos en la 'instrucción de asignación'");
 					else 
 						$$.tipo = sim.tipo;
+					
+					//TODO esta linea es la que falta en la mayoria de expresiones.
+					// todas las expresiones deben de hacer su accion
+					// esta por ejemplo no modificaba la variable
+					// cn este emite ya lo hace.
+					emite(EASIG, crArgPos($3.pos), crArgNul(), crArgPos(sim.desp));
 				}
             }
             | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
@@ -330,6 +336,7 @@ expresionAditiva: expresionMultiplicativa
 				$$.pos = creaVarTemp();
 				/*************** Expresion a partir de un operador aritmetico */
 				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+				mostrarTDS();
 				
             }
             ;            

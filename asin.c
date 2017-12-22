@@ -490,11 +490,11 @@ static const yytype_uint16 yyrline[] =
       51,    52,    55,    56,    59,    67,    82,    86,    92,    93,
       94,    95,    96,    99,   100,   103,   105,   108,   119,   128,
      138,   127,   150,   159,   149,   168,   175,   183,   174,   192,
-     192,   204,   208,   226,   259,   263,   277,   281,   295,   299,
-     314,   319,   337,   341,   356,   360,   383,   397,   401,   417,
-     435,   441,   447,   453,   460,   461,   462,   463,   464,   469,
-     470,   471,   472,   475,   476,   480,   481,   482,   485,   486,
-     487
+     192,   204,   208,   232,   265,   269,   283,   287,   301,   305,
+     320,   325,   344,   348,   363,   367,   390,   404,   408,   424,
+     442,   448,   454,   460,   467,   468,   469,   470,   471,   476,
+     477,   478,   479,   482,   483,   487,   488,   489,   492,   493,
+     494
 };
 #endif
 
@@ -1389,9 +1389,9 @@ yyreduce:
   case 3:
 #line 31 "./src/asin.y" /* yacc.c:1646  */
     {
-				(yyval.ident) = "nombre_del_fichero";
+				//$$ = "nombre_del_fichero";
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
-				volcarCodigo((yyval.ident)); //hay que ver el parametro
+				//volcarCodigo($$); //hay que ver el parametro
 			}
 #line 1397 "asin.c" /* yacc.c:1646  */
     break;
@@ -1647,13 +1647,19 @@ yyreduce:
 						yyerror("Error de tipos en la 'instrucción de asignación'");
 					else 
 						(yyval.atributos).tipo = sim.tipo;
+					
+					//TODO esta linea es la que falta en la mayoria de expresiones.
+					// todas las expresiones deben de hacer su accion
+					// esta por ejemplo no modificaba la variable
+					// cn este emite ya lo hace.
+					emite(EASIG, crArgPos((yyvsp[0].atributos).pos), crArgNul(), crArgPos(sim.desp));
 				}
             }
-#line 1653 "asin.c" /* yacc.c:1646  */
+#line 1659 "asin.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 227 "./src/asin.y" /* yacc.c:1646  */
+#line 233 "./src/asin.y" /* yacc.c:1646  */
     {
             // Cuidado con el tipo de array
 				SIMB sim = obtenerTDS((yyvsp[-5].ident)); 
@@ -1684,19 +1690,19 @@ yyreduce:
 				
 				
             }
-#line 1688 "asin.c" /* yacc.c:1646  */
+#line 1694 "asin.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 260 "./src/asin.y" /* yacc.c:1646  */
+#line 266 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos) = (yyvsp[0].atributos);
 			}
-#line 1696 "asin.c" /* yacc.c:1646  */
+#line 1702 "asin.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 264 "./src/asin.y" /* yacc.c:1646  */
+#line 270 "./src/asin.y" /* yacc.c:1646  */
     {
 				if((yyvsp[-2].atributos).tipo == T_LOGICO && (yyvsp[0].atributos).tipo == T_LOGICO){
 					(yyval.atributos).tipo = T_LOGICO;
@@ -1708,19 +1714,19 @@ yyreduce:
 				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
 	
             }
-#line 1712 "asin.c" /* yacc.c:1646  */
+#line 1718 "asin.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 278 "./src/asin.y" /* yacc.c:1646  */
+#line 284 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos) = (yyvsp[0].atributos);
 			}
-#line 1720 "asin.c" /* yacc.c:1646  */
+#line 1726 "asin.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 282 "./src/asin.y" /* yacc.c:1646  */
+#line 288 "./src/asin.y" /* yacc.c:1646  */
     {
 				if((yyvsp[-2].atributos).tipo == (yyvsp[0].atributos).tipo){
 					(yyval.atributos).tipo = T_LOGICO;
@@ -1732,19 +1738,19 @@ yyreduce:
 				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
 	
 			}
-#line 1736 "asin.c" /* yacc.c:1646  */
+#line 1742 "asin.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 296 "./src/asin.y" /* yacc.c:1646  */
+#line 302 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos) = (yyvsp[0].atributos);
 			}
-#line 1744 "asin.c" /* yacc.c:1646  */
+#line 1750 "asin.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 300 "./src/asin.y" /* yacc.c:1646  */
+#line 306 "./src/asin.y" /* yacc.c:1646  */
     {
 				if((yyvsp[-2].atributos).tipo == (yyvsp[0].atributos).tipo == T_ENTERO){
 					(yyval.atributos).tipo = T_LOGICO;
@@ -1757,20 +1763,20 @@ yyreduce:
 				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
 	
 			}
-#line 1761 "asin.c" /* yacc.c:1646  */
+#line 1767 "asin.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 315 "./src/asin.y" /* yacc.c:1646  */
+#line 321 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos) = (yyvsp[0].atributos);
 				
 			}
-#line 1770 "asin.c" /* yacc.c:1646  */
+#line 1776 "asin.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 320 "./src/asin.y" /* yacc.c:1646  */
+#line 326 "./src/asin.y" /* yacc.c:1646  */
     {
 				if((yyvsp[-2].atributos).tipo == (yyvsp[0].atributos).tipo == T_ENTERO){
 					(yyval.atributos).tipo = T_ENTERO;
@@ -1784,21 +1790,22 @@ yyreduce:
 				(yyval.atributos).pos = creaVarTemp();
 				/*************** Expresion a partir de un operador aritmetico */
 				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
+				mostrarTDS();
 				
             }
-#line 1790 "asin.c" /* yacc.c:1646  */
+#line 1797 "asin.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 338 "./src/asin.y" /* yacc.c:1646  */
+#line 345 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos) = (yyvsp[0].atributos);
 			}
-#line 1798 "asin.c" /* yacc.c:1646  */
+#line 1805 "asin.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 342 "./src/asin.y" /* yacc.c:1646  */
+#line 349 "./src/asin.y" /* yacc.c:1646  */
     {
 				if((yyvsp[-2].atributos).tipo != T_ENTERO || (yyvsp[0].atributos).tipo != T_ENTERO){
 					(yyval.atributos).tipo = T_ERROR;
@@ -1811,19 +1818,19 @@ yyreduce:
 				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgPos((yyval.atributos).pos));
 	
 			}
-#line 1815 "asin.c" /* yacc.c:1646  */
+#line 1822 "asin.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 357 "./src/asin.y" /* yacc.c:1646  */
+#line 364 "./src/asin.y" /* yacc.c:1646  */
     {
               (yyval.atributos) = (yyvsp[0].atributos);
             }
-#line 1823 "asin.c" /* yacc.c:1646  */
+#line 1830 "asin.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 361 "./src/asin.y" /* yacc.c:1646  */
+#line 368 "./src/asin.y" /* yacc.c:1646  */
     {
               (yyval.atributos).tipo = T_ERROR;
               if((yyvsp[0].atributos).tipo == T_ENTERO && (yyvsp[-1].op) != OPMAS_ && (yyvsp[-1].op) != OPREST_){
@@ -1846,11 +1853,11 @@ yyreduce:
               }
 			
             }
-#line 1850 "asin.c" /* yacc.c:1646  */
+#line 1857 "asin.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 385 "./src/asin.y" /* yacc.c:1646  */
+#line 392 "./src/asin.y" /* yacc.c:1646  */
     {
               SIMB sim = obtenerTDS((yyvsp[0].ident));
               (yyval.atributos).tipo = T_ERROR;
@@ -1861,19 +1868,19 @@ yyreduce:
               
               emite(EASIG, crArgPos(sim.desp), crArgNul(), crArgPos((yyval.atributos).pos));
             }
-#line 1865 "asin.c" /* yacc.c:1646  */
+#line 1872 "asin.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 398 "./src/asin.y" /* yacc.c:1646  */
+#line 405 "./src/asin.y" /* yacc.c:1646  */
     {
               (yyval.atributos) = (yyvsp[-1].atributos);
             }
-#line 1873 "asin.c" /* yacc.c:1646  */
+#line 1880 "asin.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 402 "./src/asin.y" /* yacc.c:1646  */
+#line 409 "./src/asin.y" /* yacc.c:1646  */
     {
               SIMB sim = obtenerTDS((yyvsp[-1].ident)); (yyval.atributos).tipo = T_ERROR;
               if (sim.tipo == T_ENTERO) 
@@ -1886,11 +1893,11 @@ yyreduce:
               emite((yyvsp[0].op), crArgPos(sim.desp), crArgEnt(1), crArgPos(sim.desp));
               
             }
-#line 1890 "asin.c" /* yacc.c:1646  */
+#line 1897 "asin.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 418 "./src/asin.y" /* yacc.c:1646  */
+#line 425 "./src/asin.y" /* yacc.c:1646  */
     {
                   SIMB sim = obtenerTDS((yyvsp[-3].ident));
                   (yyval.atributos).tipo = T_ERROR;
@@ -1908,153 +1915,153 @@ yyreduce:
                     
                   }
                 }
-#line 1912 "asin.c" /* yacc.c:1646  */
+#line 1919 "asin.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 436 "./src/asin.y" /* yacc.c:1646  */
+#line 443 "./src/asin.y" /* yacc.c:1646  */
     {
             SIMB sim = obtenerTDS((yyvsp[0].ident)); (yyval.atributos).tipo = T_ERROR;
             if (sim.tipo != T_ERROR) 
               (yyval.atributos).tipo = sim.tipo;
             }
-#line 1922 "asin.c" /* yacc.c:1646  */
+#line 1929 "asin.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 442 "./src/asin.y" /* yacc.c:1646  */
+#line 449 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_ENTERO;
 				(yyval.atributos).pos = creaVarTemp();
 				emite(EASIG, crArgEnt((yyvsp[0].cent)), crArgNul(), crArgPos((yyval.atributos).pos));
 			}
-#line 1932 "asin.c" /* yacc.c:1646  */
+#line 1939 "asin.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 448 "./src/asin.y" /* yacc.c:1646  */
+#line 455 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_LOGICO;
 				(yyval.atributos).pos = creaVarTemp();
 				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos((yyval.atributos).pos));
             }
-#line 1942 "asin.c" /* yacc.c:1646  */
+#line 1949 "asin.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 454 "./src/asin.y" /* yacc.c:1646  */
+#line 461 "./src/asin.y" /* yacc.c:1646  */
     {
 				(yyval.atributos).tipo = T_LOGICO;
 				(yyval.atributos).pos = creaVarTemp();
 				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos((yyval.atributos).pos));
             }
-#line 1952 "asin.c" /* yacc.c:1646  */
+#line 1959 "asin.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 460 "./src/asin.y" /* yacc.c:1646  */
+#line 467 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EIGUAL; }
-#line 1958 "asin.c" /* yacc.c:1646  */
+#line 1965 "asin.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 461 "./src/asin.y" /* yacc.c:1646  */
+#line 468 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = ESUM; }
-#line 1964 "asin.c" /* yacc.c:1646  */
+#line 1971 "asin.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 462 "./src/asin.y" /* yacc.c:1646  */
+#line 469 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIF; }
-#line 1970 "asin.c" /* yacc.c:1646  */
+#line 1977 "asin.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 463 "./src/asin.y" /* yacc.c:1646  */
+#line 470 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMULT; }
-#line 1976 "asin.c" /* yacc.c:1646  */
+#line 1983 "asin.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 464 "./src/asin.y" /* yacc.c:1646  */
+#line 471 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIVI; }
-#line 1982 "asin.c" /* yacc.c:1646  */
+#line 1989 "asin.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 469 "./src/asin.y" /* yacc.c:1646  */
+#line 476 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAY; }
-#line 1988 "asin.c" /* yacc.c:1646  */
+#line 1995 "asin.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 470 "./src/asin.y" /* yacc.c:1646  */
+#line 477 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAY; }
-#line 1994 "asin.c" /* yacc.c:1646  */
+#line 2001 "asin.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 471 "./src/asin.y" /* yacc.c:1646  */
+#line 478 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMAYEQ; }
-#line 2000 "asin.c" /* yacc.c:1646  */
+#line 2007 "asin.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 472 "./src/asin.y" /* yacc.c:1646  */
+#line 479 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMENEQ; }
-#line 2006 "asin.c" /* yacc.c:1646  */
+#line 2013 "asin.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 475 "./src/asin.y" /* yacc.c:1646  */
+#line 482 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = ESUM; }
-#line 2012 "asin.c" /* yacc.c:1646  */
+#line 2019 "asin.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 476 "./src/asin.y" /* yacc.c:1646  */
+#line 483 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIF; }
-#line 2018 "asin.c" /* yacc.c:1646  */
+#line 2025 "asin.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 480 "./src/asin.y" /* yacc.c:1646  */
+#line 487 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EMULT; }
-#line 2024 "asin.c" /* yacc.c:1646  */
+#line 2031 "asin.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 481 "./src/asin.y" /* yacc.c:1646  */
+#line 488 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) = EDIVI; }
-#line 2030 "asin.c" /* yacc.c:1646  */
+#line 2037 "asin.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 482 "./src/asin.y" /* yacc.c:1646  */
+#line 489 "./src/asin.y" /* yacc.c:1646  */
     {(yyval.op) =  RESTO; }
-#line 2036 "asin.c" /* yacc.c:1646  */
+#line 2043 "asin.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 485 "./src/asin.y" /* yacc.c:1646  */
+#line 492 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = ESUM; }
-#line 2042 "asin.c" /* yacc.c:1646  */
+#line 2049 "asin.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 486 "./src/asin.y" /* yacc.c:1646  */
+#line 493 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = EDIF; }
-#line 2048 "asin.c" /* yacc.c:1646  */
+#line 2055 "asin.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 487 "./src/asin.y" /* yacc.c:1646  */
+#line 494 "./src/asin.y" /* yacc.c:1646  */
     { (yyval.op) = EDIST; }
-#line 2054 "asin.c" /* yacc.c:1646  */
+#line 2061 "asin.c" /* yacc.c:1646  */
     break;
 
 
-#line 2058 "asin.c" /* yacc.c:1646  */
+#line 2065 "asin.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2282,6 +2289,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 491 "./src/asin.y" /* yacc.c:1906  */
+#line 498 "./src/asin.y" /* yacc.c:1906  */
 
 

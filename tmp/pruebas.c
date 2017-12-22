@@ -3,6 +3,6 @@
 { int a;
 
   read(a); 
-  a = a + 4;
+  a = a +4;
   print(a);
 }
