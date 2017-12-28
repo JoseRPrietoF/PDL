@@ -12,9 +12,9 @@
 	char *ident ; /* Nombre del identificador */
 	int cent ; /* Valor de la cte numerica entera */
 	Atributos atributos;
-	int op;
-	
+	int op;	
 }
+
 %type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva
 %type <atributos> instruccionSeleccion restoIf instruccionIteracion
 %type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento operadorLogico operadorIgualdad
@@ -30,6 +30,7 @@ NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 programa: LABIERTA_{ dvar = 0; si = 0 ;} secuenciaSentencias LCERRADA_
 			{
 				//$$ = "nombre_del_fichero";
+				mostrarTDS();
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
 				//volcarCodigo($$); //hay que ver el parametro
 			}
@@ -58,7 +59,7 @@ sentencia: declaracion
             
 declaracion: tipoSimple ID_ FINL_
 			{
-				int x = insertarTDS($2, $1.tipo, 0, -1) ;
+				int x = insertarTDS($2, $1.tipo, dvar, -1) ;
 				dvar++;
 				if (x == 0){
 					yyerror("Esta variable ya ha sido declarada en la TDS");
@@ -70,7 +71,7 @@ declaracion: tipoSimple ID_ FINL_
 					yyerror("Talla inapropiada");
 				} else {
 					int refe = insertaTDArray($1.tipo, $4);
-					int x = insertarTDS($2, T_ARRAY, 0, refe) ;
+					int x = insertarTDS($2, T_ARRAY, dvar, refe) ;
 					dvar++;					
 					if (x == 0){
 						yyerror("Esta variable ya ha sido declarada en la TDS");
@@ -118,9 +119,9 @@ instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
 			}
 			| IMPRIMIR_ PABIERTO_ expresion PCERRADO_ FINL_
 			{
-				if($3.tipo != T_ENTERO)
-					yyerror("La expresion del print debe ser entera");
-				emite(EWRITE, crArgNul(), crArgNul(), crArgPos($3.pos));
+				//if($3.tipo != T_ENTERO)
+				//	yyerror("La expresion del print debe ser entera");
+				emite(EWRITE, crArgNul(), crArgNul(), crArgPos($<atributos>3.pos));
 			}
 			;         
 
@@ -130,19 +131,20 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 					yyerror("La expresion del IF debe ser logica");
 				else{
 					$<atributos>$.fin = creaLans(si); 
-					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
+					emite(EIGUAL,crArgPos($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
 				}
 				
 			}
 				instruccion 
 			{
+				
 				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($<atributos>$.fin, crArgEnt(si));
+				completaLans($<atributos>5.fin, crArgEnt(si));
 			}
 				restoIf
             {
-				completaLans($$.fin, crArgEnt(si));
+				completaLans($<atributos>6.fin, crArgEnt(si));
 			}
             ;
             
@@ -159,15 +161,15 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 		 {
 				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($<atributos>$.fin, crArgEnt(si));
+				//completaLans($<atributos>$.fin, crArgEnt(si));
 		 }
 		 restoIf
 		 {
-				completaLans($$.fin, crArgEnt(si));
+				completaLans($<atributos>$.fin, crArgEnt(si));
 		 }
          | ELSE_ instruccion
          {
-			    //completaLans($$.fin, si); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
+			    //completaLans($<atributos>2.fin, crArgEnt(si)); /*Completo el creaLans de instruccionSeleccion, un poco más arriba*/
 	     }
          ;    
 
@@ -203,7 +205,7 @@ instruccionIteracion: WHILE_ PABIERTO_
         
 expresion: expresionLogica
 			{ 
-				$$ = $1;
+				$<atributos>$ = $<atributos>1;
 			}
             | ID_ operadorAsignacion expresion
             {
@@ -222,11 +224,19 @@ expresion: expresionLogica
 					else 
 						$$.tipo = sim.tipo;
 					
-					//TODO esta linea es la que falta en la mayoria de expresiones.
-					// todas las expresiones deben de hacer su accion
-					// esta por ejemplo no modificaba la variable
-					// cn este emite ya lo hace.
-					emite(EASIG, crArgPos($3.pos), crArgNul(), crArgPos(sim.desp));
+					if($2 != EIGUAL && $3.tipo == T_ENTERO){
+						//$$.pos = creaVarTemp();
+
+						emite($2, crArgPos(sim.desp), crArgPos($3.pos), crArgPos(sim.desp));
+						//emite(EASIG, crArgPos($$.pos), crArgNul(), crArgPos(sim.desp));
+					}else{
+						//TODO esta linea es la que falta en la mayoria de expresiones.
+						// todas las expresiones deben de hacer su accion
+						// esta por ejemplo no modificaba la variable
+						// cn este emite ya lo hace.
+						emite(EASIG, crArgPos($3.pos), crArgNul(), crArgPos(sim.desp));
+					}
+
 				}
             }
             | ID_ CORA_ expresion CORC_ operadorAsignacion expresion
@@ -336,7 +346,7 @@ expresionAditiva: expresionMultiplicativa
 				$$.pos = creaVarTemp();
 				/*************** Expresion a partir de un operador aritmetico */
 				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
-				mostrarTDS();
+				//mostrarTDS();
 				
             }
             ;            
@@ -370,7 +380,7 @@ expresionUnaria: expresionSufija
               if($2.tipo == T_ENTERO && $1 != OPMAS_ && $1 != OPREST_){
                 yyerror("Error en operadorUnario posittivo/negativo");
               }
-              else if($2.tipo == T_LOGICO && $1 != NEG_){
+              else if($2.tipo == T_LOGICO && $1 != EDIST){
                 yyerror("Error en operadorUnario negacion");
               } else{
                 if($2.tipo == T_ENTERO){ 
@@ -395,7 +405,7 @@ expresionUnaria: expresionSufija
               if (sim.tipo == T_ENTERO)
                 $$.tipo = sim.tipo;
                 
-              emite($2, crArgPos(sim.desp), crArgEnt(1), crArgPos(sim.desp));
+              emite($1, crArgPos(sim.desp), crArgEnt(1), crArgPos(sim.desp));
               
               emite(EASIG, crArgPos(sim.desp), crArgNul(), crArgPos($$.pos));
             }
@@ -444,6 +454,8 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
             SIMB sim = obtenerTDS($1); $$.tipo = T_ERROR;
             if (sim.tipo != T_ERROR) 
               $$.tipo = sim.tipo;
+				$$.pos = sim.desp;
+				emite(EASIG, crArgPos(sim.desp), crArgNul(), crArgPos($$.pos));
             }
             | CTE_ 
             {
