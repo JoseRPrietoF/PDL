@@ -197,16 +197,18 @@ instruccionIteracion: WHILE_ PABIERTO_
 						completaLans($<atributos>6.fin, crArgEnt(si));
 					 }
 					 
-			| DO_ {$<atributos>$.fin = si;}
-					instruccion 
-					WHILE_ PABIERTO_ expresion PCERRADO_{
-							if($<atributos>6.tipo != T_LOGICO)
-								yyerror("La expresion del DoWhile debe ser logica");
-							else{
-								
-								emite(EIGUAL,crArgEnt($<atributos>6.pos),crArgEnt(0),crArgPos($$.fin));
-							}
-					}
+			| DO_ 
+			{
+				$<atributos>$.pos = si; // TODO falla aqui, no guarda la pos como en el while
+			}
+			  instruccion WHILE_ PABIERTO_ expresion PCERRADO_
+			{
+				if($<atributos>6.tipo != T_LOGICO)
+					yyerror("La expresion del DoWhile debe ser logica");
+			    else{			
+					emite(EIGUAL,crArgPos($<atributos>6.pos),crArgEnt(1),crArgEtq($<atributos>2.pos));
+			    }
+			}
 			;            
         
 expresion: expresionLogica

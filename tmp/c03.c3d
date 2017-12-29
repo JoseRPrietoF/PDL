@@ -19,12 +19,15 @@
  18 EASIG     p:   1  ,          ,  p:   1  
  19 EAV       p:   0  ,  p:   1  ,  p:   0  
  20 EWRITE            ,          ,  p:   0  
- 21 EASIG     p:   1  ,          ,  p:   9  
- 22 EDIF      p:   1  ,  i:   1  ,  p:   1  
- 23 EASIG     p:   1  ,          ,  p:   1  
- 24 EASIG     i:   0  ,          ,  p:  10  
- 25 EASIG     i:   1  ,          ,  p:  11  
- 26 EMAYEQ    p:   1  ,  p:  10  ,  e:  28  
- 27 EASIG     i:   0  ,          ,  p:  11  
- 28 EIGUAL    i:  11  ,  i:   0  ,  p:   0  
- 29 FIN               ,          ,          
+ 21 EASIG     p:   1  ,          ,  p:   1  
+ 22 EASIG     i:   1  ,          ,  p:   9  
+ 23 EDIF      p:   1  ,  p:   9  ,  p:  10  
+ 24 EASIG     p:  10  ,          ,  p:  11  
+ 25 EASIG     p:  11  ,          ,  p:   1  
+ 26 EASIG     p:   1  ,          ,  p:   1  
+ 27 EASIG     i:   0  ,          ,  p:  12  
+ 28 EASIG     i:   1  ,          ,  p:  13  
+ 29 EMAYEQ    p:   1  ,  p:  12  ,  e:  31  
+ 30 EASIG     i:   0  ,          ,  p:  13  
+ 31 EIGUAL    p:  13  ,  i:   1  ,  e:  18  
+ 32 FIN               ,          ,          
