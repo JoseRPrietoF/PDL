@@ -1,16 +1,15 @@
-  0 EREAD             ,          ,  p:   0  
-  1 EASIG     p:   0  ,          ,  p:   0  
-  2 EASIG     i:   5  ,          ,  p:   1  
-  3 EIGUAL    p:   0  ,  p:   1  ,  e:   6  
-  4 EASIG     i:   0  ,          ,  p:   2  
-  5 GOTOS             ,          ,  e:   7  
-  6 EASIG     i:   1  ,          ,  p:   2  
-  7 EIGUAL    p:   0  ,  i:   0  ,  i:  13  
-  8 EASIG     p:   0  ,          ,  p:   0  
-  9 EWRITE            ,          ,  p:   0  
- 10 EASIG     p:   0  ,          ,  p:   3  
- 11 ESUM      p:   0  ,  i:   1  ,  p:   0  
- 12 GOTOS             ,          ,  e:   1  
- 13 EASIG     p:   0  ,          ,  p:   0  
- 14 EWRITE            ,          ,  p:   0  
- 15 FIN               ,          ,          
+  0 EASIG     i:   3  ,          ,  p:   1  
+  1 EASIG     p:   1  ,          ,  p:   2  
+  2 EASIG     p:   2  ,          ,  p:   0  
+  3 EASIG     p:   0  ,          ,  p:   0  
+  4 EASIG     i:   0  ,          ,  p:   3  
+  5 EASIG     i:   1  ,          ,  p:   4  
+  6 EMAY      p:   0  ,  p:   3  ,  e:   8  
+  7 EASIG     i:   0  ,          ,  p:   4  
+  8 EIGUAL    p:   4  ,  i:   0  ,  i:  14  
+  9 EASIG     p:   0  ,          ,  p:   5  
+ 10 EDIF      p:   0  ,  i:   1  ,  p:   0  
+ 11 EASIG     p:   0  ,          ,  p:   0  
+ 12 EWRITE            ,          ,  p:   0  
+ 13 GOTOS             ,          ,  e:   3  
+ 14 FIN               ,          ,          

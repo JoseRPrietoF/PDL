@@ -16,7 +16,7 @@
 }
 
 %type <atributos> tipoSimple expresionMultiplicativa expresionSufija expresion expresionUnaria expresionLogica expresionIgualdad expresionRelacional expresionAditiva
-%type <atributos> instruccionSeleccion restoIf instruccionIteracion
+%type <atributos> instruccionSeleccion restoIf instruccionIteracion instruccion listaInstrucciones instruccionEntradaSalida instruccionExpresion
 %type <op> operadorUnario operadorAditivo operadorRelacional operadorAsignacion operadorMultiplicativo operadorIncremento operadorLogico operadorIgualdad
 %type <ident> programa
 %token <ident> ID_
@@ -91,6 +91,9 @@ tipoSimple: INT_
             ;
 
 instruccion: LABIERTA_ listaInstrucciones LCERRADA_ 
+			{
+					$$ = $2;
+			}
 			| instruccionEntradaSalida
 			| instruccionExpresion 
             | instruccionSeleccion
@@ -104,6 +107,9 @@ listaInstrucciones: listaInstrucciones instruccion
 instruccionExpresion: expresion FINL_
 				
             | FINL_
+            {
+				
+			}
             ;            
             
 instruccionEntradaSalida: LEER_ PABIERTO_ ID_ PCERRADO_ FINL_
@@ -173,19 +179,22 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 	     }
          ;    
 
-instruccionIteracion: WHILE_ PABIERTO_ {$<op>$ = si;} 
-					expresion  PCERRADO_  {
-							if($<atributos>4.tipo != T_LOGICO)
-								yyerror("La expresion del while debe ser logica");
-							else{
-								$<atributos>4.fin = creaLans(si);
-								emite(EIGUAL,crArgPos($<atributos>3.pos),crArgEnt(0),crArgNul());
-							}
+instruccionIteracion: WHILE_ PABIERTO_ 
+					{
+						$<atributos>$.pos = si;
+					} 
+					expresion  PCERRADO_  
+					{
+						if($<atributos>4.tipo != T_LOGICO)
+							yyerror("La expresion del while debe ser logica");
+						else{
+							$<atributos>$.fin = creaLans(si);
+							emite(EIGUAL,crArgPos($<atributos>4.pos),crArgEnt(0),crArgNul());
 						}
-					
-					 instruccion {
-						 emite(GOTOS, crArgNul(), crArgNul(),crArgEtq($<op>3));
-						 completaLans($<atributos>4.fin, crArgEnt(si));
+					}
+					instruccion {
+						emite(GOTOS, crArgNul(), crArgNul(),crArgEtq($<atributos>3.pos));
+						completaLans($<atributos>6.fin, crArgEnt(si));
 					 }
 					 
 			| DO_ {$<atributos>$.fin = si;}
