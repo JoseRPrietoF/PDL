@@ -131,20 +131,20 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 					yyerror("La expresion del IF debe ser logica");
 				else{
 					$<atributos>$.fin = creaLans(si); 
-					emite(EIGUAL,crArgPos($3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
+					emite(EIGUAL,crArgPos($<atributos>3.pos),crArgEnt(0),crArgNul());/*Se debe completar despues */
 				}
 				
 			}
 				instruccion 
 			{
 				
-				$<atributos>$.fin = creaLans(si);
+				$<atributos>5.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($<atributos>5.fin, crArgEnt(si));
+				completaLans($<atributos>$.fin, crArgEnt(si));
 			}
 				restoIf
             {
-				completaLans($<atributos>6.fin, crArgEnt(si));
+				completaLans($<atributos>5.fin, crArgEnt(si));
 			}
             ;
             
@@ -154,18 +154,18 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 					yyerror("La expresion del ELSEIF debe ser logica");
 				else{
 					$<atributos>$.fin = creaLans(si);
-					emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
+					emite(EIGUAL,crArgPos($<atributos>3.pos),crArgEnt(0),crArgNul());
 				}
 		 }
 		 PCERRADO_ instruccion
 		 {
-				$<atributos>$.fin = creaLans(si);
+				$<atributos>4.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				//completaLans($<atributos>$.fin, crArgEnt(si));
+				completaLans($<atributos>$.fin, crArgEnt(si));
 		 }
 		 restoIf
 		 {
-				completaLans($<atributos>$.fin, crArgEnt(si));
+				completaLans($<atributos>4.fin, crArgEnt(si));
 		 }
          | ELSE_ instruccion
          {
@@ -173,68 +173,69 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 	     }
          ;    
 
-instruccionIteracion: WHILE_ PABIERTO_
-					expresion {
-							if($3.tipo != T_LOGICO)
+instruccionIteracion: WHILE_ PABIERTO_ {$<op>$ = si;} 
+					expresion  PCERRADO_  {
+							if($<atributos>4.tipo != T_LOGICO)
 								yyerror("La expresion del while debe ser logica");
 							else{
-								$<atributos>$.fin = creaLans(si);
-								emite(EIGUAL,crArgEnt($3.pos),crArgEnt(0),crArgNul());
+								$<atributos>4.fin = creaLans(si);
+								emite(EIGUAL,crArgPos($<atributos>3.pos),crArgEnt(0),crArgNul());
 							}
 						}
-					 PCERRADO_ {
-						 completaLans($<atributos>$.fin, crArgEnt(si));
-					 }
-					 
+					
 					 instruccion {
-						 emite(GOTOS, crArgNul(), crArgNul(),crArgPos($$.fin));
-						 completaLans($$.fin, crArgEnt(si));
+						 emite(GOTOS, crArgNul(), crArgNul(),crArgEtq($<op>3));
+						 completaLans($<atributos>4.fin, crArgEnt(si));
 					 }
 					 
 			| DO_ {$<atributos>$.fin = si;}
 					instruccion 
 					WHILE_ PABIERTO_ expresion PCERRADO_{
-							if($<atributos>5.tipo != T_LOGICO)
-								yyerror("La expresion del while debe ser logica");
+							if($<atributos>6.tipo != T_LOGICO)
+								yyerror("La expresion del DoWhile debe ser logica");
 							else{
 								
-								emite(EIGUAL,crArgEnt($<atributos>3.pos),crArgEnt(0),crArgPos($$.fin));
+								emite(EIGUAL,crArgEnt($<atributos>6.pos),crArgEnt(0),crArgPos($$.fin));
 							}
 					}
 			;            
         
 expresion: expresionLogica
 			{ 
-				$<atributos>$ = $<atributos>1;
+				$<atributos>$.tipo = $1.tipo;
+				$<atributos>$.pos = $1.pos;
 			}
             | ID_ operadorAsignacion expresion
             {
 				$$.tipo = T_ERROR;
-				if($3.tipo != T_ERROR){
+				if($<atributos>3.tipo != T_ERROR){
 					SIMB sim = obtenerTDS($1); 
 					//mostrarTDS();
 					if (sim.tipo == T_ERROR) 
 						yyerror("Objeto no declarado");
-					else if($3.tipo == T_ARRAY)
+					else if($<atributos>3.tipo == T_ARRAY)
 						yyerror("La expresion debe ser de tipo simple");
-					else if (! ( (sim.tipo == $3.tipo == T_ENTERO) || 
-								 (sim.tipo == $3.tipo == T_LOGICO) ) 
+					else if (! ( (sim.tipo == $<atributos>3.tipo == T_ENTERO) || 
+								 (sim.tipo == $<atributos>3.tipo == T_LOGICO) ) 
 							)
 						yyerror("Error de tipos en la 'instrucción de asignación'");
 					else 
 						$$.tipo = sim.tipo;
 					
-					if($2 != EIGUAL && $3.tipo == T_ENTERO){
-						//$$.pos = creaVarTemp();
+					if($2 != EIGUAL && $<atributos>3.tipo == T_ENTERO){
+						$$.pos = creaVarTemp();
 
-						emite($2, crArgPos(sim.desp), crArgPos($3.pos), crArgPos(sim.desp));
-						//emite(EASIG, crArgPos($$.pos), crArgNul(), crArgPos(sim.desp));
+						emite($2, crArgPos(sim.desp), crArgPos($<atributos>3.pos), crArgPos($$.pos));
+						emite(EASIG, crArgPos($$.pos), crArgNul(), crArgPos(sim.desp));
 					}else{
 						//TODO esta linea es la que falta en la mayoria de expresiones.
 						// todas las expresiones deben de hacer su accion
 						// esta por ejemplo no modificaba la variable
 						// cn este emite ya lo hace.
-						emite(EASIG, crArgPos($3.pos), crArgNul(), crArgPos(sim.desp));
+						$$.pos = creaVarTemp();
+						
+						emite(EASIG, crArgPos($<atributos>3.pos), crArgNul(), crArgPos($$.pos));
+						emite(EASIG, crArgPos($$.pos), crArgNul(), crArgPos(sim.desp));
 					}
 
 				}
@@ -274,7 +275,8 @@ expresion: expresionLogica
             
 expresionLogica: expresionIgualdad
 			{
-				$$ = $1;
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
 			}
             | expresionLogica operadorLogico expresionIgualdad
             {
@@ -284,15 +286,32 @@ expresionLogica: expresionIgualdad
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion logica");
 				}
-				$$.pos = creaVarTemp();
-				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
-	
+				if($2 == EMULT){ /*AND*/
+					$$.pos = creaVarTemp();
+					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
+					emite(EIGUAL, crArgPos($1.pos), crArgEnt(0), crArgEtq(si + 3));
+					emite(EIGUAL, crArgPos($3.pos), crArgEnt(0), crArgEtq(si + 2));
+					emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
+				}
+				else{
+					$$.pos = creaVarTemp();
+					emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
+					emite(EIGUAL, crArgPos($1.pos), crArgEnt(1), crArgEtq(si + 3));
+					emite(EIGUAL, crArgPos($3.pos), crArgEnt(1), crArgEtq(si + 2));
+					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
+				}
+				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgEtq(si+3));
+				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
+				emite(GOTOS, crArgNul(), crArgNul(), crArgEtq(si+2));
+				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
+		
             }
             ;            
             
 expresionIgualdad: expresionRelacional
 			{
-				$$ = $1;
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
 			}
 			| expresionIgualdad operadorIgualdad expresionRelacional
 			{
@@ -302,15 +321,19 @@ expresionIgualdad: expresionRelacional
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion igualdad. Han de ser del mismo tipo");
 				}
-				$$.pos = creaVarTemp();
-				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+			     $$.pos = creaVarTemp();
+				 emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgEtq(si+3));
+				 emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
+				 emite(GOTOS, crArgNul(), crArgNul(), crArgEtq(si+2));
+				 emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
 	
 			}
 			;            
                        
 expresionRelacional: expresionAditiva
 			{
-				$$ = $1;
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
 			}
             | expresionRelacional operadorRelacional expresionAditiva
 			{
@@ -320,16 +343,18 @@ expresionRelacional: expresionAditiva
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion relacional. Solo e pueden comparar dos numeros");
 				}
-
-				$$.pos = creaVarTemp();
-				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgPos($$.pos));
+			     $$.pos = creaVarTemp();
+				 emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
+                 emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgEtq(si + 2));
+				 emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
 	
 			}
             ;
             
 expresionAditiva: expresionMultiplicativa 
 			{
-				$$ = $1;
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
 				
 			}
             | expresionAditiva operadorAditivo expresionMultiplicativa
@@ -353,7 +378,8 @@ expresionAditiva: expresionMultiplicativa
  
 expresionMultiplicativa: expresionUnaria
 			{
-				$$ = $1;
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
 			}
 			| expresionMultiplicativa operadorMultiplicativo expresionUnaria
 			{
@@ -372,7 +398,9 @@ expresionMultiplicativa: expresionUnaria
             
 expresionUnaria: expresionSufija
             {
-              $$ = $1;
+              
+				$$.tipo = $1.tipo;
+				$$.pos = $1.pos;
             }
             | operadorUnario expresionUnaria
             {
@@ -413,7 +441,9 @@ expresionUnaria: expresionSufija
 
 expresionSufija: PABIERTO_ expresion PCERRADO_
             {
-              $$ = $2;
+              
+ 				$$.tipo = $2.tipo;
+				$$.pos = $2.pos;
             }
             | ID_ operadorIncremento
             {
@@ -486,7 +516,7 @@ operadorAsignacion: ASIG_ {$$ = EIGUAL; }
 
             
 operadorRelacional: MAYQ_ {$$ = EMAY; }
-            | MENQ_  {$$ = EMAY; }
+            | MENQ_  {$$ = EMEN; }
             | MAYQ_ASIG_  {$$ = EMAYEQ; }
             | MENQ_ASIG_  {$$ = EMENEQ; }
             ;
