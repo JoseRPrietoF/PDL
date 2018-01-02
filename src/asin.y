@@ -239,10 +239,7 @@ expresion: expresionLogica
 						emite($2, crArgPos(sim.desp), crArgPos($<atributos>3.pos), crArgPos($$.pos));
 						emite(EASIG, crArgPos($$.pos), crArgNul(), crArgPos(sim.desp));
 					}else{
-						//TODO esta linea es la que falta en la mayoria de expresiones.
-						// todas las expresiones deben de hacer su accion
-						// esta por ejemplo no modificaba la variable
-						// cn este emite ya lo hace.
+
 						$$.pos = creaVarTemp();
 						
 						emite(EASIG, crArgPos($<atributos>3.pos), crArgNul(), crArgPos($$.pos));
@@ -268,8 +265,10 @@ expresion: expresionLogica
 								$$.tipo = dim.telem;
 								
 								// Generacion de codigo intermedio
+								//int calc = creaVarTemp();
+								//emite(ESUM, crArgEnt(sim.desp), crArgPos($3.pos), crArgPos(calc)); /*desp relativo*/
 								
-								
+								//emite(EVA, crArgPos(sim.desp), crArgPos(calc), crArgPos($6.pos));
 								emite(EVA, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($6.pos));
 								
 							}else{
@@ -486,6 +485,10 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
                     $$.tipo = dim.telem;
                     
                     // Generacion de codigo intermedio
+                    //$$.pos = creaVarTemp();
+                    //emite(ESUM, crArgEnt(sim.desp) ,  crArgPos($3.pos) , crArgPos($$.pos));
+
+                    //emite(EAV, crArgPos(sim.desp), crArgPos($$.pos), crArgPos($$.pos));
                     emite(EAV, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($$.pos));
                     
                   }

@@ -2,48 +2,54 @@
   1 EASIG     p:   3  ,          ,  p:   4  
   2 EASIG     p:   4  ,          ,  p:   2  
   3 EASIG     p:   2  ,          ,  p:   2  
-  4 EIGUAL    p:   2  ,  i:   0  ,  i:  21  
+  4 EIGUAL    p:   2  ,  i:   0  ,  i:  24  
   5 EREAD             ,          ,  p:   0  
   6 EASIG     p:   0  ,          ,  p:   0  
   7 EASIG     i:   0  ,          ,  p:   5  
-  8 EMAY      p:   0  ,  p:   5  ,  e:  11  
-  9 EASIG     i:   0  ,          ,  p:   6  
- 10 GOTOS             ,          ,  e:  12  
- 11 EASIG     i:   1  ,          ,  p:   6  
- 12 EASIG     i:   1  ,          ,  p:   7  
- 13 EMULT     p:   6  ,  p:   7  ,  e:  16  
- 14 EASIG     i:   0  ,          ,  p:   8  
- 15 GOTOS             ,          ,  e:  17  
- 16 EASIG     i:   1  ,          ,  p:   8  
- 17 EIGUAL    p:   8  ,  i:   0  ,          
- 18 EASIG     i:   1  ,          ,  p:   9  
- 19 EWRITE            ,          ,  p:   9  
- 20 GOTOS             ,          ,  i:  47  
- 21 EASIG     p:   0  ,          ,  p:   0  
- 22 EASIG     i:   0  ,          ,  p:  10  
- 23 EMEN      p:   0  ,  p:  10  ,  e:  26  
- 24 EASIG     i:   0  ,          ,  p:  11  
- 25 GOTOS             ,          ,  e:  27  
+  8 EASIG     i:   1  ,          ,  p:   6  
+  9 EMAY      p:   0  ,  p:   5  ,  e:  11  
+ 10 EASIG     i:   0  ,          ,  p:   6  
+ 11 EASIG     i:   1  ,          ,  p:   7  
+ 12 EASIG     i:   0  ,          ,  p:   8  
+ 13 EIGUAL    p:   6  ,  i:   0  ,  e:  16  
+ 14 EIGUAL    p:   7  ,  i:   0  ,  e:  16  
+ 15 EASIG     i:   1  ,          ,  p:   8  
+ 16 EMULT     p:   6  ,  p:   7  ,  e:  19  
+ 17 EASIG     i:   0  ,          ,  p:   8  
+ 18 GOTOS             ,          ,  e:  20  
+ 19 EASIG     i:   1  ,          ,  p:   8  
+ 20 EIGUAL    p:   8  ,  i:   0  ,          
+ 21 EASIG     i:   1  ,          ,  p:   9  
+ 22 EWRITE            ,          ,  p:   9  
+ 23 GOTOS             ,          ,  i:  53  
+ 24 EASIG     p:   0  ,          ,  p:   0  
+ 25 EASIG     i:   0  ,          ,  p:  10  
  26 EASIG     i:   1  ,          ,  p:  11  
- 27 EASIG     i:   0  ,          ,  p:  12  
- 28 ESUM      p:  11  ,  p:  12  ,  e:  31  
- 29 EASIG     i:   0  ,          ,  p:  13  
- 30 GOTOS             ,          ,  e:  32  
- 31 EASIG     i:   1  ,          ,  p:  13  
- 32 EIGUAL    p:  13  ,  i:   0  ,  i:  36  
- 33 EASIG     i:   0  ,          ,  p:  14  
- 34 EWRITE            ,          ,  p:  14  
- 35 GOTOS             ,          ,  i:  47  
- 36 EASIG     p:   0  ,          ,  p:   0  
- 37 EASIG     i:   0  ,          ,  p:  15  
- 38 EDIST     p:   0  ,  p:  15  ,  e:  41  
- 39 EASIG     i:   0  ,          ,  p:  16  
- 40 GOTOS             ,          ,  e:  42  
- 41 EASIG     i:   1  ,          ,  p:  16  
- 42 EIGUAL    p:   0  ,  i:   0  ,  i:  47  
- 43 EASIG     i:   0  ,          ,  p:  17  
- 44 EASIG     p:  17  ,          ,  p:  18  
- 45 EASIG     p:  18  ,          ,  p:   2  
- 46 GOTOS             ,          ,  i:  47  
- 47 GOTOS             ,          ,  p:   0  
- 48 FIN               ,          ,          
+ 27 EMEN      p:   0  ,  p:  10  ,  e:  29  
+ 28 EASIG     i:   0  ,          ,  p:  11  
+ 29 EASIG     i:   0  ,          ,  p:  12  
+ 30 EASIG     i:   1  ,          ,  p:  13  
+ 31 EIGUAL    p:  11  ,  i:   1  ,  e:  34  
+ 32 EIGUAL    p:  12  ,  i:   1  ,  e:  34  
+ 33 EASIG     i:   0  ,          ,  p:  13  
+ 34 ESUM      p:  11  ,  p:  12  ,  e:  37  
+ 35 EASIG     i:   0  ,          ,  p:  13  
+ 36 GOTOS             ,          ,  e:  38  
+ 37 EASIG     i:   1  ,          ,  p:  13  
+ 38 EIGUAL    p:  13  ,  i:   0  ,  i:  42  
+ 39 EASIG     i:   0  ,          ,  p:  14  
+ 40 EWRITE            ,          ,  p:  14  
+ 41 GOTOS             ,          ,  i:  53  
+ 42 EASIG     p:   0  ,          ,  p:   0  
+ 43 EASIG     i:   0  ,          ,  p:  15  
+ 44 EDIST     p:   0  ,  p:  15  ,  e:  47  
+ 45 EASIG     i:   0  ,          ,  p:  16  
+ 46 GOTOS             ,          ,  e:  48  
+ 47 EASIG     i:   1  ,          ,  p:  16  
+ 48 EIGUAL    p:   0  ,  i:   0  ,  i:  53  
+ 49 EASIG     i:   0  ,          ,  p:  17  
+ 50 EASIG     p:  17  ,          ,  p:  18  
+ 51 EASIG     p:  18  ,          ,  p:   2  
+ 52 GOTOS             ,          ,  i:  53  
+ 53 GOTOS             ,          ,  e:   3  
+ 54 FIN               ,          ,          
