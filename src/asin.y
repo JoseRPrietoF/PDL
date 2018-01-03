@@ -431,7 +431,9 @@ expresionUnaria: expresionSufija
 				}
                 else {
 					$$.tipo = T_LOGICO;
-					
+					$$.pos = creaVarTemp();
+					emite(ESUM,crArgPos($2.pos), crArgEnt(1), crArgPos($$.pos));  /* $$ = $2 + 1 */
+					emite(RESTO,crArgPos($$.pos), crArgEnt(2), crArgPos($$.pos)); /* $$ = $$ % 2 */
 				}
               }
 			

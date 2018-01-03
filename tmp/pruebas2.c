@@ -4,7 +4,11 @@
 { 
 	int x; int y; bool z; 
 
-  z = true; 
+  z = true;
+  x = 1;
+  if (!(x == 1)){
+	print(99);  
+	}else{}
   while (z) {
     read(x);
     if ((x > 0) )  print(1);          
