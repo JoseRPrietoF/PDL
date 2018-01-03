@@ -295,7 +295,7 @@ expresionLogica: expresionIgualdad
 				}else{
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion logica");
-		
+				}
 				if($2 == EMULT){
 					$$.pos = creaVarTemp();
 					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
