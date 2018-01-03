@@ -4,9 +4,11 @@
 { 
 	int x; int y; bool z; 
 
-  z = true;
+  //z = true;
   x = 1;
-  if (!(x == 1)){
+  z = !(x == 1) || true;
+  print(z);
+  if (!(x != 1) && true){
 	print(99);  
 	}else{}
   while (z) {

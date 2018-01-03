@@ -295,8 +295,8 @@ expresionLogica: expresionIgualdad
 				}else{
 					$$.tipo = T_ERROR;
 					yyerror("Error en expresion logica");
-				}
-				if($2 == EMULT){ /*AND*/
+		
+				if($2 == EMULT){
 					$$.pos = creaVarTemp();
 					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
 					emite(EIGUAL, crArgPos($1.pos), crArgEnt(0), crArgEtq(si + 3));
@@ -310,11 +310,7 @@ expresionLogica: expresionIgualdad
 					emite(EIGUAL, crArgPos($3.pos), crArgEnt(1), crArgEtq(si + 2));
 					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
 				}
-				emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgEtq(si+3));
-				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
-				emite(GOTOS, crArgNul(), crArgNul(), crArgEtq(si+2));
-				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
-		
+
             }
             ;            
             

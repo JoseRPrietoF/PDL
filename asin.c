@@ -1754,10 +1754,10 @@ yyreduce:
 					emite(EIGUAL, crArgPos((yyvsp[0].atributos).pos), crArgEnt(1), crArgEtq(si + 2));
 					emite(EASIG, crArgEnt(0), crArgNul(), crArgPos((yyval.atributos).pos));
 				}
-				emite((yyvsp[-1].op), crArgPos((yyvsp[-2].atributos).pos), crArgPos((yyvsp[0].atributos).pos), crArgEtq(si+3));
-				emite(EASIG, crArgEnt(0), crArgNul(), crArgPos((yyval.atributos).pos));
-				emite(GOTOS, crArgNul(), crArgNul(), crArgEtq(si+2));
-				emite(EASIG, crArgEnt(1), crArgNul(), crArgPos((yyval.atributos).pos));
+				//emite($2, crArgPos($1.pos), crArgPos($3.pos), crArgEtq(si+3));
+				//emite(EASIG, crArgEnt(0), crArgNul(), crArgPos($$.pos));
+				//emite(GOTOS, crArgNul(), crArgNul(), crArgEtq(si+2));
+				//emite(EASIG, crArgEnt(1), crArgNul(), crArgPos($$.pos));
 		
             }
 #line 1764 "asin.c" /* yacc.c:1646  */
