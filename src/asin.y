@@ -144,17 +144,17 @@ instruccionSeleccion: IF_ PABIERTO_ expresion PCERRADO_
 				instruccion 
 			{
 				
-				$<atributos>5.fin = creaLans(si);
+				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($<atributos>$.fin, crArgEnt(si));
+				completaLans($<atributos>5.fin, crArgEnt(si));
 			}
 				restoIf
             {
-				completaLans($<atributos>5.fin, crArgEnt(si));
+				completaLans($<atributos>7.fin, crArgEnt(si));
 			}
             ;
             
-restoIf: ELSEIF_ PABIERTO_ expresion 
+restoIf: ELSEIF_ PABIERTO_ expresion PCERRADO_
 		 {
 				if($3.tipo != T_LOGICO)
 					yyerror("La expresion del ELSEIF debe ser logica");
@@ -163,15 +163,15 @@ restoIf: ELSEIF_ PABIERTO_ expresion
 					emite(EIGUAL,crArgPos($<atributos>3.pos),crArgEnt(0),crArgNul());
 				}
 		 }
-		 PCERRADO_ instruccion
+		 instruccion
 		 {
-				$<atributos>4.fin = creaLans(si);
+				$<atributos>$.fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans($<atributos>$.fin, crArgEnt(si));
+				completaLans($<atributos>5.fin, crArgEnt(si));
 		 }
 		 restoIf
 		 {
-				completaLans($<atributos>4.fin, crArgEnt(si));
+				completaLans($<atributos>7.fin, crArgEnt(si));
 		 }
          | ELSE_ instruccion
          {
@@ -429,9 +429,10 @@ expresionUnaria: expresionSufija
 						emite(ESIG, crArgPos($2.pos), crArgNul(), crArgPos($$.pos));
 					}
 				}
-                else $$.tipo = T_LOGICO;
-                
-                
+                else {
+					$$.tipo = T_LOGICO;
+					
+				}
               }
 			
             }

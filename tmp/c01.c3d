@@ -2,7 +2,7 @@
   1 EASIG     p:   3  ,          ,  p:   4  
   2 EASIG     p:   4  ,          ,  p:   2  
   3 EASIG     p:   2  ,          ,  p:   2  
-  4 EIGUAL    p:   2  ,  i:   0  ,  i:  24  
+  4 EIGUAL    p:   2  ,  i:   0  ,  i:  54  
   5 EREAD             ,          ,  p:   0  
   6 EASIG     p:   0  ,          ,  p:   0  
   7 EASIG     i:   0  ,          ,  p:   5  
@@ -18,7 +18,7 @@
  17 EASIG     i:   0  ,          ,  p:   8  
  18 GOTOS             ,          ,  e:  20  
  19 EASIG     i:   1  ,          ,  p:   8  
- 20 EIGUAL    p:   8  ,  i:   0  ,          
+ 20 EIGUAL    p:   8  ,  i:   0  ,  i:  24  
  21 EASIG     i:   1  ,          ,  p:   9  
  22 EWRITE            ,          ,  p:   9  
  23 GOTOS             ,          ,  i:  53  

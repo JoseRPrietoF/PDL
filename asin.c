@@ -563,7 +563,7 @@ static const yytype_int16 yypact[] =
      100,    37,    83,    84,    99,   101,   -53,    95,    98,   100,
      -53,   -53,   100,   -53,   163,   102,   -53,   -53,   106,   163,
      -53,   -53,   -53,   -53,    30,   163,   128,   -53,   -53,   100,
-     -53,   129,   163,   -53,    30,   -53
+     129,   -53,   163,   -53,    30,   -53
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -584,7 +584,7 @@ static const yytype_uint8 yydefact[] =
        0,    59,     0,     0,     0,     0,    29,     0,     0,     0,
       27,    28,     0,    37,     0,     0,    59,    43,     0,     0,
       30,    15,    40,    38,     0,     0,     0,    31,    35,     0,
-      32,     0,     0,    33,     0,    34
+       0,    32,     0,    33,     0,    34
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -600,7 +600,7 @@ static const yytype_int8 yypgoto[] =
 static const yytype_int16 yydefgoto[] =
 {
       -1,     2,     3,    65,    68,    24,    25,    26,    27,    28,
-      29,    53,    30,    31,    32,   114,   124,   127,   131,   134,
+      29,    53,    30,    31,    32,   114,   124,   127,   132,   134,
       33,    91,   119,    55,    34,    35,    36,    37,    38,    39,
       40,    41,    50,    73,    76,    80,    42
 };
@@ -623,7 +623,7 @@ static const yytype_uint8 yytable[] =
       15,    16,   118,     5,     6,     7,     8,   112,    10,    17,
      113,   115,    18,    19,   116,   122,   121,    20,    21,   130,
       22,    15,    16,    23,     5,     6,     7,     8,     9,    10,
-      17,    11,    87,    12,    13,    14,   129,    60,   132,    95,
+      17,    11,    87,    12,    13,    14,   129,    60,   131,    95,
       98,    22,    15,    16,    23,    81,     6,     7,     8,    96,
       10,    17,   135,    97,    18,    19,     0,   109,     0,     0,
        0,     0,    22,    15,    16,    23,     5,     6,     7,     8,
@@ -675,7 +675,7 @@ static const yytype_uint8 yystos[] =
       15,    16,     9,     9,    33,    72,     9,     4,    72,    80,
       14,    14,     8,     9,    63,    16,    16,    72,    72,    70,
       58,    14,     9,    58,    64,    35,    36,    65,    58,     8,
-      72,    66,     9,    58,    67,    65
+      72,     9,    66,    58,    67,    65
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -1536,9 +1536,9 @@ yyreduce:
 #line 145 "./src/asin.y" /* yacc.c:1646  */
     {
 				
-				(yyvsp[-1].atributos).fin = creaLans(si);
+				(yyval.atributos).fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans((yyval.atributos).fin, crArgEnt(si));
+				completaLans((yyvsp[-1].atributos).fin, crArgEnt(si));
 			}
 #line 1544 "asin.c" /* yacc.c:1646  */
     break;
@@ -1546,7 +1546,7 @@ yyreduce:
   case 31:
 #line 152 "./src/asin.y" /* yacc.c:1646  */
     {
-				completaLans((yyvsp[-3].atributos).fin, crArgEnt(si));
+				completaLans((yyvsp[-1].atributos).fin, crArgEnt(si));
 			}
 #line 1552 "asin.c" /* yacc.c:1646  */
     break;
@@ -1554,11 +1554,11 @@ yyreduce:
   case 32:
 #line 158 "./src/asin.y" /* yacc.c:1646  */
     {
-				if((yyvsp[0].atributos).tipo != T_LOGICO)
+				if((yyvsp[-1].atributos).tipo != T_LOGICO)
 					yyerror("La expresion del ELSEIF debe ser logica");
 				else{
 					(yyval.atributos).fin = creaLans(si);
-					emite(EIGUAL,crArgPos((yyvsp[0].atributos).pos),crArgEnt(0),crArgNul());
+					emite(EIGUAL,crArgPos((yyvsp[-1].atributos).pos),crArgEnt(0),crArgNul());
 				}
 		 }
 #line 1565 "asin.c" /* yacc.c:1646  */
@@ -1567,9 +1567,9 @@ yyreduce:
   case 33:
 #line 167 "./src/asin.y" /* yacc.c:1646  */
     {
-				(yyvsp[-2].atributos).fin = creaLans(si);
+				(yyval.atributos).fin = creaLans(si);
 				emite(GOTOS,crArgNul(),crArgNul(),crArgNul());
-				completaLans((yyval.atributos).fin, crArgEnt(si));
+				completaLans((yyvsp[-1].atributos).fin, crArgEnt(si));
 		 }
 #line 1575 "asin.c" /* yacc.c:1646  */
     break;
@@ -1577,7 +1577,7 @@ yyreduce:
   case 34:
 #line 173 "./src/asin.y" /* yacc.c:1646  */
     {
-				completaLans((yyvsp[-4].atributos).fin, crArgEnt(si));
+				completaLans((yyvsp[-1].atributos).fin, crArgEnt(si));
 		 }
 #line 1583 "asin.c" /* yacc.c:1646  */
     break;
