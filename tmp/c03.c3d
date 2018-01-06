@@ -1,30 +1,31 @@
-  0 EASIG     i:   0  ,          ,  p:  11  
-  1 EASIG     p:  11  ,          ,  p:  12  
-  2 EASIG     p:  12  ,          ,  p:  10  
+  0 EASIG     i:   0  ,          ,  p:  12  
+  1 EASIG     p:  12  ,          ,  p:  13  
+  2 EASIG     p:  13  ,          ,  p:  10  
   3 EASIG     p:  10  ,          ,  p:  10  
-  4 EASIG     i:  10  ,          ,  p:  13  
-  5 EASIG     i:   1  ,          ,  p:  14  
-  6 EMEN      p:  10  ,  p:  13  ,  e:   8  
-  7 EASIG     i:   0  ,          ,  p:  14  
-  8 EIGUAL    p:  14  ,  i:   0  ,  i:  15  
+  4 EASIG     i:  10  ,          ,  p:  14  
+  5 EASIG     i:   1  ,          ,  p:  15  
+  6 EMEN      p:  10  ,  p:  14  ,  e:   8  
+  7 EASIG     i:   0  ,          ,  p:  15  
+  8 EIGUAL    p:  15  ,  i:   0  ,  i:  15  
   9 EASIG     p:  10  ,          ,  p:  10  
  10 EASIG     p:  10  ,          ,  p:  10  
  11 EVA       p:   0  ,  p:  10  ,  p:  10  
- 12 EASIG     p:  10  ,          ,  p:  15  
+ 12 EASIG     p:  10  ,          ,  p:  16  
  13 ESUM      p:  10  ,  i:   1  ,  p:  10  
  14 GOTOS             ,          ,  e:   3  
- 15 EASIG     i:   9  ,          ,  p:  16  
- 16 EASIG     p:  16  ,          ,  p:  17  
- 17 EASIG     p:  17  ,          ,  p:  10  
+ 15 EASIG     i:   9  ,          ,  p:  17  
+ 16 EASIG     p:  17  ,          ,  p:  18  
+ 17 EASIG     p:  18  ,          ,  p:  10  
  18 EASIG     p:  10  ,          ,  p:  10  
- 19 EAV       p:   0  ,  p:  10  ,  p:   0  
- 20 EWRITE            ,          ,  p:   0  
- 21 EASIG     p:  10  ,          ,  p:  18  
- 22 EDIF      p:  10  ,  i:   1  ,  p:  10  
- 23 EASIG     p:  10  ,          ,  p:  10  
- 24 EASIG     i:   0  ,          ,  p:  19  
- 25 EASIG     i:   1  ,          ,  p:  20  
- 26 EMAYEQ    p:  10  ,  p:  19  ,  e:  28  
- 27 EASIG     i:   0  ,          ,  p:  20  
- 28 EIGUAL    p:  20  ,  i:   1  ,  e:  18  
- 29 FIN               ,          ,          
+ 19 ESUM      i:   0  ,  p:  10  ,  p:  19  
+ 20 EAV       p:   0  ,  p:  19  ,  p:  19  
+ 21 EWRITE            ,          ,  p:  19  
+ 22 EASIG     p:  10  ,          ,  p:  20  
+ 23 EDIF      p:  10  ,  i:   1  ,  p:  10  
+ 24 EASIG     p:  10  ,          ,  p:  10  
+ 25 EASIG     i:   0  ,          ,  p:  21  
+ 26 EASIG     i:   1  ,          ,  p:  22  
+ 27 EMAYEQ    p:  10  ,  p:  21  ,  e:  29  
+ 28 EASIG     i:   0  ,          ,  p:  22  
+ 29 EIGUAL    p:  22  ,  i:   1  ,  e:  18  
+ 30 FIN               ,          ,          

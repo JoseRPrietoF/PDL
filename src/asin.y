@@ -481,8 +481,9 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
                     $$.tipo = dim.telem;
                     
                     // Generacion de codigo intermedio
-
-                    emite(EAV, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($$.pos));
+					$$.pos = creaVarTemp();
+					emite(ESUM, crArgEnt(sim.desp) ,  crArgPos($3.pos) , crArgPos($$.pos));
+                    emite(EAV, crArgPos(sim.desp), crArgPos($$.pos), crArgPos($$.pos));
                     
                   }
                 }

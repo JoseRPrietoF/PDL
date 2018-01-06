@@ -59,10 +59,10 @@ do	{ if(verbosidad) ECHO; return DO_;}
 "/="	{ if(verbosidad) ECHO; return OPDIV_ASIG_; }
 "%"		{ if(verbosidad) ECHO; return OPMOD_; }
 "%="		{ if(verbosidad) ECHO; return OPMOD_ASIG_; }
-"<"     { if(verbosidad) ECHO; return MENQ_; }
 "<="     { if(verbosidad) ECHO; return MENQ_ASIG_; }
-">"     { if(verbosidad) ECHO; return MAYQ_; }
 ">="     { if(verbosidad) ECHO; return MAYQ_ASIG_; }
+"<"     { if(verbosidad) ECHO; return MENQ_; }
+">"     { if(verbosidad) ECHO; return MAYQ_; }
 ";"		{ if(verbosidad) ECHO; return FINL_; }
 "!"		{ if(verbosidad) ECHO; return NEG_; }
 "!="		{ if(verbosidad) ECHO; return NEG_ASIG_; }
