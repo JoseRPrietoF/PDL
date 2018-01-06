@@ -30,7 +30,7 @@ NEG_ OPDIV_ OPMOD_ OPREST_ MAYQ_ AND_ OR_
 programa: LABIERTA_{ dvar = 0; si = 0 ;} secuenciaSentencias LCERRADA_
 			{
 				//$$ = "nombre_del_fichero";
-				mostrarTDS();
+				//mostrarTDS();
 				emite(FIN, crArgNul(), crArgNul(), crArgNul());
 				//volcarCodigo($$); //hay que ver el parametro
 			}
@@ -67,12 +67,13 @@ declaracion: tipoSimple ID_ FINL_
 			}
             | tipoSimple ID_ CORA_ CTE_ CORC_ FINL_
             {
+				int numelem = $4;
 				if ($4 <= 0) {
 					yyerror("Talla inapropiada");
 				} else {
 					int refe = insertaTDArray($1.tipo, $4);
 					int x = insertarTDS($2, T_ARRAY, dvar, refe) ;
-					dvar++;					
+					dvar += numelem * TALLA_TIPO_SIMPLE;					
 					if (x == 0){
 						yyerror("Esta variable ya ha sido declarada en la TDS");
 					} 
@@ -265,10 +266,6 @@ expresion: expresionLogica
 								$$.tipo = dim.telem;
 								
 								// Generacion de codigo intermedio
-								//int calc = creaVarTemp();
-								//emite(ESUM, crArgEnt(sim.desp), crArgPos($3.pos), crArgPos(calc)); /*desp relativo*/
-								
-								//emite(EVA, crArgPos(sim.desp), crArgPos(calc), crArgPos($6.pos));
 								emite(EVA, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($6.pos));
 								
 							}else{
@@ -484,10 +481,7 @@ expresionSufija: PABIERTO_ expresion PCERRADO_
                     $$.tipo = dim.telem;
                     
                     // Generacion de codigo intermedio
-                    //$$.pos = creaVarTemp();
-                    //emite(ESUM, crArgEnt(sim.desp) ,  crArgPos($3.pos) , crArgPos($$.pos));
 
-                    //emite(EAV, crArgPos(sim.desp), crArgPos($$.pos), crArgPos($$.pos));
                     emite(EAV, crArgPos(sim.desp), crArgPos($3.pos), crArgPos($$.pos));
                     
                   }
